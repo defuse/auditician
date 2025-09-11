@@ -29,6 +29,4 @@ Your job is to orchestrate the full audit process.
 ## Progress Tracking Requirements
 - Update timestamps in YYYY-MM-DD HH:MM:SS UTC format
 - Maintain accurate file-by-file audit progress
-- Track issue validation status with precise counts
-- Provide percentage completion estimates
 - Identify and report any blockers or coordination issues

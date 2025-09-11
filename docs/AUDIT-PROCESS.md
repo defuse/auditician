@@ -196,7 +196,7 @@ All confirmed issues in `audit-state/ISSUES-CONFIRMED.md` must include their sev
 
 ## Agents
 
-Agent prompts are defined in docs/agents/*.md.
+Agent prompts are defined in .claude/agents/*.md and docs/agents/*.md.
 
 ## Commands
 
@@ -209,3 +209,43 @@ The following slash commands are available:
 - `/validate <issue-id>` → runs Issue Validator Agent on `<issue-id>`  
 - `/report` → runs Report Generator Agent  
 - `/audit` → runs the full audit process via the Coordinator Agent  
+
+## Other Process Information (General Information)
+
+### Source Code Review
+
+Finally, the actual review process begins. I start by understanding the directory structure of the project (the tree command is very helpful!). Then, I start reading code file-by-file. If there is an entrypoint to the project (i.e. main())), I will usually start there. But generally, I will just read each file, in alphabetical order.
+
+You might be a little surprised by the fact I read the files in alphabetical order. Wouldn’t it be better to understand the program by tracing through call stacks, understanding how classes relate to each other by drawing UML diagrams, and so forth? In a time-crunched audit (as all audits are), this actually isn’t the best use of time. It’s important to understand how the code you’re reading fits in to the overall structure of the program, but if the code is well-written and classes and functions are well-named, you can often correctly guess how it fits in. In practice, I find most of my bugs in this linear scan of the code. A linear scan of the code also guarantees a kind of completeness: you can be sure that you’ve at least had your eyeballs pointed at every single line of code in the project.
+
+For this to work, the brainstorming process mentioned above is essential. Without it, problems won’t “jump out” at you as you are reading through the code. It’s also important to continue that same brainstorming process as you read the code, making note of any new ideas for potential problems that come to mind as you are diving deeper into the code. Make notes, like “this function returns -1 on error, if the caller doesn’t check it, a decryption error might be unnoticed, is the caller actually checking it?”, instead of getting bogged down confirming problems in this part of the process.
+
+After the first pass of source code review, you should have an expanded set of notes with some potential issues, which you’ll want to check later. I use a star system to help prioritize which possible problems are most-worth looking into later, e.g. “*** it looks like it’s using rand() to generate key!?”, “* make sure the caller doesn’t pass a negative number here or else this will panic”.
+
+You should also be confused about a lot of things and have notes like “I don’t get how this works!?”, “*** wtf how can this possibly be secure!!??”. In this stage, we’ve been going for breadth and speed rather than depth and confirmation; this is normal.
+
+This is a good point to pause and do even more brainstorming. Ask yourself “what else could go wrong?”, “could any of the more-minor problems I’ve identified be combined together to attack the system in bigger ways?”
+
+### Check Priority Potential Issues
+
+After reviewing most or all of the code, you should have a much better understanding of how the code works, where things are, and a big list of TODOs: possible problems and a bunch of things you’re really confused about. The next step is to confirm some of those potential issues. This is the part where you actually need to start tracing through call stacks, understanding classes' relationships to each other, understanding if vulnerable-looking code is actually something an attacker’s input can reach, and so on.
+
+If you’re really time-crunched, you won’t be able to check everything, so prioritize by which problems you intuitively think are most likely to be “real”, and by which kinds of problems would be the worst for the project’s users.
+
+A key thing to look for in this stage is the correctness (or incorrectness) of how different components of the software interface with each other. This is especially true when the different components were written by different people, e.g. if your target software uses a library, you want to carefully read that library’s documentation and make sure it’s being used correctly.
+
+At the end of this stage, you should have found the bulk of the issues which you can begin writing up in your report.
+
+### Deep Analysis for Correctness
+
+Following the steps above will give you a broad and efficient coverage of the entire project, and you will likely have found most of the bugs that will make it into your report. For some kinds of code, it’s unavoidably necessary to dive in much deeper and check that everything is correct.
+
+“Correctness” means that the code always does what it is intended to, i.e. that there are no bugs at all. As much as security engineers like to talk about “security bugs” as a distinct category from “ordinary” kinds of bugs, security is really about correctness. That’s because any kind of bug, even ones that seem benign, can potentially be used by an attacker to further their goals.
+
+For certain kinds of code, especially cryptography, parsers, and anything enforcing access control, there is no way to assure security except to deeply understand and ensure the absolute correctness of all of the relevant code. The modern way to do this is via formal verification, a computer-checkable proof that the code will always do exactly what it is intended to do. Formal verification is expensive to implement (but tools are getting better), and it depends on having a detailed specification of what the code is “supposed to do”, so it is not always a viable option.
+
+The next best thing is for a human—the auditor—to carefully check that everything is correct. Based on the preceding stages, you should have a good idea of which parts of the target program are ultra-security-critical and are worthy of checking for correctness in extreme detail. The mindset to be in here is that of someone trying to prove the code is correct. Unless you are absolutely, mathematically, convinced that the code is correct and conforms to its specification, you still have more work to do.
+
+Doing this is extremely costly; whereas you might be able to get through a dozen source code files in a day of normal review, it might take an entire day of careful thinking to ensure the correctness of just one part of a cryptographic algorithm or protocol.
+
+There are some tricks to avoid this, such as writing randomized tests to compare two implementations of cryptographic primitives against each other, but to whatever degree the relevant code is absolutely essential for security, you often have to spend a lot of time checking its correctness.
