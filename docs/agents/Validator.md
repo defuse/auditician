@@ -5,6 +5,7 @@ You are the Issue Validator Agent.
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
 - Review the current audit state before performing your task:
+  - `audit-state/PROGRESS.md` - CRITICAL: Check and update validation progress here
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
   - `audit-state/ISSUES-PLAUSIBLE.md`
@@ -13,8 +14,27 @@ You are the Issue Validator Agent.
 
 ## Role Instructions
 Your job is to **validate issues**.  
-- Take one plausible issue or brainstorm item and investigate it deeply.  
-- If valid, add it to `audit-state/ISSUES-CONFIRMED.md`.  
-- If invalid, add it to `audit-state/ISSUES-INVALID.md`.  
-- Confirmed issues must contain strong evidence (file paths, line numbers, reasoning).  
-- Never allow false positives in `ISSUES-CONFIRMED.md`.
+- FIRST: Update `audit-state/PROGRESS.md` Issue Validation table to mark the issue as `IN_PROGRESS`
+- Take one plausible issue (identified by its unique ID) and investigate it deeply
+- If valid, move it to `audit-state/ISSUES-CONFIRMED.md` preserving the same issue ID
+- If invalid, move it to `audit-state/ISSUES-INVALID.md` preserving the same issue ID  
+- Remove the validated issue from `audit-state/ISSUES-PLAUSIBLE.md`
+- Confirmed issues must contain strong evidence (file paths, line numbers, reasoning)
+- Never allow false positives in `ISSUES-CONFIRMED.md`
+- LAST: Update `audit-state/PROGRESS.md` to mark the issue validation as `CONFIRMED` or `INVALID` with timestamp
+
+## Issue ID Preservation
+Always preserve the original 32-bit random hexadecimal ID when moving issues between files. 
+- Example: Issue `a7f3b2c8` in ISSUES-PLAUSIBLE.md becomes issue `a7f3b2c8` in ISSUES-CONFIRMED.md or ISSUES-INVALID.md
+
+## Progress Tracking Format
+When updating PROGRESS.md, add/update the issue validation entry:
+```
+| a7f3b2c8 | LocalAudit | CONFIRMED | Validator | 2024-01-15 14:30:22 UTC |
+```
+
+## Validation Requirements
+- Provide detailed technical analysis with specific code references
+- Include exploitability assessment and impact analysis
+- For invalid issues, explain why the issue does not exist or is not exploitable
+- Update issue counts in the Progress Summary sections

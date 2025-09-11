@@ -64,7 +64,8 @@ The Local Auditor Agent examines **one file** from the codebase at a time.
 current threat model.  
 - It adds new attacker goals or weaknesses to `audit-state/BRAINSTORM.md`.  
 - It adds plausible issues, with file path and line references, to
-`audit-state/ISSUES-PLAUSIBLE.md`.  
+`audit-state/ISSUES-PLAUSIBLE.md`. Each issue must have a unique 32-bit random hexadecimal ID generated using `/dev/urandom`.  
+- It updates `audit-state/PROGRESS.md` with file audit status and progress.
 - Local auditing is about *possibility*, not proof — validation happens later.
 
 ## 4. Global Auditing
@@ -76,16 +77,18 @@ or trust boundaries.
 logic flaws).  
 - It adds brainstorm ideas to `audit-state/BRAINSTORM.md`.  
 - It records plausible multi-component issues in
-`audit-state/ISSUES-PLAUSIBLE.md`.
+`audit-state/ISSUES-PLAUSIBLE.md` with unique 32-bit random hexadecimal IDs.
+- It updates `audit-state/PROGRESS.md` with global audit phase completion status.
 
 ## 5. Issue Validation
 
 The Issue Validator Agent investigates **one plausible issue or brainstorm item
 at a time**.  
-- If the issue is real, it moves it into `audit-state/ISSUES-CONFIRMED.md`.  
-- If the issue is not valid, it moves it into `audit-state/ISSUES-INVALID.md`.  
+- If the issue is real, it moves it into `audit-state/ISSUES-CONFIRMED.md` using the same ID.  
+- If the issue is not valid, it moves it into `audit-state/ISSUES-INVALID.md` using the same ID.  
 - Confirmed issues must contain strong evidence: specific code references,
 explanation of exploitability, and impact.  
+- It updates `audit-state/PROGRESS.md` with validation progress and status changes.
 - There must never be false positives in `ISSUES-CONFIRMED.md`.
 
 ## 6. Report Generation
@@ -100,13 +103,14 @@ The Report Generator Agent produces the final professional audit report.
 ## 7. Audit Agent Coordinator
 
 The Coordinator Agent orchestrates the full process:  
-1. Run the Brainstorming Agent.  
-2. Run Local Auditing across **every file** in `audit-target/`.  
-3. Run the Global Auditor Agent.  
-4. For each plausible issue and brainstorm item, run the Issue Validator Agent.  
-5. Run the Threat Modeling Agent to finalize `THREATMODEL.md`.  
-6. Run the Report Generator Agent to create the final report in `output/`.  
-7. Provide summaries of progress and consistency checks to the human auditor.
+1. Initialize `audit-state/PROGRESS.md` with audit metadata and file inventory.
+2. Run the Brainstorming Agent and update progress tracking.  
+3. Run Local Auditing across **every file** in `audit-target/`, updating progress after each file.  
+4. Run the Global Auditor Agent and mark global phase complete.  
+5. For each plausible issue and brainstorm item, run the Issue Validator Agent, tracking validation progress.  
+6. Run the Threat Modeling Agent to finalize `THREATMODEL.md`.  
+7. Run the Report Generator Agent to create the final report in `output/` and mark audit complete.  
+8. Provide summaries of progress and consistency checks to the human auditor using the progress tracking data.
 
 # Implementation Details
 
@@ -122,6 +126,8 @@ All READ ONLY documentation that's useful for AI auditing agents are in docs/:
 
 All WORKING STATE should be stored in audit-state/:
 
+- audit-state/PROGRESS.md tracks the progress of the audit including phase completion, file-by-file progress, and issue validation status. ALL agents must update this file with their progress and use it to coordinate work and avoid duplication.
+
 - audit-state/BRAINSTORM.md contains brainstorm notes, readable and writable by
 ALL agents. Any agent should feel free to add ideas to the brainstorm. The
 brainstorm should be a complete list of things that might *possibly* go wrong as
@@ -133,7 +139,7 @@ audit-state/ISSUES-INVALID.md contain the security issues uncovered by the audit
 at various stages of their discovery. Issues all start out either as ideas in
 BRAINSTORM.md or as plausible issues in ISSUES-PLAUSIBLE.md. Whenever issues are
 confirmed to definitely exist, they are moved to ISSUES-CONFIRMED.md. There must
-never be any false positives in ISSUES-CONFIRMED.md.
+never be any false positives in ISSUES-CONFIRMED.md. ALL ISSUES must have unique 32-bit random hexadecimal IDs to avoid coordination conflicts.
 
 - audit-state/THREATMODEL.md should contain an Invariant-Centric Threat Model
 (see docs/ICTM.md) for the application being audited. This threat model should
@@ -147,6 +153,18 @@ i.e. all audit notes and other state should go in audit-state/.
 
 output/ will contain the final audit report (in the format exemplified in
 docs/example-report) once the audit is complete.
+
+## Issue ID Generation
+
+All security issues must be assigned unique 32-bit random hexadecimal IDs to avoid coordination conflicts between agents. Generate these IDs using:
+
+```bash
+hexdump -n 4 -e '4/1 "%02x"' /dev/urandom
+```
+
+Examples: `a7f3b2c8`, `de4f91ab`, `12345678`
+
+This approach eliminates the need for centralized counter coordination and prevents ID conflicts when multiple agents work simultaneously.
 
 ## Agents
 
