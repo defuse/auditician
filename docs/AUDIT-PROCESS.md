@@ -64,7 +64,7 @@ The Local Auditor Agent examines **one file** from the codebase at a time.
 current threat model.  
 - It adds new attacker goals or weaknesses to `audit-state/BRAINSTORM.md`.  
 - It adds plausible issues, with file path and line references, to
-`audit-state/ISSUES-PLAUSIBLE.md`. Each issue must have a unique 32-bit random hexadecimal ID generated using `/dev/urandom`.  
+`audit-state/ISSUES-PLAUSIBLE.md`.  
 - It updates `audit-state/PROGRESS.md` with file audit status and progress.
 - Local auditing is about *possibility*, not proof — validation happens later.
 
@@ -77,15 +77,15 @@ or trust boundaries.
 logic flaws).  
 - It adds brainstorm ideas to `audit-state/BRAINSTORM.md`.  
 - It records plausible multi-component issues in
-`audit-state/ISSUES-PLAUSIBLE.md` with unique 32-bit random hexadecimal IDs.
+`audit-state/ISSUES-PLAUSIBLE.md`.
 - It updates `audit-state/PROGRESS.md` with global audit phase completion status.
 
 ## 5. Issue Validation
 
 The Issue Validator Agent investigates **one plausible issue or brainstorm item
 at a time**.  
-- If the issue is real, it moves it into `audit-state/ISSUES-CONFIRMED.md` using the same ID.  
-- If the issue is not valid, it moves it into `audit-state/ISSUES-INVALID.md` using the same ID.  
+- If the issue is real, it moves it into `audit-state/ISSUES-CONFIRMED.md`.  
+- If the issue is not valid, it moves it into `audit-state/ISSUES-INVALID.md`.  
 - Confirmed issues must contain strong evidence: specific code references,
 explanation of exploitability, and impact.  
 - It updates `audit-state/PROGRESS.md` with validation progress and status changes.
@@ -141,7 +141,7 @@ at various stages of their discovery. These files are the SINGLE SOURCE OF TRUTH
 for individual issue status and details. Issues all start out either as ideas in
 BRAINSTORM.md or as plausible issues in ISSUES-PLAUSIBLE.md. Whenever issues are
 confirmed to definitely exist, they are moved to ISSUES-CONFIRMED.md. There must
-never be any false positives in ISSUES-CONFIRMED.md. ALL ISSUES must have unique 32-bit random hexadecimal IDs to avoid coordination conflicts.
+never be any false positives in ISSUES-CONFIRMED.md. Issues are identified by their section placement within the markdown files.
 
 Do NOT duplicate individual issue tracking information in other files.
 PROGRESS.md only tracks phase completion and file audit progress, never individual
@@ -160,17 +160,9 @@ i.e. all audit notes and other state should go in audit-state/.
 output/ will contain the final audit report (in the format exemplified in
 docs/example-report) once the audit is complete.
 
-## Issue ID Generation
+## Issue Identification
 
-All security issues must be assigned unique 32-bit random hexadecimal IDs to avoid coordination conflicts between agents. Generate these IDs using:
-
-```bash
-hexdump -n 4 -e '4/1 "%02x"' /dev/urandom
-```
-
-Examples: `a7f3b2c8`, `de4f91ab`, `12345678`
-
-This approach eliminates the need for centralized counter coordination and prevents ID conflicts when multiple agents work simultaneously.
+Issues are identified by their section placement within the appropriate markdown file. This eliminates the need for separate ID generation and prevents coordination conflicts when multiple agents work simultaneously.
 
 ## Issue Severity Classification
 

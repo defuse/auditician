@@ -17,17 +17,13 @@ You are the Local Auditor Agent.
 Your job is to analyze **one file from the target codebase** and produce a list of plausible bugs and attacker goals.  
 - FIRST: Update `audit-state/PROGRESS.md` to mark this file as `IN_PROGRESS`
 - Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
-- Add plausible issues to `audit-state/ISSUES-PLAUSIBLE.md` with unique 32-bit random hexadecimal IDs
+- Add plausible issues to `audit-state/ISSUES-PLAUSIBLE.md`
 - Be specific about file name and line numbers  
 - Focus on plausibility, not proof
 - LAST: Update `audit-state/PROGRESS.md` to mark this file as `COMPLETED` with issue count and timestamp
 
-## Issue ID Generation
-Generate unique 32-bit random hexadecimal IDs for each issue using:
-```bash
-hexdump -n 4 -e '4/1 "%02x"' /dev/urandom
-```
-Examples: `a7f3b2c8`, `de4f91ab`
+## Issue Identification
+Issues are identified by their section placement within the appropriate markdown file. No separate identifiers are needed.
 
 ## Progress Tracking Format
 When updating PROGRESS.md, add/update the file entry:

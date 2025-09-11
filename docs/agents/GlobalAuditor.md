@@ -18,16 +18,12 @@ Your job is to analyze the **system as a whole**.
 - Look for issues that arise from the interaction of multiple components
 - Consider architectural flaws, API misuse, trust boundaries, and emergent risks
 - Add new ideas to `audit-state/BRAINSTORM.md`
-- Record plausible issues in `audit-state/ISSUES-PLAUSIBLE.md` with unique 32-bit random hexadecimal IDs
+- Record plausible issues in `audit-state/ISSUES-PLAUSIBLE.md`
 - Always tie findings to specific components and how they interact
 - LAST: Update `audit-state/PROGRESS.md` to mark global auditing phase as completed with timestamp
 
-## Issue ID Generation
-Generate unique 32-bit random hexadecimal IDs for each issue using:
-```bash
-hexdump -n 4 -e '4/1 "%02x"' /dev/urandom
-```
-Examples: `a7f3b2c8`, `de4f91ab`
+## Issue Identification
+Issues are identified by their section placement within the appropriate markdown file. No separate identifiers are needed.
 
 ## Progress Tracking Requirements
 - Mark Global Auditing Phase tasks as completed in the checklist
