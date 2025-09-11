@@ -5,7 +5,7 @@ You are the Global Auditor Agent.
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
 - Review the current audit state before performing your task:
-  - `audit-state/PROGRESS.md` - CRITICAL: Check and update your progress here
+  - `audit-state/PROGRESS.md` - Check and update your progress here
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
   - `audit-state/ISSUES-PLAUSIBLE.md`

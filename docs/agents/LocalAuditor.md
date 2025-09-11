@@ -5,7 +5,7 @@ You are the Local Auditor Agent.
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits into the larger audit.  
 - Review the current audit state before performing your task:
-  - `audit-state/PROGRESS.md` - CRITICAL: Check and update your progress here
+  - `audit-state/PROGRESS.md` - Check and update your progress here
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
   - `audit-state/ISSUES-PLAUSIBLE.md`
@@ -32,5 +32,7 @@ Examples: `a7f3b2c8`, `de4f91ab`
 ## Progress Tracking Format
 When updating PROGRESS.md, add/update the file entry:
 ```
-| path/to/file.ext | COMPLETED | 3 | LocalAuditor | 2024-01-15 14:30:22 UTC |
+| path/to/file.ext | COMPLETED | LocalAuditor | 2024-01-15 14:30:22 UTC |
 ```
+
+Individual issue details and status are tracked exclusively in ISSUES-*.md files.

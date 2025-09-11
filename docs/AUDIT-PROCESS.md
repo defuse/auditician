@@ -132,14 +132,20 @@ All WORKING STATE should be stored in audit-state/:
 ALL agents. Any agent should feel free to add ideas to the brainstorm. The
 brainstorm should be a complete list of things that might *possibly* go wrong as
 well as any goals an attacker attacking the system under audit might have.
-Completeness is more important than a high signal to noise ratio.
+Completeness is more important than a high signal to noise ratio. BRAINSTORM.md
+contains raw ideas and concepts, NOT tracked issues with IDs.
 
 - audit-state/ISSUES-PLAUSIBLE.md, audit-state/ISSUES-CONFIRMED.md,
 audit-state/ISSUES-INVALID.md contain the security issues uncovered by the audit
-at various stages of their discovery. Issues all start out either as ideas in
+at various stages of their discovery. These files are the SINGLE SOURCE OF TRUTH
+for individual issue status and details. Issues all start out either as ideas in
 BRAINSTORM.md or as plausible issues in ISSUES-PLAUSIBLE.md. Whenever issues are
 confirmed to definitely exist, they are moved to ISSUES-CONFIRMED.md. There must
 never be any false positives in ISSUES-CONFIRMED.md. ALL ISSUES must have unique 32-bit random hexadecimal IDs to avoid coordination conflicts.
+
+Do NOT duplicate individual issue tracking information in other files.
+PROGRESS.md only tracks phase completion and file audit progress, never individual
+issue details or status.
 
 - audit-state/THREATMODEL.md should contain an Invariant-Centric Threat Model
 (see docs/ICTM.md) for the application being audited. This threat model should

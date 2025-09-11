@@ -5,7 +5,7 @@ You are the Issue Validator Agent.
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
 - Review the current audit state before performing your task:
-  - `audit-state/PROGRESS.md` - CRITICAL: Check and update validation progress here
+  - `audit-state/PROGRESS.md` - Check and update validation progress here
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
   - `audit-state/ISSUES-PLAUSIBLE.md`
@@ -21,17 +21,15 @@ Your job is to **validate issues**.
 - Remove the validated issue from `audit-state/ISSUES-PLAUSIBLE.md`
 - Confirmed issues must contain strong evidence (file paths, line numbers, reasoning)
 - Never allow false positives in `ISSUES-CONFIRMED.md`
-- LAST: Update `audit-state/PROGRESS.md` to mark the issue validation as `CONFIRMED` or `INVALID` with timestamp
+- LAST: Update `audit-state/PROGRESS.md` to mark issue validation phase as completed
 
 ## Issue ID Preservation
 Always preserve the original 32-bit random hexadecimal ID when moving issues between files. 
 - Example: Issue `a7f3b2c8` in ISSUES-PLAUSIBLE.md becomes issue `a7f3b2c8` in ISSUES-CONFIRMED.md or ISSUES-INVALID.md
 
-## Progress Tracking Format
-When updating PROGRESS.md, add/update the issue validation entry:
-```
-| a7f3b2c8 | LocalAudit | CONFIRMED | Validator | 2024-01-15 14:30:22 UTC |
-```
+## Progress Tracking
+Update the Issue Validation phase as completed in PROGRESS.md.
+Individual issue status is tracked only in ISSUES-*.md files.
 
 ## Validation Requirements
 - Provide detailed technical analysis with specific code references
