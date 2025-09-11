@@ -1,0 +1,231 @@
+\documentclass[10pt,titlepage]{article}
+
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[letterpaper]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage[numbers]{natbib}
+\usepackage[english]{babel}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{mdframed}
+\usepackage[title,titletoc]{appendix}
+\usepackage{amsmath}
+% fix single quotes in verbatim mode
+\usepackage{upquote}
+\usepackage[htt]{hyphenat}
+
+% Make sure "Issue X" subsection numbering doesn't overlap the titles in the table of contents.
+\usepackage{tocloft}
+\addtolength{\cftsubsecnumwidth}{13pt}
+\addtolength{\cftsubsubsecnumwidth}{13pt}
+
+\definecolor{darkyellow}{RGB}{200,171,0}
+
+%\usepackage[colorspec=0.975]{draftwatermark}
+%\SetWatermarkText{DRAFT}
+%\SetWatermarkScale{5}
+
+% EXPERIMENTAL -- better formatting decisions to avoid splitting across pages
+\widowpenalty=1000
+\clubpenalty=1000
+
+\newcommand{\CriticalIssue}{\textcolor{red}{\emph{Critical}}}
+\newcommand{\HighIssue}{\textcolor{orange}{\emph{High}}}
+\newcommand{\MediumIssue}{\textcolor{darkyellow}{\emph{Medium}}}
+\newcommand{\LowIssue}{\textcolor{blue}{\emph{Low}}}
+
+\usepackage{fancyhdr}
+
+\definecolor{lightgray}{rgb}{.95, .95, .95}
+%\definecolor{white}{rgb}{1, 1, 1}
+%\lstset{
+%    frame=tb,
+%    framexleftmargin=10pt,
+%    framerule=0pt,
+%    framesep=10pt,
+%    xleftmargin=10pt,
+%    xrightmargin=10pt,
+%    backgroundcolor=\color{blue},
+%    %basicstyle=\footnotesize\ttfamily,
+%    breaklines=true,
+%    literate={\$}{{\textcolor{blue}{\$}}}1,
+%    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}
+%}
+%
+%\usepackage{color}
+%\usepackage{textcomp}
+%\definecolor{listinggray}{gray}{0.9}
+%\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+%\lstset{
+%	backgroundcolor=\color{lbcolor},
+%	tabsize=4,
+%	rulecolor=,
+%    backgroundcolor=\color{white},
+%	language=matlab,
+%        basicstyle=\scriptsize,
+%        upquote=true,
+%        aboveskip={1.5\baselineskip},
+%        columns=fixed,
+%        showstringspaces=false,
+%        extendedchars=true,
+%        breaklines=true,
+%        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+%        frame=single,
+%        showtabs=false,
+%        showspaces=false,
+%        showstringspaces=false,
+%        identifierstyle=\ttfamily,
+%        keywordstyle=\color[rgb]{0,0,1},
+%        commentstyle=\color[rgb]{0.133,0.545,0.133},
+%        stringstyle=\color[rgb]{0,0,0},
+%}
+
+\usepackage{listings,xcolor}
+\usepackage{inconsolata}
+
+\definecolor{dkgreen}{rgb}{0,.6,0}
+\definecolor{dkblue}{rgb}{0,0,.6}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
+
+\lstset{
+  %language        = php,
+  prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        aboveskip={1.5\baselineskip},
+  breaklines=true,
+        showtabs=false,
+        showspaces=false,
+  basicstyle      = \scriptsize\ttfamily,
+  numbers         = left,
+  keywordstyle    = \color{dkblue},
+  stringstyle     = \color{red},
+  identifierstyle = \color{dkgreen},
+  commentstyle    = \color{gray},
+  emph            =[1]{php},
+  emphstyle       =[1]\color{black},
+  emph            =[2]{if,and,or,else},
+  emphstyle       =[2]\color{dkyellow}}
+
+
+\title{Security Analysis of Hanh Huynh Huu's Zcash App for Ledger Hardware Wallets}
+\author{
+    Taylor Hornby \\
+        \href{mailto:zecsec@defuse.ca}{zecsec@defuse.ca}\\
+        \href{https://zecsec.com/}{ZecSec}\\
+        %\href{https://defuse.ca/}{Defuse Security}\\
+}
+\date{\today\\ Report Version 1\\ Audit performed in May 2023}
+
+\renewcommand{\arraystretch}{1.3}
+
+%\usepackage{draftwatermark}
+%\SetWatermarkText{DRAFT}
+%\SetWatermarkScale{1}
+
+%\mdfsetup{nobreak=true}
+
+\usepackage[parfill]{parskip}
+
+\begin{document}
+\maketitle
+{\small\tableofcontents}
+
+\pagebreak
+
+% ==================================================================
+\section{Introduction}
+% ==================================================================
+
+\subsection{Scope}
+
+% ==================================================================
+\section{Threat Model} \label{secthreatmodel}
+\renewcommand{\thesubsection}{\arabic{subsection}}
+% ==================================================================
+
+
+% ==================================================================
+\section{Security \& Privacy Findings} \label{secfindings}
+\renewcommand{\thesubsection}{Issue \Alph{subsection}}
+% ==================================================================
+
+This section describes the security and privacy issues that were found during
+the review.
+
+Each issue has been given a priority rating, determined informally by combining
+the severity of the issue's impact on users with its likelihood of being
+exploited in practice.
+
+A ``\CriticalIssue'' issue is a vulnerability
+that can definitely be exploited to impact many users with devastating
+consequences.  ``\HighIssue'' means a vulnerability that
+is likely to have a severe impact on many users.
+``\MediumIssue'' means a vulnerability of lesser impact
+or one that may only be exploitable in special circumstances.
+``\LowIssue'' means a vulnerability whose exploitation would
+have very little impact on any user or which is unlikely to ever be exploited in
+practice.
+
+\CriticalIssue{} and \HighIssue{}-severity issues must be fixed as soon as
+possible to protect users.  \MediumIssue{}-severity issues are sometimes safe to
+defer, and \LowIssue{}-severity issues are almost always safe to defer.
+
+
+% ------------------------------------------------------------------
+\subsection{The first issue} \label{noaclchecks}
+% ------------------------------------------------------------------
+
+
+% ==================================================================
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\section{Recommendations} \label{secrecommendations}
+% ==================================================================
+
+
+\subsection{The first recommendation}
+
+
+% ==================================================================
+\section{Good Things} \label{secgoodthings}
+% ==================================================================
+
+\subsection{Good thing the first}
+
+% ==================================================================
+\section{Future work} \label{secfuturework}
+% ==================================================================
+
+\subsection{Future work one}
+
+% ==================================================================
+\section{Conclusion} \label{secconclusion}
+% ==================================================================
+
+\section*{Acknowledgements}
+
+This security analysis was performed as part of the Zcash Ecosystem Security
+Grant~\cite{zecsec, zecsecweb} funded by Zcash Community Grants~\cite{zcg}. Thanks to the
+Zcash Grants Committee and the broader Zcash community for supporting the
+security of privacy-enhancing open-source software.
+
+\nocite{*}
+
+\bibliographystyle{plainnat}
+\bibliography{audit-report}
+
+\pagebreak
+
+% \appendix
+% 
+% % ==================================================================
+% \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+% \section{The First Appendix} \label{aclfixes}
+% % ==================================================================
+
+
+\end{document}
