@@ -172,6 +172,28 @@ Examples: `a7f3b2c8`, `de4f91ab`, `12345678`
 
 This approach eliminates the need for centralized counter coordination and prevents ID conflicts when multiple agents work simultaneously.
 
+## Issue Severity Classification
+
+All confirmed security issues must be assigned one of the following severity levels:
+
+**Critical**: A vulnerability that can definitely be exploited to impact many users with devastating consequences. These issues represent immediate and severe threats that require urgent remediation.
+
+**High**: A vulnerability that is likely to have a severe impact on many users. While not as immediately critical as Critical issues, these still pose significant security risks.
+
+**Medium**: A vulnerability of lesser impact or one that may only be exploitable in special circumstances. These issues may affect fewer users or have limited impact.
+
+**Low**: A vulnerability whose exploitation would have very little impact on any user or which is unlikely to ever be exploited in practice. These are often theoretical or edge-case vulnerabilities.
+
+### Severity Assignment Guidelines
+
+- **Critical** and **High** severity issues must be fixed as soon as possible to protect users
+- **Medium** severity issues are sometimes safe to defer based on risk assessment
+- **Low** severity issues are almost always safe to defer
+- Consider both impact (how bad if exploited) and likelihood (probability of exploitation)
+- When in doubt, assign a higher severity level - it's better to err on the side of caution
+
+All confirmed issues in `audit-state/ISSUES-CONFIRMED.md` must include their severity classification along with justification for the assigned level.
+
 ## Agents
 
 Agent prompts are defined in docs/agents/*.md.
