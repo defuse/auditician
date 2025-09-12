@@ -15,7 +15,7 @@ Read current state:
 @audit-state/issues/invalid/
 
 ## Role instructions
-Follow @docs/agents/Validator.md
+Follow @.claude/agents/validator.md
 
 ## Invocation
 The issue identifier/excerpt is `$ARGUMENTS` (e.g., `/validate ISSUE-2025-0007`).

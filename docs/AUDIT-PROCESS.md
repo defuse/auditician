@@ -6,6 +6,7 @@ into the total task of performing an audit.
 
 A security audit consists of seven continually-operating processes:
 
+0. Surveying
 1. Brainstorming
 2. Threat modeling
 3. Local auditing
@@ -13,6 +14,14 @@ A security audit consists of seven continually-operating processes:
 5. Issue confirmation and validation
 6. Report generation
 7. Audit agent coordination
+
+NOTE: Auditors MUST NOT assume the system the audit is being done on is similar to the production environment of the target application. We are on an auditor's computer, which may not even have the tools requried to build the target. Do source code analysis ONLY, do not attempt to build or run the audit target.
+
+## 0. Surveying
+
+The first step is to do a broad survey of the audit target in audit-target/ in
+order to generate an understanding of *what* is being audited, as input for the
+other auditing agents.
 
 ## 1. Brainstorming
 
@@ -103,13 +112,14 @@ The Report Generator Agent produces the final professional audit report.
 
 The Coordinator Agent orchestrates the full process:  
 1. Initialize `audit-state/PROGRESS.md` with audit metadata and file inventory.
-2. Run the Brainstorming Agent and update progress tracking.  
-3. Run Local Auditing across **every file** in `audit-target/`, updating progress after each file.  
-4. Run the Global Auditor Agent and mark global phase complete.  
-5. For each plausible issue and brainstorm item, run the Issue Validator Agent, tracking validation progress.  
-6. Run the Threat Modeling Agent to finalize `THREATMODEL.md`.  
-7. Run the Report Generator Agent to create the final report in `output/` and mark audit complete.  
-8. Provide summaries of progress and consistency checks to the human auditor using the progress tracking data.
+2. Run the surveyor agent to generate `audit-state/SURVEY.md`.
+3. Run the Brainstorming Agent and update progress tracking.  
+4. Run Local Auditing across **every file** in `audit-target/`, updating progress after each file.  
+5. Run the Global Auditor Agent and mark global phase complete.  
+6. For each plausible issue and brainstorm item, run the Issue Validator Agent, tracking validation progress.  
+7. Run the Threat Modeling Agent to finalize `THREATMODEL.md`.  
+8. Run the Report Generator Agent to create the final report in `output/` and mark audit complete.  
+9. Provide summaries of progress and consistency checks to the human auditor using the progress tracking data.
 
 # Implementation Details
 
@@ -132,7 +142,10 @@ ALL agents. Any agent should feel free to add ideas to the brainstorm. The
 brainstorm should be a complete list of things that might *possibly* go wrong as
 well as any goals an attacker attacking the system under audit might have.
 Completeness is more important than a high signal to noise ratio. BRAINSTORM.md
-contains raw ideas and concepts, NOT tracked issues with IDs.
+contains raw ideas and concepts, NOT tracked issues.
+
+- audit-state/SURVEY.md contains a general survey of the audit target,
+explaining what it is and what its features are.
 
 - audit-state/issues/plausible/, audit-state/issues/confirmed/, and
 audit-state/issues/invalid/ contain the security issues uncovered by the audit
@@ -181,13 +194,13 @@ All confirmed security issues must be assigned one of the following severity lev
 - **Medium** severity issues are sometimes safe to defer based on risk assessment
 - **Low** severity issues are almost always safe to defer
 - Consider both impact (how bad if exploited) and likelihood (probability of exploitation)
-- When in doubt, assign a higher severity level - it's better to err on the side of caution
+- Do not exagerate the importance of issues -- think about the severity from a *user's* perspective, if an issue is of a technical nature but has no real bearing on an actual user's privacy or security, or requires outlandish assumptions in order to exploit, the issue is probably not that severe.
 
 All confirmed issue files in `audit-state/issues/confirmed/` must include their severity classification along with justification for the assigned level.
 
 ## Agents
 
-Agent prompts are defined in .claude/agents/*.md and docs/agents/*.md.
+Agent prompts are defined in .claude/agents/*.md.
 
 ## Commands
 

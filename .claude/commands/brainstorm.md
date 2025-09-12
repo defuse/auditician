@@ -14,4 +14,4 @@ Read current state:
 @audit-state/issues/invalid/
 
 ## Role instructions
-Follow @docs/agents/Brainstormer.md
+Follow @.claude/agents/brainstormer.md

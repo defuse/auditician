@@ -17,7 +17,7 @@ Read current state:
 Project structure:
 @audit-target/
 Agents:
-@docs/agents/
+@.claude/agents/
 
 ## Role instructions
-Follow @docs/agents/Coordinator.md
+Follow @.claude/agents/coordinator.md

@@ -17,7 +17,7 @@ Read the target file:
 @audit-target/$1
 
 ## Role instructions
-Follow @docs/agents/LocalAuditor.md
+Follow @.claude/agents/localauditor.md
 
 ## Invocation
 The file path argument is `$1` (e.g., `/localaudit src/lib.rs`).

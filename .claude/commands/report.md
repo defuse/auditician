@@ -15,4 +15,4 @@ Reference templates:
 @docs/example-report/Makefile
 
 ## Role instructions
-Follow @docs/agents/ReportGenerator.md
+Follow @.claude/agents/reportgenerator.md

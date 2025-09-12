@@ -16,4 +16,4 @@ Project structure:
 @audit-target/
 
 ## Role instructions
-Follow @docs/agents/GlobalAuditor.md
+Follow @.claude/agents/globalauditor.md

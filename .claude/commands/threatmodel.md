@@ -15,4 +15,4 @@ Read current state:
 @audit-state/issues/invalid/
 
 ## Role instructions
-Follow @docs/agents/ThreatModeler.md
+Follow @.claude/agents/threatmodeler.md

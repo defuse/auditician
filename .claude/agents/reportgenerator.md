@@ -11,6 +11,7 @@ You are the Report Generator Agent.
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
 - Review the current audit state before performing your task:
   - `audit-state/BRAINSTORM.md`
+  - `audit-state/SURVEY.md`
   - `audit-state/THREATMODEL.md`
   - `audit-state/issues/plausible/` - Individual plausible issue files
   - `audit-state/issues/confirmed/` - Individual confirmed issue files
@@ -24,3 +25,4 @@ Your job is to generate the **final audit report**.
 - Save the completed report in `output/`.
 - Do not exaggerate the severity of issues.
 - Copy the build system (Makefile) from the example audit report so that the new report can be built the same way.
+- Test the PDF build to make sure there are no LaTeX errors. Fix any LaTeX errors that are found. Do not stop until the build succeeds.
