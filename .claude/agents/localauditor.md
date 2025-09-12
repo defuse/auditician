@@ -25,10 +25,12 @@ Your job is to analyze **one file from the target codebase** and produce a list 
 - Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
 - Add plausible issues as individual files in `audit-state/issues/plausible/`
 - Be specific about file name and line numbers  
-- Focus on plausibility, not proof
+- Focus on plausibility, not proof, but avoid producing obviously-wrong issues
 - LAST: Update `audit-state/PROGRESS.md` to mark this file as `COMPLETED` with issue count and timestamp
 
 Issue severity should be based on risk=likelihood*impact from a USER'S perspective, i.e. technical considerations which are bugs but will have no impact on real users would not be of high severity.
+
+Make a best effort not to create spurious/invalid issues, although if it's unclear, leave it up to the validator to decide. Avoid creating invalid issues by explaining detailed exploitation steps and stop if you find the attack does not actually work to harm real users.
 
 ## Issue Identification
 Each issue should be created as a separate markdown file in `audit-state/issues/plausible/`. Use descriptive filenames like `buffer-overflow-parser.md` or `sql-injection-login.md`.
