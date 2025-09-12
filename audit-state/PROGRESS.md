@@ -28,7 +28,7 @@ This file tracks the progress of the security audit to ensure all phases are com
 ## Instructions for Agents
 
 This file tracks only phase completion and file audit progress.
-Individual issue details are tracked in ISSUES-*.md files.
+Individual issue details are tracked as separate files in the audit-state/issues/ directories.
 
 - Update timestamps in `YYYY-MM-DD HH:MM:SS UTC` format
 - Check off completed phases in Phase Completion section

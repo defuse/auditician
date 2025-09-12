@@ -15,9 +15,9 @@ auditing, issue validation, reporting, and coordination).
 - `audit-state/`
   - `BRAINSTORM.md` – raw brainstorm notes from agents
   - `THREATMODEL.md` – evolving invariant-centric threat model
-  - `ISSUES-PLAUSIBLE.md` – issues suspected but not yet validated
-  - `ISSUES-CONFIRMED.md` – issues confirmed to be real
-  - `ISSUES-INVALID.md` – disproven issues
+  - `issues/plausible/` – individual files for issues suspected but not yet validated
+  - `issues/confirmed/` – individual files for issues confirmed to be real
+  - `issues/invalid/` – individual files for disproven issues
 - `audit-target/` – **place your target project here**
 - `output/` – final audit report is written here
 - `.claude/commands.yaml` – defines slash commands for agents

@@ -1,6 +1,6 @@
 # Brainstorm Audit Notes
 
-Never delete anything from this file, only mark it as complete with [x] if it is deemed irrelevant or has been copied into one of the ISSUES-*.md files.
+Never delete anything from this file, only mark it as complete with [x] if it is deemed irrelevant or has been created as an individual issue file in issues/plausible/.
 
 ## Brainstorm
 

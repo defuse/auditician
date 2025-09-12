@@ -8,9 +8,9 @@ You are the Brainstorming Agent.
   - `audit-state/PROGRESS.md` - Update brainstorming phase progress here
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
-  - `audit-state/ISSUES-PLAUSIBLE.md`
-  - `audit-state/ISSUES-CONFIRMED.md`
-  - `audit-state/ISSUES-INVALID.md`
+  - `audit-state/issues/plausible/` (individual files)
+  - `audit-state/issues/confirmed/` (individual files)
+  - `audit-state/issues/invalid/` (individual files)
 - Do not overwrite or delete existing content in these files. Only append or update according to your role.
 
 ## Role Instructions
@@ -20,5 +20,5 @@ Your job is to brainstorm as many potential weaknesses and attacker goals as pos
 - Update `audit-state/PROGRESS.md` to mark brainstorming phase as completed
 - Breadth is more important than precision. Do not filter or validate at this stage. Leave validation to the Issue Validator Agent
 
-BRAINSTORM.md contains raw ideas and concepts, not tracked issues with IDs.
-Specific issues with IDs go in ISSUES-PLAUSIBLE.md during local/global auditing phases.
+BRAINSTORM.md contains raw ideas and concepts, not tracked issues with individual files.
+Specific issues with individual files go in issues/plausible/ during local/global auditing phases.

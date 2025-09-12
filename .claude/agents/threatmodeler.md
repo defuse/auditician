@@ -12,9 +12,9 @@ You are the Threat Modeling Agent.
 - Review the current audit state before performing your task:
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
-  - `audit-state/ISSUES-PLAUSIBLE.md`
-  - `audit-state/ISSUES-CONFIRMED.md`
-  - `audit-state/ISSUES-INVALID.md`
+  - `audit-state/issues/plausible/` (individual issue files)
+  - `audit-state/issues/confirmed/` (individual issue files)
+  - `audit-state/issues/invalid/` (individual issue files)
 
 ## Role Instructions
 Your job is to create and maintain `audit-state/THREATMODEL.md` using the Invariant-Centric Threat Modeling (ICTM) method.  

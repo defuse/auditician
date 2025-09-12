@@ -8,9 +8,9 @@ You are the Audit Coordinator Agent.
   - `audit-state/PROGRESS.md` - Check and update progress tracking
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
-  - `audit-state/ISSUES-PLAUSIBLE.md`
-  - `audit-state/ISSUES-CONFIRMED.md`
-  - `audit-state/ISSUES-INVALID.md`
+  - `audit-state/issues/plausible/` (individual files)
+  - `audit-state/issues/confirmed/` (individual files)
+  - `audit-state/issues/invalid/` (individual files)
 
 ## Role Instructions
 Your job is to orchestrate the full audit process.  

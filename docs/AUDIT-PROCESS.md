@@ -63,8 +63,7 @@ The Local Auditor Agent examines **one file** from the codebase at a time.
 - It reviews the file line by line, considering all brainstorm items and the
 current threat model.  
 - It adds new attacker goals or weaknesses to `audit-state/BRAINSTORM.md`.  
-- It adds plausible issues, with file path and line references, to
-`audit-state/ISSUES-PLAUSIBLE.md`.  
+- It adds plausible issues as individual files in `audit-state/issues/plausible/`.  
 - It updates `audit-state/PROGRESS.md` with file audit status and progress.
 - Local auditing is about *possibility*, not proof — validation happens later.
 
@@ -76,20 +75,20 @@ or trust boundaries.
 - It identifies emergent risks (e.g. privilege escalation, confused deputy,
 logic flaws).  
 - It adds brainstorm ideas to `audit-state/BRAINSTORM.md`.  
-- It records plausible multi-component issues in
-`audit-state/ISSUES-PLAUSIBLE.md`.
+- It records plausible multi-component issues as individual files in
+`audit-state/issues/plausible/`.
 - It updates `audit-state/PROGRESS.md` with global audit phase completion status.
 
 ## 5. Issue Validation
 
 The Issue Validator Agent investigates **one plausible issue or brainstorm item
 at a time**.  
-- If the issue is real, it moves it into `audit-state/ISSUES-CONFIRMED.md`.  
-- If the issue is not valid, it moves it into `audit-state/ISSUES-INVALID.md`.  
+- If the issue is real, it moves the file to `audit-state/issues/confirmed/`.  
+- If the issue is not valid, it moves the file to `audit-state/issues/invalid/`.  
 - Confirmed issues must contain strong evidence: specific code references,
 explanation of exploitability, and impact.  
 - It updates `audit-state/PROGRESS.md` with validation progress and status changes.
-- There must never be false positives in `ISSUES-CONFIRMED.md`.
+- There must never be false positives in confirmed issues.
 
 ## 6. Report Generation
 
@@ -135,13 +134,13 @@ well as any goals an attacker attacking the system under audit might have.
 Completeness is more important than a high signal to noise ratio. BRAINSTORM.md
 contains raw ideas and concepts, NOT tracked issues with IDs.
 
-- audit-state/ISSUES-PLAUSIBLE.md, audit-state/ISSUES-CONFIRMED.md,
-audit-state/ISSUES-INVALID.md contain the security issues uncovered by the audit
-at various stages of their discovery. These files are the SINGLE SOURCE OF TRUTH
+- audit-state/issues/plausible/, audit-state/issues/confirmed/, and
+audit-state/issues/invalid/ contain the security issues uncovered by the audit
+at various stages of their discovery. These directories are the SINGLE SOURCE OF TRUTH
 for individual issue status and details. Issues all start out either as ideas in
-BRAINSTORM.md or as plausible issues in ISSUES-PLAUSIBLE.md. Whenever issues are
-confirmed to definitely exist, they are moved to ISSUES-CONFIRMED.md. There must
-never be any false positives in ISSUES-CONFIRMED.md. Issues are identified by their section placement within the markdown files.
+BRAINSTORM.md or as plausible issue files in issues/plausible/. Whenever issues are
+confirmed to definitely exist, they are moved to issues/confirmed/. There must
+never be any false positives in issues/confirmed/. Issues are identified by their individual filenames.
 
 Do NOT duplicate individual issue tracking information in other files.
 PROGRESS.md only tracks phase completion and file audit progress, never individual
@@ -162,7 +161,7 @@ docs/example-report) once the audit is complete.
 
 ## Issue Identification
 
-Issues are identified by their section placement within the appropriate markdown file. This eliminates the need for separate ID generation and prevents coordination conflicts when multiple agents work simultaneously.
+Issues are identified by their individual filename within the appropriate directory (plausible/, confirmed/, or invalid/). This eliminates the need for separate ID generation and prevents coordination conflicts when multiple agents work simultaneously.
 
 ## Issue Severity Classification
 
@@ -184,7 +183,7 @@ All confirmed security issues must be assigned one of the following severity lev
 - Consider both impact (how bad if exploited) and likelihood (probability of exploitation)
 - When in doubt, assign a higher severity level - it's better to err on the side of caution
 
-All confirmed issues in `audit-state/ISSUES-CONFIRMED.md` must include their severity classification along with justification for the assigned level.
+All confirmed issue files in `audit-state/issues/confirmed/` must include their severity classification along with justification for the assigned level.
 
 ## Agents
 

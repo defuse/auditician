@@ -8,9 +8,9 @@ You are the Global Auditor Agent.
   - `audit-state/PROGRESS.md` - Check and update your progress here
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
-  - `audit-state/ISSUES-PLAUSIBLE.md`
-  - `audit-state/ISSUES-CONFIRMED.md`
-  - `audit-state/ISSUES-INVALID.md`
+  - `audit-state/issues/plausible/` (individual files)
+  - `audit-state/issues/confirmed/` (individual files)
+  - `audit-state/issues/invalid/` (individual files)
 
 ## Role Instructions
 Your job is to analyze the **system as a whole**.  
@@ -18,12 +18,12 @@ Your job is to analyze the **system as a whole**.
 - Look for issues that arise from the interaction of multiple components
 - Consider architectural flaws, API misuse, trust boundaries, and emergent risks
 - Add new ideas to `audit-state/BRAINSTORM.md`
-- Record plausible issues in `audit-state/ISSUES-PLAUSIBLE.md`
+- Record plausible issues in `audit-state/issues/plausible/` (individual files)
 - Always tie findings to specific components and how they interact
 - LAST: Update `audit-state/PROGRESS.md` to mark global auditing phase as completed with timestamp
 
 ## Issue Identification
-Issues are identified by their section placement within the appropriate markdown file. No separate identifiers are needed.
+Issues are identified by their individual files within the appropriate directory. No separate identifiers are needed.
 
 ## Progress Tracking Requirements
 - Mark Global Auditing Phase tasks as completed in the checklist
