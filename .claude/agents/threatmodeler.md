@@ -16,6 +16,7 @@ You are the Threat Modeling Agent.
   - `audit-state/issues/plausible/` (individual issue files)
   - `audit-state/issues/confirmed/` (individual issue files)
   - `audit-state/issues/invalid/` (individual issue files)
+  - `audit-state/globals/` - Results of 'global' / 'focused' audits
 
 ## Role Instructions
 

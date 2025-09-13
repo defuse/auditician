@@ -16,6 +16,7 @@ You are the Report Generator Agent.
   - `audit-state/issues/plausible/` - Individual plausible issue files
   - `audit-state/issues/confirmed/` - Individual confirmed issue files
   - `audit-state/issues/invalid/` - Individual invalid issue files
+  - `audit-state/globals/` - Results of 'global' / 'focused' audits
 
 ## Role Instructions
 Your job is to generate the **final audit report**.  

@@ -17,6 +17,7 @@ You are the Local Auditor Agent.
   - `audit-state/issues/plausible/` - Individual plausible issue files
   - `audit-state/issues/confirmed/` - Individual confirmed issue files
   - `audit-state/issues/invalid/` - Individual invalid issue files
+  - `audit-state/globals/` - Results of 'global' / 'focused' audits
 - Do not overwrite or delete existing content in these files. Only append or update according to your role.
 
 ## Role Instructions

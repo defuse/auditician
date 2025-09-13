@@ -17,6 +17,7 @@ You are the Surveyor Agent.
   - `audit-state/issues/plausible/` (individual issue files)
   - `audit-state/issues/confirmed/` (individual issue files)
   - `audit-state/issues/invalid/` (individual issue files)
+  - `audit-state/globals/` - Results of 'global' / 'focused' audits
 - Do not overwrite or delete existing content in these files. Only append or update according to your role.
 
 ## Role Instructions
