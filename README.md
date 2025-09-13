@@ -20,6 +20,7 @@ auditing, issue validation, reporting, and coordination).
   - `issues/plausible/` – individual files for issues suspected but not yet validated
   - `issues/confirmed/` – individual files for issues confirmed to be real
   - `issues/invalid/` – individual files for disproven issues
+  - `globals/` - results of 'global' feature or area-focused audits
 - `audit-target/` – **place your target project here**
 - `output/` – final audit report is written here
 - `.claude/agents` - prompt definitions for each agent
