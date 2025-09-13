@@ -25,6 +25,12 @@ This file tracks the progress of the security audit to ensure all phases are com
 
 **Status**: `PENDING` | `IN_PROGRESS` | `COMPLETED` | `SKIPPED`
 
+## Global Audits Progress
+
+| Focus Area | Status | Agent | Timestamp |
+|-----------|---------|-------|-----------|
+| | | | |
+
 ## Notes
 [Any relevant notes about blockers or coordination issues]
 
