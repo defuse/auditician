@@ -105,7 +105,7 @@ The Report Generator Agent produces the final professional audit report.
 - It uses the template in `docs/example-report/` as a style guide.  
 - It summarizes the **confirmed issues**, the **final threat model**, and the
 **audit methodology**.  
-- The completed report is written into `output/`.  
+- The completed report is written into `report/`.  
 - This report must be suitable for delivery to developers and stakeholders.
 
 ## 7. Audit Agent Coordinator
@@ -118,7 +118,7 @@ The Coordinator Agent orchestrates the full process:
 5. Run the Global Auditor Agent and mark global phase complete.  
 6. For each plausible issue and brainstorm item, run the Issue Validator Agent, tracking validation progress.  
 7. Run the Threat Modeling Agent to finalize `THREATMODEL.md`.  
-8. Run the Report Generator Agent to create the final report in `output/` and mark audit complete.  
+8. Run the Report Generator Agent to create the final report in `report/` and mark audit complete.  
 9. Provide summaries of progress and consistency checks to the human auditor using the progress tracking data.
 
 # Implementation Details
@@ -169,7 +169,7 @@ The source code, design documents, etc. belonging to the application under audit
 will be in audit-target/. Agents SHOULD NOT modify any files in this directory,
 i.e. all audit notes and other state should go in audit-state/.
 
-output/ will contain the final audit report (in the format exemplified in
+report/ will contain the final audit report (in the format exemplified in
 docs/example-report) once the audit is complete.
 
 ## Issue Identification

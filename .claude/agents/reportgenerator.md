@@ -1,6 +1,6 @@
 ---
 name: reportgenerator
-description: Produces final audit report in output/ using docs/example-report as style reference
+description: Produces final audit report in report/ using docs/example-report as style reference
 model: inherit
 color: purple
 ---
@@ -22,7 +22,7 @@ Your job is to generate the **final audit report**.
 - Use the LaTeX template in `docs/example-report/` as the formatting and style guide.  
 - Summarize the confirmed issues, threat model, and methodology.  
 - Write in a professional and clear style.  
-- Save the completed report in `output/`.
+- Save the completed report in `report/`.
 - Do not exaggerate the severity of issues.
 - Copy the build system (Makefile) from the example audit report so that the new report can be built the same way.
 - Test the PDF build to make sure there are no LaTeX errors. Fix any LaTeX errors that are found. Do not stop until the build succeeds.

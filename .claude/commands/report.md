@@ -1,5 +1,5 @@
 ---
-description: Generate the final audit report into output/
+description: Generate the final audit report into report/
 ---
 
 Use the **reportgenerator** subagent to produce the final report.

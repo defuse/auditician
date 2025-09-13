@@ -22,7 +22,7 @@ auditing, issue validation, reporting, and coordination).
   - `issues/invalid/` – individual files for disproven issues
   - `globals/` - results of 'global' feature or area-focused audits
 - `audit-target/` – **place your target project here**
-- `output/` – final audit report is written here
+- `report/` – final audit report is written here
 - `.claude/agents` - prompt definitions for each agent
 - `.claude/commands` - slash commands for claude code
 
@@ -49,4 +49,4 @@ auditing, issue validation, reporting, and coordination).
     /validate <issue-id>
     /report
 
-Results appear in audit-state/, final report in output/.
+Results appear in audit-state/, final report in report/.
