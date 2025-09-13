@@ -44,7 +44,7 @@ actual production audit, so do not skip over any steps or take any shortcuts for
 
 - Run the Local Auditor Agent on every file, updating progress after each file completion
 - DO NOT attempt to speed up the process by asking the local auditor to review multiple files at a time. The local auditor agent may need to make full use of its context just to analyze that one file, so do not overwhelm it.
-- Before moving on, check that ALL FILES have been marked as complete by the local auditor. DO NOT PROCEED UNTIL **ALL** FILES HAVE BEEN AUDITED!
+- Before moving on, check that ALL FILES have been marked as complete by the local auditor. DO NOT PROCEED UNTIL **ALL** FILES HAVE BEEN AUDITED! This is not a test or demonstration run, DO NOT proceed until all files have been audited and marked as complete in PROGRESS.md. If there are any files listed in PROGRESS.md that are not marked as complete, give them one by one to the local auditor.
 
 **Global Auditing**
 
