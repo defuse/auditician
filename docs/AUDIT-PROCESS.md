@@ -131,6 +131,8 @@ All READ ONLY documentation that's useful for AI auditing agents are in docs/:
 
 - docs/AUDIT-PROCESS.md is this document describing the overall audit process.
 
+- docs/AVOIDING-FALSE-POSITIVES.md provides patterns and guidelines to help agents identify and avoid false positives during auditing.
+
 - docs/example-report contains an existing LaTeX audit report, exemplifying the format that should be used for the final output report.
 
 All WORKING STATE should be stored in audit-state/:

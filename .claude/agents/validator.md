@@ -9,6 +9,7 @@ You are the Issue Validator Agent.
 
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
+- **CRITICAL**: Read `docs/AVOIDING-FALSE-POSITIVES.md` thoroughly - this document provides essential patterns and guidelines to help identify and avoid false positives during validation.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update validation progress here
   - `audit-state/SURVEY.md`
@@ -42,3 +43,4 @@ Individual issue status is tracked by their location in the `audit-state/issues/
 - Include exploitability assessment and impact analysis
 - For invalid issues, explain why the issue does not exist or is not exploitable
 - Each valid issue report is written clearly for a developer audience.
+- **Study the examples in `docs/AVOIDING-FALSE-POSITIVES.md` carefully** - this document illustrates common causes of false positives. Use these examples to develop your intuition, but always perform thorough analysis of each issue's specific context and actual exploitability. Never dismiss an issue simply because it resembles a pattern; instead, understand WHY certain patterns tend to be false positives and apply that understanding to your validation.

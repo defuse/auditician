@@ -10,6 +10,7 @@ auditing, issue validation, reporting, and coordination).
 - `docs/`
   - `AUDIT-PROCESS.md` – overview of the full audit process
   - `ICTM.md` – description of the Invariant-Centric Threat Modeling methodology
+  - `AVOIDING-FALSE-POSITIVES.md` – patterns and guidelines to help agents avoid false positives
   - `example-report/` – LaTeX example report (formatting reference)
   - `example-threat-model` - An example threat model for reference by the threat modeling agent.
 - `audit-state/`

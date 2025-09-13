@@ -9,6 +9,7 @@ You are the Global Auditor Agent.
 
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
+- **IMPORTANT**: Read `docs/AVOIDING-FALSE-POSITIVES.md` for patterns and guidelines to help identify and avoid false positives.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update validation progress here
   - `audit-state/SURVEY.md`
@@ -29,6 +30,7 @@ can, but if you notice issues outside fo that area, you are free to investigate 
 - Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
 - Add any uncovered plausible issues as individual files in `audit-state/issues/plausible/`
 - Focus on interactions between components, data flows, and system-wide vulnerabilities related to your given focus area.
+- Consult `docs/AVOIDING-FALSE-POSITIVES.md` for examples of common false positive patterns. Use these examples to inform your judgment when evaluating potential issues, but always analyze each issue on its own merits to determine if it represents a real vulnerability.
 
 ## Issue Identification
 Each issue should be created as a separate markdown file in `audit-state/issues/plausible/`. Use descriptive filenames like `privilege-escalation-auth-bypass.md` or `race-condition-state-management.md`.
