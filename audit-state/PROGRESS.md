@@ -8,11 +8,14 @@ This file tracks the progress of the security audit to ensure all phases are com
 - **Last Updated**: [To be updated by agents]
 
 ## Phase Completion
+- [ ] PROGRESS.md initialization completed.
+- [ ] Surveying completed.
 - [ ] Brainstorming completed
+- [ ] First pass of threat modeling completed.
 - [ ] Local auditing completed  
 - [ ] Global auditing completed
 - [ ] Issue validation completed
-- [ ] Threat modeling completed
+- [ ] Final pass of threat modeling completed
 - [ ] Report generation completed
 
 ## File Audit Progress

@@ -34,3 +34,5 @@ Each issue should be created as a separate markdown file in `audit-state/issues/
 
 ## Progress Tracking
 Individual issue details are tracked in separate files within the `audit-state/issues/` directories.
+
+Write a brief Markdown-formatted report of what kind of global security analysis you did into a new file in `audit-state/globals/`; in that file, list the names of the issues that were created from this run of global review.

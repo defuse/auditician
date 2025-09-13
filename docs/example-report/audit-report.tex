@@ -3,7 +3,13 @@
 \usepackage{listings}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[letterpaper]{geometry}
-\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    linkcolor={black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
 \usepackage[utf8]{inputenc}
 \usepackage{csquotes}
 \usepackage[numbers]{natbib}
@@ -112,14 +118,14 @@
   emphstyle       =[2]\color{dkyellow}}
 
 
-\title{Security Analysis of Hanh Huynh Huu's Zcash App for Ledger Hardware Wallets}
+\title{Security Analysis of the \texttt{zcash-ledger} Hardware Wallet App}
 \author{
     Taylor Hornby \\
         \href{mailto:zecsec@defuse.ca}{zecsec@defuse.ca}\\
         \href{https://zecsec.com/}{ZecSec}\\
         %\href{https://defuse.ca/}{Defuse Security}\\
 }
-\date{\today\\ Report Version 1\\ Audit performed in May 2023}
+\date{\today\\ Report Version 2\\ Audit performed in May/June 2023}
 
 \renewcommand{\arraystretch}{1.3}
 
@@ -141,13 +147,151 @@
 \section{Introduction}
 % ==================================================================
 
+This report documents the results of a 15-day security audit of the
+\texttt{zcash-ledger} Ledger wallet app. \texttt{zcash-ledger} enables support
+for Zcash transactions on Ledger hardware wallets~\cite{zcashledger}.  The app
+is developed by Hanh Huynh Huu with funding provided by the Zcash Community
+Grants program~\cite{zcg}.
+
+The \texttt{zcash-ledger} app supports generating Zcash transctions with both
+transparent and shielded inputs and outputs. It supports the Sapling and Orchard
+shielded pools on NanoS+ and NanoX devices, only Sapling on NanoS devices, and
+Nano Stax devices are not supported.
+
+We found one \MediumIssue-severity issue that could put funds at risk:
+side-channel defenses in the signing algorithm may be inadequate and could leak
+information about spending keys to a malicious host.
+
+We found several other \MediumIssue-severity issues: (a) because the Ledger
+device's operating system does not support ZIP 32, the wallet is not
+cross-compatible with other Zcash shielded wallets, (b) a malicious host can
+``burn'' some of the user's funds by producing invalid ciphertexts, and (c) a
+secure-UX issue where unified addresses are not displayed properly when the user
+is confirming a transaction on the hardware device.
+
+We also report several \LowIssue-severity issues, which are mainly minor code
+improvement suggestions, and pose little risk to users.
+
+In the next section we describe the audit's scope. In Section 2, we lay out a
+threat model for shielded hardware wallets. In Section 3, we describe the
+vulnerabilities we found. In Section 4 we make recommendations to improve
+\texttt{zcash-ledger}'s security. Section 5 lists some good things we found
+during the audit.  Section 6 lists our suggestions for focus areas of future
+audits, and Section 7 concludes.
+
+This audit began while \texttt{zcash-ledger} was still in early development. As
+a result, we found several security bugs in pre-release versions of the code.
+These were all fixed before the first formal release, so we report them
+separately in Appendix A.
+
 \subsection{Scope}
+
+Our review focused on the code in the \href{https://github.com/hhanh00/zcash-ledger}{\texttt{hhanh00/zcash-ledger}} GitHub
+repository. We audited several versions of this codebase, concluding with a
+final pass over release v1.0.1, which has the commit hash:
+
+\begin{center}
+      \texttt{2acd2a66010fa80c1e906367fc7a953e7475d794}
+\end{center}
+
+Our focus was to find any bug which either (a) would put the user's spending keys at
+risk of theft or (b) would make it possible to sign a transaction with output
+components or fees that were not approved by the user. This included looking for
+remote-code-execution style attacks against the hardware wallet app, improper
+implementations of cryptography, and bugs in the transaction confirmation
+process.
+
+This audit \emph{did not} consider:
+
+\begin{itemize}
+      \item Attacks by a malicious host computer on the user's privacy.
+      \item The security of Ledger devices themselves.
+      \item The security of the BOLOS operating system that runs on Ledger devices.
+      \item The security of the cryptographic (and other) libraries in the Ledger SDK.
+      \item Security/privacy issues in any host wallet that interacts with the hardware wallet app.
+      \item Code that is only compiled into the app when various \texttt{TEST} or \texttt{DEBUG} flags are set.
+\end{itemize}
+
+While we reviewed all of the code in \texttt{hhanh00/zcash-ledger}, time
+constraints prevented us from adequately reviewing the elliptic curve
+implementations that are used for Sapling and Orchard signing. We recommend
+further review of the curve implementations as future work in
+Section~\ref{sececcreview}.
 
 % ==================================================================
 \section{Threat Model} \label{secthreatmodel}
-\renewcommand{\thesubsection}{\arabic{subsection}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 % ==================================================================
 
+To define a simplified threat model for a Zcash hardware wallet, we consider the
+following scenario:
+
+\begin{enumerate}
+    \item The user initially sets up their hardware wallet using a host which is
+    fully compromised by the attacker. The user is careful to back up their seed
+    phrase and never enter it into the compromised host.
+    \item The user sends funds to their hardware wallet, using the addresses
+    displayed on its dedicated screen.
+    \item The user spends funds from the wallet, carefully checking the
+    transaction details displayed on the device's screen are correct, and only
+    approving the transaction on the device when all details are as expected.
+\end{enumerate}
+
+Within this scenario, we define the threat model in terms of what expectations
+the user has regarding the attacker who has compromised their host, following the process of Invariant-Centric Threat
+Modelling~\cite{ictm}.
+
+We expect that the attacker \emph{CAN}:
+
+\begin{itemize}
+    \item Prevent the user from using their wallet on that compromised host (but not others).
+    \item Steal viewing keys which let the attacker permanently compromise the privacy of the wallet's addresses.
+    \item Cause funds being spent by the user to be stolen, if the user did not
+    carefully verify the transaction details on the device's screen.
+    \item Cause funds that the user is receiving to be stolen, if they did not
+    verify their address on the device's screen or if they used the compromised
+    host to transmit their address (e.g. the attacker could replace the user's
+    address with their own after they paste it into an exchange's website).
+    \item Cause transactions to be generated in a way that weakens privacy (e.g.
+    by causing randomized signatures to not be randomized, or by tagging
+    transactions with additional identifying data).
+\end{itemize}
+
+The user expects that the attacker \emph{CANNOT}:
+
+\begin{itemize}
+    \item Obtain the spend authority keys for any of the user's addresses.
+    \item Cause the user's funds to become unspendable.
+    \item Spend the user's funds without physical approval on the hardware device.
+    \item Produce a transaction whose semantics are different in any way from
+    what was approved through the device's display, including changing the
+    destination of funds being spent, the amount of funds being spent, or the
+    fee amount.
+    \item Cause the hardware wallet to display, as its own address, any other address, such as one an attacker controls.
+    \item Cause an official-looking message to be displayed on the hardware wallet's display (which could be used for phishing).
+    \item Permanently prevent the hardware wallet from functioning on another uncompromised host.
+\end{itemize}
+
+Beyond these specialized considerations for hardware wallets, a host wallet that
+interfaces with the Ledger wallet app is expected to fall under the scope of the
+Zcash Wallet App Threat Model~\cite{threatmodel}. (Note that we did \emph{not}
+review any host wallet as part of this audit.)
+
+\subsection{A caveat about transaction confirmation}
+
+The \texttt{zcash-ledger} app does not ask the user to confirm transaction
+\emph{inputs}. The host is completely free to specify whichever inputs it would
+like, and these are \emph{unverified} by the hardware wallet. This means that a
+malicious host could spend different notes than the user intends, or even spend
+notes/UTXOs owned by someone else as part of the user's transaction, and this
+will not be visible to the user in the on-device confirmation process. 
+
+Balance security therefore rests on the idea that the user confirms each
+transaction output's destination and amount, as well as the fee amount, so that an
+upper bound on the amount of the user's funds being spent \emph{is} confirmed
+through the hardware device. Note that this design relies on the Zcash
+consensus rules to reject transactions which have calculated their fees
+or pool balances incorrectly. 
 
 % ==================================================================
 \section{Security \& Privacy Findings} \label{secfindings}
@@ -165,7 +309,7 @@ A ``\CriticalIssue'' issue is a vulnerability
 that can definitely be exploited to impact many users with devastating
 consequences.  ``\HighIssue'' means a vulnerability that
 is likely to have a severe impact on many users.
-``\MediumIssue'' means a vulnerability of lesser impact
+``\MediumIssue'' means a vulnerability of moderate impact
 or one that may only be exploitable in special circumstances.
 ``\LowIssue'' means a vulnerability whose exploitation would
 have very little impact on any user or which is unlikely to ever be exploited in
@@ -175,36 +319,695 @@ practice.
 possible to protect users.  \MediumIssue{}-severity issues are sometimes safe to
 defer, and \LowIssue{}-severity issues are almost always safe to defer.
 
+% ------------------------------------------------------------------
+\subsection{Potential side-channel leakage of signing keys} \label{issuesidechannels}
+\textbf{Severity:} \MediumIssue
+% ------------------------------------------------------------------
+
+In the process of producing transaction signatures, a double-and-add algorithm
+is used to perform the elliptic curve scalar multiplication. 
+
+Unless double-and-add is implemented carefully, side-channels (timing, power
+usage, etc.) can leak the signing key by making the ``add'' case (signing key
+bit is $1$) distinguishable from the ``don't add'' case (signing key bit is
+$0$).
+
+The two implementations of double-and-add in \texttt{zcash-ledger}, for Sapling
+and Orchard respectively, attempt to prevent side-channel leakage by always
+adding, adding the identity point in the ``don't add'' case:
+
+\begin{lstlisting}[language=c]
+void en_mul(jj_e_t *pk, jj_en_t *G, cx_bn_t sk) {
+    bool bit;
+    e_set0(pk);
+    jj_en_t id; alloc_en(&id);
+    e_to_en(&id, pk);
+    // Skip the higest 4 bits as they are always 0 for Fr
+    for (uint16_t i = 4; i < 256; i++) {
+        cx_bn_tst_bit(sk, 255 - i, &bit);
+        e_double(pk);
+        PRINTF("*");
+        if (bit) {
+            PRINTF("+");
+            een_add_assign(pk, G);
+        }
+        else 
+            een_add_assign(pk, &id); // make it constant time
+    }
+    destroy_en(&id);
+    PRINTF("\n");
+    // ...
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=c]
+void pallas_base_mult(jac_p_t *res, const jac_p_t *base, fv_t *x) {
+// ...
+
+int j0 = 1; // skip highest bit
+for (int i = 0; i < 32; i++) {
+      uint8_t c = (*x)[i];
+      for (int j = j0; j < 8; j++) {
+            // print_bn("acc x", acc.x);
+            pallas_double_jac(&acc);
+            if (((c >> (7-j)) & 1) != 0) {
+                  pallas_add_jac(&acc, &acc, &b);
+                  // print_bn("acc x", acc.x);
+                  // print_bn("acc y", acc.y);
+                  // print_bn("acc z", acc.z);
+            }
+            else 
+                  pallas_add_jac(&acc, &acc, &id);
+      }
+      j0 = 0;
+}
+
+// ...
+}
+\end{lstlisting}
+
+Each of these implementations has an ``else'' case which attempts to make the
+double-and-add algorithm constant-time by adding the identity point.
+
+However, this is not adequate to make the implementations constant-time: the
+code is still branching on the bit of the signing key, and in the two different
+code paths, different memory is accessed. The branching and different memory
+accesses may be enough to leak information about the signing key's bits through
+timing analysis, depending on the architecture of the Ledger device.
+
+In addition, \texttt{pallas\_add\_jac()} special-cases the identity point in
+order to skip running the addition algorithm when the identity point is being
+added. So in the case of Orchard, there are definitely observable timing
+differences:
+
+\begin{lstlisting}[language=c]
+void pallas_add_jac(jac_p_bn_t *res, const jac_p_bn_t *a, const jac_p_bn_t *b) {
+    if (pallas_is_identity(a)) pallas_copy_jac_bn(res, b);
+    else if (pallas_is_identity(b)) pallas_copy_jac_bn(res, a);
+    else {
+    // ...
+\end{lstlisting}
+
+To exploit this, a malicious host would need to produce many signatures and
+measure the time it takes to create them. The signature-producing APIs that the
+app exposes do not limit the amount of times a signature can be generated, so
+this may be feasible. 
+
+The signing keys are randomized (by adding a random $\alpha$ that's known to the
+host), which makes the attack easier: without adding $\alpha$, the timing would
+be roughly constant for each signature and not much information would be leaked
+in total.  With a random $\alpha$ added each time, the running time leaks
+information about how many bits are $1$ \emph{after adding $\alpha$}, so
+collecting many samples with different $\alpha$'s leaks more information about the
+non-randomized signing key.
+
+This should be fixed by doing a constant-time \emph{selection} between the
+accumulator and the identity point that involves no branching at all on bits of
+the signing key. MIT-licensed code for doing a constant-time conditional copy
+(which can be used to implement a conditional selection) can be found in the
+\texttt{CTTK} library:
+
+\url{https://github.com/pornin/CTTK/blob/master/src/oram1.c#L29}
 
 % ------------------------------------------------------------------
-\subsection{The first issue} \label{noaclchecks}
+\subsection{Keys are not derived according to ZIP 32} \label{issuezip32}
+\textbf{Severity:} \MediumIssue
 % ------------------------------------------------------------------
 
+The operating system on Ledger devices only supports standard BIP 32 derivation
+using the \texttt{os\_perso\_derive\_node\_bip32()} API. This API does not
+support a way to derive keys and addresses compliant with ZIP 32.
+
+ZIP 32 key derivation is similar in structure to BIP 32 key derivation, but ZIP
+32 involves hashing the root seed with BLAKE2b with different personalizations
+for Sapling and Orchard. This is not possible to accomplish using the
+\texttt{os\_perso\_derive\_node\_bip32()} API, and the root seed is inaccessible
+to the Ledger app, since allowing access to the root seed would grant the app
+the ability to generate the spending keys for other coin types. The only way to
+properly support ZIP 32 on Ledger would be for Ledger to upgrade their OS to
+support ZIP 32 key derivation.
+
+\texttt{zcash-ledger} works around this problem by generating the transparent
+spending key according to BIP 32 using the above-mentioned API. Then, the
+transparent spending key is hashed with BLAKE2b using personalizations of
+\texttt{ZSaplingSeedHash} and \texttt{ZOrchardSeedHash} to get the Sapling and
+Orchard spending keys, respectively:
+
+\begin{lstlisting}[language=c]
+static int derive_spending_key(uint8_t *spk, uint8_t account) {
+    derive_tsk(spk, account);
+
+    cx_blake2b_init2_no_throw(&G_context.hasher, 256,
+                              NULL, 0,
+                              (uint8_t *) "ZSaplingSeedHash", 16);
+    cx_hash((cx_hash_t *) &G_context.hasher,
+            CX_LAST,
+            spk, 32,
+            spk, 32);
+    return 0;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=c]
+void orchard_derive_spending_key(int8_t account) {
+      ui_display_processing("o-key");
+      derive_tsk(spending_key, account);
+      
+      cx_blake2b_init2_no_throw(&G_context.hasher, 256,
+                                    NULL, 0,
+                                    (uint8_t *) "ZOrchardSeedHash", 16);
+      cx_hash((cx_hash_t *) &G_context.hasher,
+                  CX_LAST,
+                  spending_key, 32,
+                  spending_key, 32);
+      // ...
+\end{lstlisting}
+
+This creates two problems.
+
+Firstly, \texttt{zcash-ledger} will not be compatible with any other shielded
+Zcash wallet. If a user attempted to recover their \texttt{zcash-ledger} funds
+using a different wallet, it would appear that they have zero balance. Support
+for \texttt{zcash-ledger}'s key derivation scheme could be added to other
+wallets, but it would double the scanning effort needed to find the user's
+transactions (since the wallet doesn't know whether the seed phrase was used in
+a ZIP 32 wallet or in \texttt{zcash-ledger}). Importing a seed phrase generated
+on a ZIP-32-compliant wallet into a Ledger device would also not work.
+
+Secondly, deriving the Sapling and Orchard keys from the transparent key puts
+them at greater risk. If there were a bug in just the transparent transaction
+signing code which leaked the transparent key, the Sapling and Orchard keys
+could be derived from it, and then even the user's shielded funds could be
+stolen.
+
+To prevent the first problem, and avoid mass confusion created by wallets doing
+key derivation differently, the release of \texttt{zcash-ledger} should be
+blocked on either (a) Ledger adding support for ZIP 32, or (b) ZIP 32 being
+amended to work with Ledger devices in a safe way.
+
+To fix the second problem, the Sapling and Orchard keys need to be
+domain-separated from the transparent key, so that none of the three keys can be
+derived from each other. A hack to do this would be to use a different coin type
+or range of account numbers when generating the Sapling and Orchard keys, but
+this could lead to even \emph{more} confusion and incompatibility between
+wallets. This should be fixed properly with ZIP 32 support from Ledger, or by an
+amendment to ZIP 32 with a standardized way to do this safely.
+
+% % ------------------------------------------------------------------
+% \subsection{Burning funds using dummy notes} \label{issuedummynotes}
+% \textbf{Severity:} \MediumIssue
+% % ------------------------------------------------------------------
+% 
+% \textbf{TODO: This doesn't work because the commitment depends on $v_{old}$, and that's checked by the ZKP, and the commitment is an input to the nullifier computation for both Sapling and Orchard, so if you try using $v_{old} = 0$ you have to change the commitment which changes the nullifier!}
+% 
+% The \texttt{zcash-ledger} app does not ask the user to confirm transaction
+% \emph{inputs}. The host is completely free to specify whichever inputs it would
+% like, and these are \emph{unverified} by the hardware wallet. This means that a
+% malicious host could spend different notes than the user intends, or even spend
+% notes/UTXOs owned by someone else as part of the user's transaction, and this
+% will not be visible to the user in the on-device confirmation process. 
+% 
+% Balance security therefore rests on the idea that the user confirms each
+% transaction output destination and amount, as well as the fee amount, so that an
+% upper bound on the amount of the user's funds being spent \emph{is} confirmed
+% through the hardware device. Note also that this design relies on the Zcash
+% consensus rules to reject transactions which have calculated their fees
+% incorrectly. 
+% 
+% This design makes it possible for a malicious host to burn a user's funds using
+% dummy notes. Dummy notes are a Zcash protocol feature whereby fake zero-valued
+% notes can be spent as \emph{inputs}, in order to obscure the total number of
+% notes that a transaction is spending.
+% 
+% In order to burn a user's Sapling notes, a malicious host can carry out the
+% following attack:
+% 
+% \begin{enumerate}
+% \item Wait for the user to start creating a legitimate transaction.
+% \item Construct the output and fee components of the transaction honestly and wait for the user to confirm it.
+% \item When it comes time to call the \texttt{SET\_S\_MERKLEPROOF}, add Sapling
+% \emph{dummy inputs} to the transaction which all have $v_{old} = 0$, but using
+% the same nullifier keys $nk$ and $\rho$ as the remaining existing (real)
+% Sapling notes. These ``dummy'' notes will have the same nullifier as the existing notes.
+% \item Obtain the signatures from the hardware wallet, including for the
+% ``dummy'' notes, and broadcast the transaction.
+% \end{enumerate}
+% 
+% Because the ``dummy'' notes all have $v_{old} = 0$, they have no impact on the
+% net value entering/leaving the Sapling pool. The honest net value provided by
+% the host, which is used in the calculation of the fee confirmed by the user on
+% the device, will have been correct, so the user won't notice anything, and the
+% resulting transaction will be valid. Yet, because the nullifiers for the user's
+% other real notes (which they did not intend to spend) are included in the
+% transaction, all of the user's other notes will now be unspendable.
+% 
+% The user's Orchard notes can be burnt through a similar attack.
+% \emph{zcash-ledger} does not ask the user to confirm orchard actions with a net
+% value of $0$, so fake-dummy-note Orchard actions (which actually burn real
+% notes) can be added to a transaction as well without being visible to the user.
+% 
+% To fix this, \texttt{zcash-ledger} needs to also verify all of the input Sapling
+% notes and all components of the Orchard actions. In particular, it needs to ensure that
+% when $v_{old} = 0$, i.e.\ the input note is a dummy note, that $\rho$ is
+% generated by itself using its own randomness, to be sure that a malicious host
+% is not creating a fund-burning ``dummy'' note. The $v_{old} \neq 0$ input notes
+% do not necessarily need to be checked, because if the host is spending more
+% funds than the user intends, then either they will be invalid notes (there will
+% be no valid Merkle proof of their existence and the transaction will be invalid)
+% or the attack will be visible to the user in the output/fee confirmation
+% process.
+% 
+% ------------------------------------------------------------------
+\subsection{Burning funds by producing invalid output ciphertexts} \label{issueinvalidciphertexts}
+\textbf{Severity:} \MediumIssue
+% ------------------------------------------------------------------
+
+Sapling outputs and Orchard actions each contain an output ciphertext. These
+ciphertexts are encrypted to transaction recipients' public keys, and the
+information contained in them is necessary for the recipients to subsequently
+spend the funds they receive.
+
+The \texttt{zcash-ledger} app trusts the host to provide these ciphertexts and
+their associated ephemeral public keys, and does not verify them. If a malicious
+host provides incorrect ciphertexts or ephemeral public keys, the output notes
+will be undetectable and unspendable by the recipient. A malicious host can take
+advantage of this to effectively burn a \texttt{zcash-ledger} user's funds.
+
+\texttt{zcash-ledger} does not ask the user for confirmation of Sapling or
+Orchard outputs that are destined to addresses owned by the hardware wallet
+itself. A malicious host can take advantage of this to burn \emph{all} of a
+user's shielded funds by the following attack:
+
+\begin{enumerate}
+\item Wait for the user to start creating a legitimate transaction.
+\item As the transaction is being created, add Sapling outputs and Orchard actions which spend all remaining funds to the wallet's own address.
+\item Provide the \texttt{zcash-ledger} app with random data instead of the real output ciphertexts or ephemeral public keys, and then delete all of the data that should have been contained in those ciphertexts from memory.
+\item Construct the remainder of the transaction as normal, and wait for the user to approve it for signing.
+\item Obtain the transaction signatures and broadcast the transaction to the Zcash network.
+\end{enumerate}
+
+The additional Sapling outputs and Orchard actions would not be made visible to
+the user, since they are being sent to the wallet's own address. Even though the
+ciphertexts and ephemeral public keys have been replaced with random ones, the
+transaction will still be valid according to Zcash's consensus rules. All of the
+user's notes will have been spent, and there will be no way for the user to
+recover the funds, because the information required to spend the new notes
+has been deleted.
+
+To fix this, \texttt{zcash-ledger} needs to verify that the ephemeral public key
+is derived properly and that the note ciphertext has been computed properly. 
+
+Verifying just the first 52 bytes of the ciphertext is sufficient to ensure that
+funds would always be \emph{recoverable}, but the entire ciphertext needs to be
+verified to ensure that the funds will actually be \emph{detected and received}
+by the destination wallet. This is because if only the first 52 bytes are
+checked, a malicious host could flip some other bit (e.g. in the part of the
+ciphertext corresponding to the memo), which would cause the ciphertext
+integrity check to fail, leading most wallets to ignore the transaction. 
+
+This implies that \texttt{zcash-ledger} needs to be responsible for computing
+trusted values for \texttt{sapling\_outputs\_memos\_digest} and
+\texttt{orchard\_actions\_noncompact\_digest} (as defined in ZIP 244) as well;
+in the current implementation, the host is trusted to provide them.
+
+% ------------------------------------------------------------------
+\subsection{Addresses cannot be confirmed when sending to a UA} \label{issueuas}
+\textbf{Severity:} \MediumIssue
+% ------------------------------------------------------------------
+
+When asking the user to confirm an output to a transparent address,
+\texttt{zcash-ledger} shows the \texttt{t...} address on its screen. Similarly,
+for a Sapling output, a \texttt{zs...} address is shown, and for Orchard, a
+unified address (UA) with one Orchard receiver is shown.
+
+This creates a secure usability problem when a user is attempting to send to a
+unified address. When the user sends funds to a unified address, the
+confirmations shown on the device will be the individual transparent, Sapling,
+or single-receiver Orchard addresses for the individual receivers contained in
+the destination unified address, rather than the destination unified address
+itself.
+
+Without decoding and re-encoding the destination unified address themselves, the
+user has no way to ensure that the addresses shown on screen match their
+intended destination address. Users working around this issue may become
+accustomed to \emph{not} verifying the addresses in the confirmation process,
+and a malicious host could take advantage of this behavior to steal funds.
+
+To fix this, the APIs for adding outputs to a \texttt{zcash-ledger} transaction
+need to be expanded to support unified addresses. When a destination address is
+a unified address, \texttt{zcash-ledger} needs to accept all of its receiver
+components and re-encode the unified address for display, ensuring that the
+transparent, Sapling, or Orchard address that the current output is being sent
+to is contained in the unified address that gets displayed.
+
+% ------------------------------------------------------------------
+\subsection{Stack canary checking is frequently disabled} \label{issuestackcanaries}
+\textbf{Severity:} \LowIssue
+% ------------------------------------------------------------------
+
+Ledger devices only have a small amount of stack space, so Ledger documentation
+recommends frequently checking a stack canary to detect stack overflows. Without
+these checks, if too much stack space is used, it will start to overwrite other
+older data on the stack.
+
+In many of \texttt{zcash-ledger}'s build configurations, stack canary checking
+is disabled. By testing releases and not seeing buggy behavior, we can have some
+confidence that the stack is not overflowing. However, updates to Ledger's SDK
+or OS may cause the app to use more stack space. If this happens, a stack
+overflow could occur in production and go undetected.
+
+The most likely result would be a crash that poses little risk to users, but
+there is a chance that a stack overflow could be exploited by a malicious host
+to execute a remote-code-execution attack against the device and steal keys.
+
+We recommend checking for stack overflows, at least around calls to functions
+defined outside of \texttt{zcash-ledger}, which use potentially-changing amounts
+of stack space.
+
+% ------------------------------------------------------------------
+\subsection{Missing error handling} \label{issueerrorhandling}
+\textbf{Severity:} \LowIssue
+% ------------------------------------------------------------------
+
+Calls to Ledger APIs should be evaluated for proper error handling. In
+particular:
+
+\begin{itemize}
+      \item \texttt{cx\_get\_random\_bytes()}, used for generating signature
+      nonces and CSPRNG seeds, can theoretically fail and needs error handling.
+      The alternative \texttt{cx\_rng\_no\_throw} can be used instead.
+      \item Math functions like \texttt{cx\_bn\_mod\_add} can fail, e.g.
+      \href{https://developers.ledger.com/docs/embedded-app/crypto-api/ox__bn_8h/#a5be0853e346986506d1320184d9563f4}{due
+      to out-of-memory situations}, and therefore need error handling.
+      \item The AES calls in \texttt{ff1.c} can also fail.
+\end{itemize}
+
+While it's unlikely for these calls to fail, a missed failure could lead to the
+use of a weak nonce or lead to an incorrect calculation. To fix this, ensure
+that proper error handling is added to all calls that may fail.
+
+% ------------------------------------------------------------------
+\subsection{Minor code issues and suggestions} \label{issueminorcodeissues}
+\textbf{Severity:} \LowIssue
+% ------------------------------------------------------------------
+
+\subsubsection{Wipe sensitive data in \texttt{G\_store} after use}
+
+\texttt{G\_store} is a global variable holding a \texttt{temp\_t} union which is
+repurposed as storage space for various tasks. In particular, during transparent
+signing it holds the transparent signing key and signature nonce:
+
+\begin{lstlisting}[language=c]
+typedef struct {
+      // ...
+    union {
+      // ...
+        struct { // transparent sign
+            uint8_t sig_hash[32];
+            uint8_t tsk[32];
+            uint8_t signature[64];
+            uint8_t rnd[32];
+        };
+      // ...
+    };
+} temp_t;
+\end{lstlisting}
+
+After the transparent signature has been generated, the key and nonce are left
+in \texttt{G\_store}. We carefully verified that no other uses of the union
+could leak these secret values. We recommend zeroing them immediately after use
+to make it obvious they won't be leaked through other uses of the union.
+
+\subsubsection{\texttt{SET\_S\_NET} and \texttt{SET\_O\_NET} are not actually optional}
+
+A code comment says \texttt{SET\_S\_NET} and \texttt{SET\_O\_NET} are optional
+calls:
+
+\begin{lstlisting}[language=c]
+// These functions are optional but must be called before confirm_fee
+int set_s_net(int64_t balance);
+int set_o_net(int64_t balance);
+\end{lstlisting}
+
+However, they are not reset to zero in either \texttt{reset\_app()} nor in the
+handler for \texttt{INIT\_TX}. So, when a new transaction is created without
+calling \texttt{SET\_S\_NET} and \texttt{SET\_O\_NET}, the Sapling and Orchard
+net values from the previous transaction will be used.
+
+\subsubsection{\texttt{reset\_app()} and \texttt{INIT\_TX} do not zero \texttt{G\_context}}
+
+\texttt{zcash-ledger} stores information needed during the construction of a
+transaction in a global \texttt{G\_context} variable.
+
+When \texttt{zcash-ledger} encounters an unexpected condition (which could be a
+sign of an attempted attack by a malicious host), a common way to handle it is
+to call \texttt{reset\_app()}. \texttt{reset\_app()} only sets the stage back to
+\texttt{IDLE}, however, and does not zero any of the context. This means that
+much of the context from the previous transaction will still be in
+\texttt{G\_context} while the next transaction is being created.
+
+We did not find any security bugs as a result of this, but the code would be
+simpler to analyze if \texttt{reset\_app()} zeroed as much of the context as
+possible, to ensure that no old data is leftover during the creation of new
+transactions.
+
+The same applies to \texttt{INIT\_TX}: much of \texttt{G\_context} could be
+zeroed and/or re-initialized in the \texttt{INIT\_TX} handler as well.
+
+\subsubsection{Undefined behavior when calculating \texttt{t\_net}}
+
+In the calculation of \texttt{t\_net}, a \texttt{uint64\_t} gets cast to an
+\texttt{int64\_t}:
+
+\begin{lstlisting}[language=c]
+int add_t_input_amount(uint64_t amount) {
+      // ... 
+      G_context.signing_ctx.has_t_in = true;
+      G_context.signing_ctx.t_net += (int64_t)amount;
+      // ...
+\end{lstlisting}
+
+This is technically
+\href{https://stackoverflow.com/questions/9498190/is-conversion-from-unsigned-to-signed-undefined}{undefined
+behavior}. To fix this, check that \texttt{amount} is within the range of
+positive values an \texttt{int64\_t} can hold before performing the cast.
+
+Our recommendation to add compiler warning flags
+(Recommendation~\ref{recwarninglevel}) would catch similar issues.
+
+\subsubsection{\texttt{ROTATE} and \texttt{PLUS} macros missing parentheses}
+
+In \texttt{chacha.c}, the \texttt{ROTATE} and \texttt{PLUS} macros are missing
+parentheses around the use of their arguments in their definitions:
+
+\begin{lstlisting}[language=c]
+#define ROTATE(v, n) (cx_rotl(v, n))
+#define XOR(v, w)    ((v) ^ (w))
+#define PLUS(v, w)   ((uint32_t) (v + w))
+\end{lstlisting}
+
+If these macros are used on complex expressions, order-of-operations could cause
+them to produce incorrect results. In the implementation of ChaCha, they are
+never used on complex expressions, so there is no actual bug, but it's worth
+fixing the macros anyway.
+
+\subsubsection{\texttt{GET\_PROOFGEN\_KEY} does not ensure \texttt{derive\_default\_keys()} has been called}
+
+A host can call \texttt{GET\_PROOFGEN\_KEY} before any of the other APDU
+handlers that call \texttt{derive\_default\_keys()}. When this happens, invalid
+proof generating keys will be returned (possibily zeroed or uninitialized
+memory). Fix this by ensuring \texttt{derive\_default\_keys()} has been called.
+
+See also Recommendation~\ref{recmultiplefeeconfs} where we suggest being
+stricter about enforcing the order of APDU calls.
+
+\subsubsection{Some APDU handlers are missing the no-data check}
+
+Many APDU handlers contain the following code to reject calls with data when
+none is expected:
+
+\begin{lstlisting}[language=c]
+if (cmd->lc != 0)
+      return io_send_sw(SW_WRONG_DATA_LENGTH);
+\end{lstlisting}
+
+However, this check is missing for some APDU handlers, including
+\texttt{GET\_PROOFGEN\_KEY}, \texttt{CONFIRM\_FEE}, \texttt{CHANGE\_STAGE}, and others.
+There is no bug as a result of this, but it may be worth adding the checks.
 
 % ==================================================================
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \section{Recommendations} \label{secrecommendations}
 % ==================================================================
 
+\subsection{Better test-vector testing of cryptographic components}
 
-\subsection{The first recommendation}
+Reviewing implementations of cryptographic algorithms like the elliptic curves,
+FF1, Pedersen and Sinsemilla hashes, and so forth, is time-consuming and error
+prone. 
 
+A much greater confidence in the correctness of these algorithms can be gained
+by implementing tests which compare the input/output of the implementations in
+\texttt{zcash-ledger} against a wide set of test vectors produced by a different
+implementation such as in \texttt{librustzcash}. Randomized testing, on top of
+test vector cases designed to exercise edge cases, can increase confidence further.
+
+Some good testing already exists in \texttt{zcash-ledger}, but it could be
+improved. For example, bugs in the FF1 implementation would not lead to invalid
+transactions, but could make funds hard to recover. We therefore recommend
+strengthening the automated testing of all cryptographic algorithms.
+
+\subsection{Reduce the likelihood of accidental use of \texttt{TEST}/\texttt{DEBUG} builds}
+
+If the \texttt{TEST} or \texttt{DEBUG} compile flags are set and
+\texttt{zcash-ledger} is built, the resulting app is totally insecure. This is
+by design to allow for testing: all on-device confirmations can be bypassed, and
+secret keys can be replaced with fixed constants.
+
+Some defenses should be added to the code to absolutely eliminate the
+possibility of anyone accidentally side-loading a test build of
+\texttt{zcash-ledger} onto their device. This could take the form of a warning
+message that frequently gets displayed, e.g.\ prefix all of the normal text with
+a ``WARNING: INSECURE TEST BUILD'' string.
+
+\subsection{Compatibility testing with other wallets}
+
+After Issue~\ref{issuezip32} is fixed, compatibility testing with other Zcash
+shielded and transparent wallets should be implemented. This will prevent
+accidental loss of funds in case any future bugs make \texttt{zcash-ledger}
+incompatible with those other wallets.
+
+\subsection{Increase compiler warning level} \label{recwarninglevel}
+
+By default \texttt{zcash-ledger}'s build system does not pass any additional
+\texttt{-W...} warning flags to the compiler. By adding \texttt{-Wall} or a
+smaller custom set of warning flags, the compiler can be told to check for
+various kinds of (likely) bugs. Once these warnings are fixed, we recommend
+adding \texttt{-Werror} as well.
+
+\subsection{Enforce stage-specific operations more strictly} \label{recmultiplefeeconfs}
+
+To construct a transaction using \texttt{zcash-ledger}, the process proceeds
+through a series of stages. The host first adds transparent inputs and outputs,
+then Sapling outputs, then Orchard actions, then confirms the fee, and so on. At
+each change of stage, the host must call the \texttt{CHANGE\_STAGE} APDU to
+advance to the next stage.
+
+Most of the crucial APDU commands, such as for adding transaction outputs, are
+strictly enforced to occur during they stage in which they are expected.
+However, several APDU commands, which could be stage specific, can be executed
+by the host at any time. The state machine in \texttt{zcash-ledger} should be
+hardened to disallow this behavior, i.e.\ all but the most general APDU commands
+should be gated to a specific stage.
+
+Doing this will place more requirement on the host to make calls in a specified
+order, but will simplify the security analysis of the code.
+
+Areas for hardening that we identified are:
+
+\begin{enumerate}
+      \item While in stage \texttt{FEE}, the host can call the
+      \texttt{CONFIRM\_FEE} APDU to have the device calculate the SIGHASH and
+      show the fee confirmation. The stage will remain in \texttt{FEE} until the
+      user denies (stage returns to \texttt{IDLE}) or approves (stage advances
+      to \texttt{SIGN}). While the user is confirming the fee, the stage is
+      still in \texttt{FEE}, so the host can modify parts of the transaction
+      (e.g.\ calling \texttt{SET\_S\_NET}) then call \texttt{CONFIRM\_FEE} again
+      to show another fee confirmation. This behavior is unexpected, and should
+      be ruled out.
+      \item APDUs like \texttt{SET\_S\_NET}, \texttt{SET\_O\_NET},
+      \texttt{SET\_*\_MERKLE\_PROOF}, and more can be called in any stage. While
+      allowing extra flexibility makes developing the host wallet easier,
+      strictly enforcing a stage for these APDUs would make it easier to analyze
+      \texttt{zcash-ledger}'s code.
+\end{enumerate}
+
+In the case of (1), we were concerned that a race condition could potentially be
+used by a malicious host to create an exorbitantly-large fee. The idea was to
+(1) lie about the Sapling net value and call \texttt{CONFIRM\_FEE} so that the
+fee confirmation looks normal but the transaction would be invalid, (2) while
+the user is confirming the fee, call \texttt{SET\_S\_NET} again to provide the
+correct Sapling net value, (3) call \texttt{CONFIRM\_FEE} again to recalculate
+the SIGHASH. The hope was that a race condition could set the stage to
+\texttt{SIGN} from the first fee confirmation \emph{after} the SIGHASH had been
+recalculated with the exorbitant fee. This turns out not to work, but the reason
+why depends on internal and possibly-changing details of how Ledger apps handle
+APDUs. We recommend changing the code to make it very obvious this kind of
+attack could never work. One way to do this is to have \texttt{CONFIRM\_FEE} set
+the stage to a new \texttt{FEE\_CONFIRMING} stage immediately, so that
+\texttt{CONFIRM\_FEE} cannot be called twice.
 
 % ==================================================================
 \section{Good Things} \label{secgoodthings}
 % ==================================================================
 
-\subsection{Good thing the first}
+\subsection{Fast security response}
+
+In the process of \texttt{zcash-ledger}'s development, we reported several
+issues to the author, all of which were fixed rapidly, often the same day. Some
+of the issues were even noticed and fixed before we reported them.
+
+\subsection{Integration testing}
+
+Using the Ledger device simulator, \texttt{zcash-ledger} has integration tests
+for most of its features. This is great for ensuring the app works as expected
+and some of the tests would even catch certain kinds of cryptographic
+implementation bugs.
 
 % ==================================================================
 \section{Future work} \label{secfuturework}
 % ==================================================================
 
-\subsection{Future work one}
+\subsection{Closer review of elliptic curve implementations} \label{sececcreview}
+
+In this review, we did not thoroughly check the elliptic curve implementations.
+The correctness of these implementations is crucial for security, since they are
+used in the transaction signing process. Future security audits should review
+them closely.
+
+\subsection{More analysis of \texttt{zcash-ledger}'s state machine}
+
+In the process of interacting with the \texttt{zcash-ledger} app, the host moves
+the app through a series of stages. The \texttt{zcash-ledger} app informally
+implements a state machine that moves through these stages.
+
+State machine bugs are a common source of error in cryptographic software, and
+\texttt{zcash-ledger}'s state machine's correctness is crucial to the app's
+transaction confirmation process. We found two \emph{almost-bugs} in the state
+machine (the issue in Appendix~\ref{issuestageadvance} and the almost-bug
+described in Recommendation~\ref{recmultiplefeeconfs}). Therefore, we recommend
+further review of \texttt{zcash-ledger}'s state machine.
 
 % ==================================================================
 \section{Conclusion} \label{secconclusion}
 % ==================================================================
+
+Let's summarize the issues again:
+
+We found one \MediumIssue-severity issue that could put funds at risk:
+side-channel defenses in the signing algorithm may be inadequate and could leak
+information about spending keys to a malicious host.
+
+We found several other \MediumIssue-severity issues: (a) because the Ledger
+device's operating system does not support ZIP 32, the wallet is not
+cross-compatible with other Zcash shielded wallets, (b) a malicious host can
+``burn'' some of the user's funds by producing invalid ciphertexts, and (c) a
+secure-UX issue where unified addresses are not displayed properly when the user
+is confirming a transaction on the hardware device.
+
+We also reported several \LowIssue-severity issues, which are mainly minor code
+improvement suggestions, and pose little risk to users.
+
+Many of the issues have simple fixes, but the incompatibility with ZIP 32 should
+be a concern to the Zcash community. We either rely on Ledger to implement
+proper ZIP 32 support in their operating system, or we need to complicate ZIP 32
+itself with a workaround to support Ledger hardware wallets safely. If neither
+of these paths succeed, we will be left with a confusing mess where wallets
+derive keys from seeds differently, which will create a terrible user experience.
+
+This audit \emph{did not} adequately review the elliptic curve implementations
+in \texttt{zcash-ledger}. This has been left for future work.
+
 
 \section*{Acknowledgements}
 
@@ -213,6 +1016,9 @@ Grant~\cite{zecsec, zecsecweb} funded by Zcash Community Grants~\cite{zcg}. Than
 Zcash Grants Committee and the broader Zcash community for supporting the
 security of privacy-enhancing open-source software.
 
+Thanks to Daira Hopwood and Jack Grigg for guidance on how to remediate the ZIP
+32 incompatibility issue.
+
 \nocite{*}
 
 \bibliographystyle{plainnat}
@@ -220,12 +1026,139 @@ security of privacy-enhancing open-source software.
 
 \pagebreak
 
-% \appendix
-% 
-% % ==================================================================
-% \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
-% \section{The First Appendix} \label{aclfixes}
-% % ==================================================================
+\appendix
+ 
+% ==================================================================
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\section{Bugs Discovered During Early Development} \label{appendixdevbugs}
+% ==================================================================
 
+In this section, we report some bugs that were found in pre-release versions of
+the code. All of these issues were resolved prior to the first release (v1.0.1).
+
+\subsection{Predictable nonces used while testing ECDSA signatures} \label{issueconstantnonce}
+\textbf{Severity:} \CriticalIssue
+
+In an \href{https://github.com/hhanh00/zcash-ledger/blob/7bcb456e32691acb2a2ea143c89e59a3d0b6f814/src/crypto/tx.c#L86}{in-development version of the code}, a constant of 32-bytes of repeated 3s was
+used as the seed for the random number generator to generate the ECDSA nonces
+for the shielded pool signatures.
+
+This would have let the host predict the nonces, and so a malicious host could
+have recovered the secret spending keys from the transaction's signatures.
+
+This was fixed by generating the nonces at random using the device's secure
+random number generator (except for test builds, which use predictable nonces to
+enable testing).
+
+\subsection{Fee confirmations could be bypassed by the host} \label{issueconfbypass}
+\textbf{Severity:} \HighIssue
+
+In an
+\href{https://github.com/hhanh00/zcash-ledger/blob/6966e44d6ce9e2366eaeafcc6ccb18503f646347/src/crypto/tx.c#L375-L378}{in-development
+version of the code}, the testing feature which allows bypassing confirmations
+was not disabled in production builds for the fee confirmation.
+
+This would have let a malicious host send arbitrary amounts of the user's funds
+into the transaction fee. In cooperation with a miner, this would have allowed
+for theft of funds.
+
+It has been fixed by only allowing the confirmation bypassing to work in test
+builds.
+
+\subsection{Steal-by-fee by improperly advancing the \texttt{stage} state} \label{issuestageadvance}
+\textbf{Severity:} \HighIssue
+
+The host advances \texttt{zcash-ledger}'s state machine by calling the
+\texttt{CHANGE\_STAGE} APDU, which calls the \texttt{change\_stage()} function:
+
+\begin{lstlisting}[language=c]
+int change_stage(uint8_t new_stage) {
+    if (new_stage != G_context.signing_ctx.stage + 1) {
+        reset_app();
+        return io_send_sw(SW_BAD_STATE);
+    }
+
+    cx_hash_t *ph = (cx_hash_t *)&G_context.hasher;
+
+    switch (new_stage) {
+        case T_OUT:
+        // ...
+        // ... cases that handle stages S_OUT, O_ACTION, and FEE
+        // originally there was no default case
+    }
+    G_context.signing_ctx.stage = new_stage;
+
+    return io_send_sw(SW_OK);
+}
+\end{lstlisting}
+
+The \texttt{new\_stage} parameter comes directly from the host. 
+
+Originally, the switch statement did not have a \texttt{default} case to detect
+bad state transitions. Therefore, a malicious host could:
+
+\begin{enumerate}
+      \item Wait for the user to initiate a legitimate transaction.
+      \item Add extra inputs to the transaction so that it would have an enormous fee.
+      \item Wait for the user to confirm all of the transaction outputs on the
+      device. Now \texttt{stage} will be \texttt{FEE}.
+      \item Initiate the fee confirmation, which computes the transaction's
+      SIGHASH for signing and shows the fee to the user, but \texttt{stage}
+      should not change to \texttt{SIGN} unless the user approves.
+      \item Call \texttt{CHANGE\_STAGE} with \texttt{new\_stage = SIGN = FEE +
+      1} before the user rejects the bad fee. Now \texttt{stage} is
+      \texttt{SIGN} and signatures for the transaction can be extracted by
+      calling the signing APDUs.
+\end{enumerate}
+
+In other words, a malicious host could have sent arbitrary amounts of the user's
+funds into a transaction fee if the user was not quick enough to disapprove of
+the displayed bad fee. In cooperation with a miner, this could have been used to
+steal funds.
+
+This was fixed by adding a \texttt{default} case that rejects bad state
+transitions:
+
+\begin{lstlisting}[language=c]
+      // ...
+        default: // should have been caught by the check at the top
+            return io_send_sw(SW_INVALID_PARAM);
+      // ...
+\end{lstlisting}
+
+\subsection{Out-of-bounds memory access in the FF1 implementation} \label{issueoob}
+\textbf{Severity:} \LowIssue
+
+In an old version of the FF1 implementation, a \texttt{memmove} made an
+out-of-bounds write:
+
+\begin{lstlisting}[language=c]
+int ff1(uint8_t *d, const uint8_t *dk, uint8_t *di) {
+      // ...
+      memset(P, 0, 16);
+      P[9] = i;
+      memmove(&P[10], b, 6);
+      // block depends on the round number and b
+      error = cx_aes_iv_no_throw(&aes_key, CX_ENCRYPT | CX_PAD_NONE | CX_CHAIN_CBC | CX_LAST, (uint8_t *)R, 16, 
+          (uint8_t *)P, 16, (uint8_t *)R, &out_len);
+      if (error) return error;
+      memmove(d, R, 16);
+      // ...
+\end{lstlisting}
+
+The \texttt{d} written to in the last line was allocated with a size of only 11
+bytes in \texttt{orchard.c}, so the 16-byte write would overflow:
+
+\begin{lstlisting}[language=c]
+// ...
+uint8_t d[11];
+memset(d, 0, 11);
+ff1(d, G_context.orchard_key_info.dk, d);
+// ...
+\end{lstlisting}
+
+This code can be found in commit \texttt{afc3a2b0b0007639a865b9415470591abbecd17b}.
+It has been fixed by entirely removing the \texttt{ff1()} function, replaced by
+\texttt{ff1\_inplace()} which does not appear to suffer from the same issue.
 
 \end{document}
