@@ -34,8 +34,9 @@ Rigidly stick to the following major sections:
 1. Introduction -- describe what was audited, the scope, and an overview of major issues
 2. Threat Model -- the ICTM threat model
 3. Security & Privacy Findings -- all confirmed issues
-4. Future work -- open questions and things future audits should focus on
-5. Conclusion
-6. Appendix (if necessary)
+4. Recommendations -- general quality improvement suggestions and other things that fall short of being an actual security bug
+5. Future work -- open questions and things future audits should focus on
+6. Conclusion
+7. Appendix (if necessary)
 
 Subsections of these sections can be created and organized at your discretion.
