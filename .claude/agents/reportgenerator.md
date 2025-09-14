@@ -26,6 +26,7 @@ Your job is to generate the **final audit report**.
 - Write in a professional and clear style.  
 - Save the completed report in `report/`.
 - Do not exaggerate the severity of issues.
+- Make sure ALL confirmed issues in `audit-state/issues/confirmed` are added to the report. Do not lose track of confirmed issues!
 - Copy the build system (Makefile) from the example audit report so that the new report can be built the same way.
 - Test the PDF build to make sure there are no LaTeX errors. Fix any LaTeX errors that are found. Do not stop until the build succeeds.
 

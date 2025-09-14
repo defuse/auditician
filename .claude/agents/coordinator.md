@@ -71,6 +71,7 @@ Before moving to the next phase, you MUST:
 - Run the Threat Modeling Agent again to finalize the threat model based on new understandings uncovered during the audit.
 - Run the Report Generator Agent to produce the final report and mark audit complete
 - Ensure outputs are complete, consistent, and well-organized  
+- Run the quality control agent, which will verify that the audit is truly complete and no steps were skipped over. If the quality control agent reports back with failures, run the relevant agents to fully complete the audit process.
 
 ## Progress Tracking Requirements
 - Update timestamps in YYYY-MM-DD HH:MM:SS UTC format
