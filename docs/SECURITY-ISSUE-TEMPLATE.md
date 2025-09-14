@@ -10,7 +10,7 @@
 ## Attack Scenario
 [Concrete attack steps - not theoretical "what ifs"]
 
-**Attack Requirements:**
+**Attack Requirements and Assumptions:**
 - What access does the attacker need?
 - What makes this attack realistic/unrealistic?
 
