@@ -34,7 +34,7 @@ Your job is to generate the **final audit report**.
 
 Rigidly stick to the following major sections:
 
-1. Introduction -- describe what was audited, the scope, and an overview of major issues
+1. Introduction -- describe what was audited, the scope, and an overview of major issues. Include a warning that the security audit was performed by AI and the report was written by AI, and that bugs may have been missed.
 2. Threat Model -- the ICTM threat model
 3. Security & Privacy Findings -- all confirmed issues
 4. Recommendations -- general quality improvement suggestions and other things that fall short of being an actual security bug
