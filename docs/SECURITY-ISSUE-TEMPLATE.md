@@ -14,7 +14,7 @@
 - What access does the attacker need?
 - What makes this attack realistic/unrealistic?
 
-## Code Analysis
+## Technical Details / Code Analysis
 [Key code snippets with brief explanation]
 
 ## Impact
