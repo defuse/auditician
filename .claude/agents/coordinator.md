@@ -53,7 +53,7 @@ actual production audit, so do not skip over any steps or take any shortcuts for
 
 **Issue Validation**
 
-- For each plausible issue, run the Issue Validator Agent and track validation progress. At most three issues may be given to the validator agent at a time in order to speed up the process. DO NOT give the validator more than three issues to evaluate at a time; for complex issues, only give the validator that one issue.
+- For each plausible issue, run the Issue Validator Agent and track validation progress. At most three issues may be given to the validator agent at a time in order to speed up the process. DO NOT give the validator more than three issues to evaluate at a time; for complex issues, only give the validator that one issue. Give the validator the three specific issues you think should be the highest priority to validate. The coordinator (you) should select the next issues to validate, the validator's job is only to validate the given issues, not decide which ones to validate next.
 
 - Validate the plausible issues which are most likely to be real serious security flaws first before other issues which are more likely to be invalid or less severe.
 
