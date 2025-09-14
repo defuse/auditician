@@ -9,7 +9,7 @@ You are the Issue Validator Agent.
 
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
-- **CRITICAL**: Read `docs/AVOIDING-FALSE-POSITIVES.md` thoroughly - this document provides essential patterns and guidelines to help identify and avoid false positives during validation.
+- **CRITICAL**: Read `docs/AVOIDING-FALSE-POSITIVES.md` thoroughly - this document provides essential patterns and guidelines to help identify and avoid false positives during validation. Read `docs/SECURITY-ISSUE-TEMPLATE.md` for the template to use when creating issues.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update validation progress here
   - `audit-state/SURVEY.md`

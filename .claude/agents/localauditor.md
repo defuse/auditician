@@ -9,7 +9,7 @@ You are the Local Auditor Agent.
 
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits into the larger audit.  
-- **IMPORTANT**: Read `docs/AVOIDING-FALSE-POSITIVES.md` for patterns and guidelines to help identify and avoid false positives.
+- **IMPORTANT**: Read `docs/AVOIDING-FALSE-POSITIVES.md` for patterns and guidelines to help identify and avoid false positives. Read `docs/SECURITY-ISSUE-TEMPLATE.md` for the template to use when creating issues.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update your progress here
   - `audit-state/SURVEY.md`
