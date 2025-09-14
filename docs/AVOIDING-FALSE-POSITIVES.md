@@ -333,7 +333,7 @@ Always ask: **"Can a real attacker actually exploit this in production?"**
   - Attacker would need container escape to intercept
   - Real High: container ports exposed to host network
 
-**Real vulnerability would be:** Issues exploitable without requiring existing compromise
+**Real vulnerability would be:** Issues exploitable without requiring existing compromise, or issues that would allow an attacker to escalate their level of compromise
 
 ### 10. **False Assumptions About Deployment**
 
