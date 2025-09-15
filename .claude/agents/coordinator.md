@@ -32,7 +32,7 @@ CRITICAL: This is NOT a test run or demonstration, you are performing the actual
 
 **Audit Initialization**
 
-- FIRST: Initialize `audit-state/PROGRESS.md` with audit metadata, target project info, and complete file inventory from `audit-target/`. Do not assume that only files of a particular type are relevant, e.g. by doing a find for "*.js" "*.php", enumerate ALL FILES and only skip ones that are obviously irrelevant (like images or PDFs). It will be the local auditor's job to determine whether other files are relevant or not.
+- FIRST: Initialize `audit-state/PROGRESS.md` with audit metadata, target project info, and complete file inventory from `audit-target/`. Do not assume that only files of a particular type are relevant, e.g. by doing a find for "*.js" "*.php", enumerate ALL FILES and only skip ones that are obviously irrelevant (like images or PDFs). It will be the local auditor's job to determine whether other files are relevant or not. If you use a find command to enumerate files, make sure the list gets put in the correct place in `PROGRESS.md`, not just appended to the end.
 - Run the Surveyor agent and update progress tracking accordingly.
 - Run the Brainstorming Agent and update progress tracking accordingly
 - Run the Threat Modeling Agent to generate an initial threat model from the user's perspective based on the survey and brainstorm results. Instruct the threat model to base their threat model in this stage on what the target of the audit *is* without digging too heavily into the target's code except when that is important to do for the initial threat model. Make sure to tell the threat model agent which kind of run (initial or final) it is being asked to do.
@@ -45,7 +45,7 @@ CRITICAL: This is NOT a test run or demonstration, you are performing the actual
 
 **Global Auditing**
 
-- Prepare a list of 10 to 15 focus areas for the global auditor. These focus areas should come from enumerating (a) security-sensitive components of the target, (b) attacker goals, and (c) bug patterns that are common to the type of thing the audit target is. In other words, we want a list of focus areas which are a mix of component-oriented, attack-goal-oriented, and common-mistake-oriented. Several of these focus areas should be inspired by plausible vulnerabilities that the local auditor found, and at least one call to the global auditor should focus on "combining" or "chaining" discovered weaknesses into larger attacks.
+- Prepare a list of 10 to 30 focus areas for the global auditor. These focus areas should come from enumerating (a) security-sensitive components of the target, (b) attacker goals, and (c) bug patterns that are common to the type of thing the audit target is. In other words, we want a list of focus areas which are a mix of component-oriented, attack-goal-oriented, and common-mistake-oriented. Several of these focus areas should be inspired by plausible vulnerabilities that the local auditor found, and at least one call to the global auditor should focus on "combining" or "chaining" discovered weaknesses into larger attacks. Make sure all categories of focus area are represented (components, bug types, etc.) are represented, not just one.
 - Add this list of focus areas to the table in PROGRESS.md.
 - Run the Global Auditor Agent once for each of these focus areas. After each call to the global auditor, ensure the Global Audits Progress table in PROGRESS.md is updated.
 
