@@ -15,7 +15,7 @@
 - What makes this attack realistic/unrealistic?
 
 ## Technical Details / Code Analysis
-[Key code snippets with brief explanation]
+[Key code snippets with brief explanation; clearly demonstrate that an attack path exists]
 
 ## Impact
 [Actual impact on users in production]

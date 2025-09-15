@@ -180,7 +180,3 @@ judged by the consequences of the invariant being violated and the number of
 users that are relying on that invariant. Auditors should invest significant
 effort into identifying mistakes/omissions in the threat model (see the five
 kinds of mistakes above).
-
-## Credit
-
-My line of thinking here originated from [Eleanor Saitta's tweet](https://twitter.com/Dymaxion/status/1151214240658837506)

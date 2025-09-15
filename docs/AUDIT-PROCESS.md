@@ -1,10 +1,8 @@
 # Audit Process
 
-This is a global overview of the entire security audit process. Individual
-agents should refer to this file for an understanding of how their work fits
-into the total task of performing an audit.
+This is a global overview of the entire security audit process. Individual agents should refer to this file for an understanding of how their work fits into the overall task of performing an audit.
 
-A security audit consists of seven continually-operating processes:
+A security audit consists of eight processes:
 
 0. Surveying
 1. Brainstorming
@@ -15,13 +13,12 @@ A security audit consists of seven continually-operating processes:
 6. Report generation
 7. Audit agent coordination
 
-NOTE: Auditors MUST NOT assume the system the audit is being done on is similar to the production environment of the target application. We are on an auditor's computer, which may not even have the tools requried to build the target. Do source code analysis ONLY, do not attempt to build or run the audit target.
-
 ## 0. Surveying
 
 The first step is to do a broad survey of the audit target in audit-target/ in
 order to generate an understanding of *what* is being audited, as input for the
-other auditing agents.
+other auditing agents. The output of this stage should be a general overview of
+the target, serving as useful context for all of the other agents.
 
 ## 1. Brainstorming
 
@@ -48,7 +45,7 @@ potential bugs and attacker goals. Your potential-bugs list is a brainstorm that
 ideally includes all weaknesses that could possibly exist in the target project
 (e.g. weak random number generator), and your attacker-goals list is a
 brainstorm that ideally includes any goals an attacker might have (e.g. decrypt
-the data).
+the data). Aim for breadth and completeness.
 
 ## 2. Threat Modeling
 
@@ -61,118 +58,113 @@ maintain in the future, help users understand what security properties they’re
 actually getting, and speed up future audits.
 
 There are many valid approaches to threat modeling, a common one is STRIDE,
-however I prefer an approach that I call Invariant-Centric Threat Modeling which
+however I prefer an approach that I call Invariant-Centric Threat Modeling (ICTM) which
 puts users first, requiring security properties to be written in language that
 users can actually understand, and considers it a “bug” if users ever think they
 are getting some security property that they actually are not.
 
+The complete ICTM methodology is described in `docs/ICTM.md`.
+
 ## 3. Local Auditing
 
 The Local Auditor Agent examines **one file** from the codebase at a time.  
+
 - It reviews the file line by line, considering all brainstorm items and the
 current threat model.  
 - It adds new attacker goals or weaknesses to `audit-state/BRAINSTORM.md`.  
 - It adds plausible issues as individual files in `audit-state/issues/plausible/`.  
 - It updates `audit-state/PROGRESS.md` with file audit status and progress.
-- Local auditing is about *possibility*, not proof — validation happens later.
+- Local auditing is about *possibility*, not proof — validation happens later - while still being careful not to create false positives by considering the common false positive patterns in `docs/AVOIDING-FALSE-POSITIVES.md`.
 
 ## 4. Global Auditing
 
-The Global Auditor Agent considers the **system as a whole**.  
-- It looks for issues that depend on the interaction between components, APIs,
-or trust boundaries.  
-- It identifies emergent risks (e.g. privilege escalation, confused deputy,
-logic flaws).  
+The Global Auditor Agent considers one particular focus area. A focus area could be any of (a) one component of the system, (b) one attacker goal, (c) one kind of likely bug, (d) the interactions between multiple components, etc.
+
+- It looks for issues related to the specified focus area, particularly focusing on bugs that the local file-by-file auditing agent may have missed.
+- It identifies emergent risks (e.g. privilege escalation, confused deputy, logic flaws).  
 - It adds brainstorm ideas to `audit-state/BRAINSTORM.md`.  
-- It records plausible multi-component issues as individual files in
-`audit-state/issues/plausible/`.
+- It records plausible issues as individual files in `audit-state/issues/plausible/`.
 - It updates `audit-state/PROGRESS.md` with global audit phase completion status.
+- It thinks very deeply about its given focus area and thoroughly looks for subtle issues and vulnerabilities that have non-obvious attack paths.
 
 ## 5. Issue Validation
 
-The Issue Validator Agent investigates **one plausible issue or brainstorm item
-at a time**.  
+The Issue Validator Agent investigates **up to three plausible issue or brainstorm item
+at a time**.
+
 - If the issue is real, it moves the file to `audit-state/issues/confirmed/`.  
 - If the issue is not valid, it moves the file to `audit-state/issues/invalid/`.  
-- Confirmed issues must contain strong evidence: specific code references,
-explanation of exploitability, and impact.  
+- Confirmed issues must contain strong evidence: specific code references, explanation of exploitability, and impact.
+- There should be a strong emphasis on *real world* risks to users from *real world* attackers.
 - It updates `audit-state/PROGRESS.md` with validation progress and status changes.
-- There must never be false positives in confirmed issues.
+- There must never be false positives in confirmed issues. `docs/AVOIDING-FALSE-POSITIVES.md` should be referenced as advice to avoid creating false positive issues.
 
 ## 6. Report Generation
 
 The Report Generator Agent produces the final professional audit report.  
 - It uses the template in `docs/example-report/` as a style guide.  
-- It summarizes the **confirmed issues**, the **final threat model**, and the
-**audit methodology**.  
 - The completed report is written into `report/`.  
 - This report must be suitable for delivery to developers and stakeholders.
 
 ## 7. Audit Agent Coordinator
 
 The Coordinator Agent orchestrates the full process:  
+
 1. Initialize `audit-state/PROGRESS.md` with audit metadata and file inventory.
 2. Run the surveyor agent to generate `audit-state/SURVEY.md`.
-3. Run the Brainstorming Agent and update progress tracking.  
+3. Run the Brainstorming Agent to generate `audit-state/BRAINSTORM.md`.
 4. Run Local Auditing across **every file** in `audit-target/`, updating progress after each file.  
-5. Run the Global Auditor Agent and mark global phase complete.  
+5. List focus areas for the Global Auditor Agent and run the Global Auditor Agent on each focus area.
 6. For each plausible issue and brainstorm item, run the Issue Validator Agent, tracking validation progress.  
 7. Run the Threat Modeling Agent to finalize `THREATMODEL.md`.  
 8. Run the Report Generator Agent to create the final report in `report/` and mark audit complete.  
-9. Provide summaries of progress and consistency checks to the human auditor using the progress tracking data.
+9. Run the quality control agent to ensure the audit is really complete.
+10. (Throughout the audit: Provide summaries of progress to the human auditor using the progress tracking / issues / other data in `audit-state`.)
 
 # Implementation Details
 
 ## Directory Structure
 
-All READ ONLY documentation that's useful for AI auditing agents are in docs/:
+All READ ONLY documentation that's useful for AI auditing agents are in `docs/`:
 
-- docs/ICTM.md describes the threat modeling methodology to be used.
+- `docs/AUDIT-PROCESS.md` is this document describing the overall audit process.
 
-- docs/AUDIT-PROCESS.md is this document describing the overall audit process.
+- `docs/AVOIDING-FALSE-POSITIVES.md` provides patterns and guidelines to help agents identify and avoid false positives during auditing.
 
-- docs/AVOIDING-FALSE-POSITIVES.md provides patterns and guidelines to help agents identify and avoid false positives during auditing.
+- `docs/ICTM.md` describes the threat modeling methodology to be used.
 
-- docs/example-report contains an existing LaTeX audit report, exemplifying the format that should be used for the final output report.
+- `docs/SECURITY-ISSUE-TEMPLATE.md` is the template agents should follow when creating new issues.
 
-All WORKING STATE should be stored in audit-state/:
+- `docs/example-report` contains an existing LaTeX audit report, exemplifying the format that should be used for the final output report.
 
-- audit-state/PROGRESS.md tracks the progress of the audit including phase completion, file-by-file progress, and issue validation status. ALL agents must update this file with their progress and use it to coordinate work and avoid duplication.
+All WORKING STATE should be stored in `audit-state/`:
 
-- audit-state/BRAINSTORM.md contains brainstorm notes, readable and writable by
+- `audit-state/BRAINSTORM.md` contains brainstorm notes, readable and writable by
 ALL agents. Any agent should feel free to add ideas to the brainstorm. The
 brainstorm should be a complete list of things that might *possibly* go wrong as
 well as any goals an attacker attacking the system under audit might have.
 Completeness is more important than a high signal to noise ratio. BRAINSTORM.md
-contains raw ideas and concepts, NOT tracked issues.
+contains raw ideas and concepts, with the intent being to help other agents discover security issues that they would not otherwise consider.
 
-- audit-state/SURVEY.md contains a general survey of the audit target,
+- `audit-state/PROGRESS.md` tracks the progress of the audit including phase completion, file-by-file progress, global audit focus areas and progress. ALL agents must update this file with their progress and use it to coordinate work and avoid duplication.
+
+- `audit-state/SURVEY.md` contains a general survey of the audit target,
 explaining what it is and what its features are.
 
-- audit-state/issues/plausible/, audit-state/issues/confirmed/, and
-audit-state/issues/invalid/ contain the security issues uncovered by the audit
-at various stages of their discovery. These directories are the SINGLE SOURCE OF TRUTH
-for individual issue status and details. Issues all start out either as ideas in
-BRAINSTORM.md or as plausible issue files in issues/plausible/. Whenever issues are
-confirmed to definitely exist, they are moved to issues/confirmed/. There must
-never be any false positives in issues/confirmed/. Issues are identified by their individual filenames.
-
-Do NOT duplicate individual issue tracking information in other files.
-PROGRESS.md only tracks phase completion and file audit progress, never individual
-issue details or status.
-
-- audit-state/THREATMODEL.md should contain an Invariant-Centric Threat Model
-(see docs/ICTM.md) for the application being audited. This threat model should
-be updated by auditing agents as the audit progresses and uncovers new
+- `audit-state/THREATMODEL.md` should contain an Invariant-Centric Threat Model
+(methodology explained in `docs/ICTM.md`) for the application being audited. This threat model should be updated by auditing agents as the audit progresses and uncovers new
 information about the target application. It must be CORRECT and SIMPLE enough
-for the actual users of the application to understand.
+for the real-world users of the application to understand.
 
-The source code, design documents, etc. belonging to the application under audit
-will be in audit-target/. Agents SHOULD NOT modify any files in this directory,
-i.e. all audit notes and other state should go in audit-state/.
+- `audit-state/issues/plausible/`, `audit-state/issues/confirmed/`, and
+`audit-state/issues/invalid/` contain the security issues uncovered by the audit. These directories are the SINGLE SOURCE OF TRUTH for individual issue statuses and details. Issues all start out either as ideas in BRAINSTORM.md or as plausible issue files in issues/plausible/. Whenever issues are confirmed to definitely exist, they are moved to issues/confirmed/. There must never be any false positives in issues/confirmed/. Issues are identified by their individual filenames.
 
-report/ will contain the final audit report (in the format exemplified in
-docs/example-report) once the audit is complete.
+Do NOT duplicate individual issue tracking information in other files. PROGRESS.md only tracks phase completion and file audit / global audit progress, never individual issue details or status.
+
+The source code, design documents, etc. belonging to the application under audit will be in `audit-target/`. Agents SHOULD NOT modify any files in this directory, i.e. all audit notes and other state should go in audit-state/.
+
+`report/` will contain the final audit report (in the format exemplified in
+`docs/example-report`) once the audit is complete.
 
 ## Issue Identification
 

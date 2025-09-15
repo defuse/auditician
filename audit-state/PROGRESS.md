@@ -42,5 +42,5 @@ This file tracks phase completion and audit progress. Individual issue details a
 - Update timestamps in `YYYY-MM-DD HH:MM:SS UTC` format
 - Check off completed phases in Phase Completion section
 - Local auditors: update File Audit Progress table
-- Global auditors: update Globlal Audis Progress table
+- Global auditors: update Globlal Audits Progress table
 - Add notes about blockers or coordination issues as needed
