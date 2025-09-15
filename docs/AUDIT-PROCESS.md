@@ -182,6 +182,8 @@ All confirmed security issues must be assigned one of the following severity lev
 
 **Low**: A vulnerability whose exploitation would have very little impact on any user or which is unlikely to ever be exploited in practice. These are often theoretical or edge-case vulnerabilities.
 
+Severity should take into account (a) the likelihood that a real-world attacker can exploit the issue and (b) if exploitation does occur, the impact real world users will feel.
+
 ### Severity Assignment Guidelines
 
 - **Critical** and **High** severity issues must be fixed as soon as possible to protect users
@@ -200,15 +202,11 @@ Agent prompts are defined in .claude/agents/*.md.
 
 The following slash commands are available:
 
-- `/brainstorm` → runs Brainstorming Agent.
-- `/threatmodel` → runs Threat Modeling Agent.
-- `/localaudit <file>` → runs Local Auditor Agent on `<file>`  
-- `/globalaudit` → runs Global Auditor Agent  
-- `/validate <issue-id>` → runs Issue Validator Agent on `<issue-id>`  
-- `/report` → runs Report Generator Agent  
 - `/audit` → runs the full audit process via the Coordinator Agent  
 
 ## Other Process Information (General Information)
+
+The following information is included to help agents better understand the general security auditing process.
 
 ### Source Code Review
 

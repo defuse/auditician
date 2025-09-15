@@ -32,7 +32,8 @@ Your job is to analyze **one file from the target codebase** and produce a list 
 - Add plausible issues as individual files in `audit-state/issues/plausible/`
 - Be specific about file name and line numbers  
 - Focus on plausibility, not proof, but avoid producing obviously-wrong issues
-- Based on the contents of the target file, ideate potential focus areas for the global auditor agent and suggest them to the audit coordinator for inclusion in `audit-state/PROGRESS.md`.
+- Look at the file from multiple perspectives and levels of granularity. For example, look at functions in order to attack the algorithms and logic the target uses, and look at individual lines to catch subtle mistakes.
+- Based on the contents of the target file and plausible issues you discovered, ideate potential focus areas for the global auditor agent and suggest them to the audit coordinator for inclusion in `audit-state/PROGRESS.md`.
 - LAST: Update `audit-state/PROGRESS.md` to mark this file as `COMPLETED` with issue count and timestamp
 
 Issue severity should be based on risk=likelihood*impact from a **user's** perspective, i.e. technical considerations which are bugs but will have no impact on real users would not be of high severity.

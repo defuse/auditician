@@ -25,7 +25,6 @@ Your job is to create and maintain `audit-state/THREATMODEL.md` using the Invari
 
 - Write security invariants in plain, user-understandable language.  
 - Incorporate brainstorm items and confirmed issues into your thinking as you design the threat model.  
-- Update the threat model continuously as the audit progresses.  
 - Ensure the document is clear and correct enough for actual end-users to rely on.
 - Examine source code as necessary in order to understand all of the target's features, security invariants that users are potentially relying on, as well as known weaknesses.
 - Above all, keep the threat model AS SIMPLE AS POSSIBLE, BUT NO SIMPLER, and make sure everything in it is relevant to the actual *USERS* of the target application. Do not include overly technical language that end-users would not understand. Stick to the core principles of ICTM.
