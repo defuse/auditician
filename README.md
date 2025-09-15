@@ -25,11 +25,12 @@ Clone the thing you want to audit into `audit-target/`:
   cd ..
 ```
 
-Launch claude code and begin the audit with `/audit`:
+Launch claude code, select the model you want to use, and begin the audit with `/audit`:
 
 ```
 claude
 ...
+> /model # Sonnet 4 is recommended for performance
 > /audit
 ```
 
