@@ -18,7 +18,7 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
 
 **Real vulnerability would be:** Making assumptions about user-controlled input or data without guarantees.
 
-**Key Question:** *Is the assumed-faulty assumption actually guaranteed by other application components, the larger protocol, real-world deployment pratices? Can real world attackers actually cause the assumption to be violated?*
+**Key Question:** *Is the assumed-faulty assumption actually guaranteed by other application components, the larger protocol, real-world deployment practices? Can real world attackers actually cause the assumption to be violated?*
 
 **⚠️ Important:** This should only be classified as a real vulnerability if a clear, realistic attack path exists for violating the assumption. Simply saying "what if X changes or isn't true" is not sufficient without showing how an attacker could really trigger or exploit the issue in practice (there should be a demonstrable attack path).
 
