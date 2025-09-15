@@ -17,6 +17,7 @@ This file tracks the progress of the security audit to ensure all phases are com
 - [ ] Issue validation completed
 - [ ] Final pass of threat modeling completed
 - [ ] Report generation completed
+- [ ] Quality control agent run
 
 ## File Audit Progress
 | File Path | Status | Agent | Timestamp |
