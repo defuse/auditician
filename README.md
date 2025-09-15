@@ -8,7 +8,7 @@ Depending on your Anthropic account's settings, Anthropic may collect and store 
 
 **Before using this tool, refer to Anthropic's privacy policy to understand what data they collect and what options you have for reducing their use and retention of your data.**
 
-### Getting Started
+## Getting Started
 
 Make a fresh clone of this repo for each audit:
 
@@ -43,7 +43,7 @@ Claude will ask for permission to do a lot of things. If you don't want to babys
 
 You can use Docker to somewhat sandbox Claude by installing the [Dev Containers](marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) VSCode extension; after installation, VSCode should see the `.devcontainer` folder included in this repo and offer to relaunch so that your terminal runs inside a container. See the [Anthropic docs](https://docs.anthropic.com/en/docs/claude-code/devcontainer) for more information.
 
-### Directory Layout
+## Directory Layout
 
 At a high level,
 
