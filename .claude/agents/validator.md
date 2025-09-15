@@ -32,6 +32,7 @@ Your job is to **validate issues**.
 - Update the issue to correct any false or misleading information contained in it. You may entirely re-write and re-name issues in order to make them more direct and clear.
 - Sometimes it may be necessary to split out components of an issue into their own new, separate issues.
 - Confirmed issues must contain strong evidence (file paths, line numbers, reasoning). Ask yourself: "Can a real-world attacker really meet the preconditions required to exploit the vulnerability?" "Will real world users actually be affected by this?"
+- You should also explore the full consequences of the issue; are there attacks with even worse consequences than originally considered?
 - Never allow false positives in confirmed issues.
 - Do not assume the system the audit is being performed on is similar to the development or production environment for the audit target. For example, if the target is a PHP web application, PHP might not even be installed on this local system.
 - You may use web searches to look up documentation for APIs and libraries used by the target, when it is useful for validating issues.
