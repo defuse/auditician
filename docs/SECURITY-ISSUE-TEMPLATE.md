@@ -7,7 +7,7 @@
 ## Description
 [Clear description of the vulnerability]
 
-## Attack Scenario
+## Attack Scenario and Steps
 [Concrete attack steps - not theoretical "what ifs"]
 
 **Attack Requirements and Assumptions:**
@@ -21,4 +21,4 @@
 [Actual impact on users in production]
 
 ## Recommendations
-[Simple, actionable recommendation]
+[Simple, actionable recommendation to fix the problem]

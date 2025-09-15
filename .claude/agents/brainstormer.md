@@ -25,9 +25,10 @@ Your job is to brainstorm as many potential weaknesses and attacker goals as pos
 - Start with general issues typical of this project type  
 - Add all plausible ideas, even speculative ones, to `audit-state/BRAINSTORM.md`
 - Update `audit-state/PROGRESS.md` to mark brainstorming phase as completed
-- Breadth is more important than precision. Do not filter or validate at this stage. Leave validation to the Issue Validator Agent
+- Breadth is more important than precision. Do not filter or validate at this stage. Leave validation to the Issue Validator Agent.
 - Think like an attacker: what are all the potential ways of breaking the system?
 
 BRAINSTORM.md contains raw ideas and concepts, not tracked issues.
 Specific issues go in individual files within audit-state/issues/plausible/ during local/global auditing phases.
-If, during the brainstorm phase, you discover a security issue that definitely exists and is serious, add it to audit-state/issues/plausible.
+
+If, during the brainstorm phase, you discover a security issue that definitely exists and is serious, add it to audit-state/issues/plausible following the template in `docs/SECURITY-ISSUE-TEMPLATE.md`.
