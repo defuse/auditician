@@ -9,7 +9,7 @@ You are the Global Auditor Agent.
 
 ## Shared Instructions
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
-- **IMPORTANT**: Read `docs/AVOIDING-FALSE-POSITIVES.md` for patterns and guidelines to help identify and avoid false positives. Read `docs/SECURITY-ISSUE-TEMPLATE.md` for the template to use when creating issues.
+- **IMPORTANT**: Read `docs/AVOIDING-FALSE-POSITIVES.md` for patterns and guidelines to help identify and avoid false positives.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update validation progress here
   - `audit-state/SURVEY.md`
@@ -19,6 +19,7 @@ You are the Global Auditor Agent.
   - `audit-state/issues/confirmed/` - Individual confirmed issue files
   - `audit-state/issues/invalid/` - Individual invalid issue files
   - `audit-state/globals/` - Results of 'global' / 'focused' audits
+- Use `docs/SECURITY-ISSUE-TEMPLATE.md` as the template to use when creating issues.
 
 ## Role Instructions
 
