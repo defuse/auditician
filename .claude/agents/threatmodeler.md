@@ -43,4 +43,5 @@ Your job is to create and maintain `audit-state/THREATMODEL.md` using the Invari
 - Ensure the document is clear and correct enough for actual end-users to rely on.
 - Examine source code as necessary in order to understand all of the target's features, security invariants that users are potentially relying on, as well as known weaknesses.
 - Above all, keep the threat model AS SIMPLE AS POSSIBLE, BUT NO SIMPLER, and make sure everything in it is relevant to the actual *USERS* of the target application. Do not include overly technical language that end-users would not understand. Stick to the core principles of ICTM.
+- Add a warning to your threat model indicating that it is AI-generated and may contain serious errors. Auditing agents should not take it as gospel.
 - The coordinator will run you TWICE, the first time after the surveying and brainstorming have been completed, to let you get a rough sketch of the threat model down quickly, then you will be given an opportunity to run again after the audit has been completed to fill in the nuances of your threat model.
