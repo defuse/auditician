@@ -1,7 +1,7 @@
 
 ---
 name: qualitycontrol
-description: Verifies audit is fully complete and identifies mistakes made by other agents
+description: Performs quality control: verifies audit is fully complete and identifies mistakes made by other agents
 model: inherit
 color: brown
 ---
@@ -28,5 +28,6 @@ Your job is to, after the coordinator has informed you that the audit should be 
 2. All issues have been validated (audit-state/issues/plausible contains no remaining issues, they are all in issues/confirmed or issues/invalid). If there are any outstanding plausible issues, this is a failure.
 3. The final audit report in `report/` includes ALL of the confirmed issues. If any confirmed issues are missing, this is a failure.
 4. The report contains a suitable warning that the audit was performed by AI.
+5. The audit report in `report/` successfully builds with a `make` command.
 
 Report back to the coordinator all of the quality control failures you identified from the three verification steps above. It is the coordinator's responsibility to then correct the issues.

@@ -182,6 +182,8 @@ All confirmed security issues must be assigned one of the following severity lev
 
 **Low**: A vulnerability whose exploitation would have very little impact on any user or which is unlikely to ever be exploited in practice. These are often theoretical or edge-case vulnerabilities.
 
+**Info**: A real bug in the code (logic errors, performance issues, off-by-one errors, etc.) that doesn't create a security vulnerability but should still be fixed. These are code quality issues rather than security issues.
+
 Severity should take into account (a) the likelihood that a real-world attacker can exploit the issue and (b) if exploitation does occur, the impact real world users will feel.
 
 ### Severity Assignment Guidelines
@@ -189,8 +191,10 @@ Severity should take into account (a) the likelihood that a real-world attacker 
 - **Critical** and **High** severity issues must be fixed as soon as possible to protect users
 - **Medium** severity issues are sometimes safe to defer based on risk assessment
 - **Low** severity issues are almost always safe to defer
+- **Info** severity issues are code quality problems that should be addressed but are not vulnerabilities and have no impact on security
 - Consider both impact (how bad if exploited) and likelihood (probability of exploitation)
 - Do not exagerate the importance of issues -- think about the severity from a *user's* perspective, if an issue is of a technical nature but has no real bearing on an actual user's privacy or security, or requires outlandish assumptions in order to exploit, the issue is probably not that severe.
+- Remember: real bugs without security impact should still be reported as Info severity, not marked as invalid
 
 All confirmed issue files in `audit-state/issues/confirmed/` must include their severity classification along with justification for the assigned level.
 

@@ -6,6 +6,13 @@ This guide helps auditing and issue-valdating agents identify common false posit
 
 **Issues can be real vulnerabilities even if they resemble these patterns!** This guide identifies common false positive patterns, but each issue must be carefully validated on its own merits. Do NOT simply pattern-match against this list - use it as a starting point for deeper investigation. A vulnerability that looks like a false positive pattern might still be exploitable due to specific implementation details or context.
 
+## 📝 IMPORTANT NOTE ON BUGS WITHOUT SECURITY IMPACT
+
+**Real bugs should still be reported, even without security consequences!** If you find an actual bug in the code (like an off-by-one error, logic mistake, or performance issue) that doesn't create a security vulnerability, it should still be reported as a valid issue with **Info** severity. Only mark issues as invalid if they are not real bugs at all. Examples:
+- Loop counter bug that wastes resources but doesn't create vulnerability → Valid (Info severity)
+- Inefficient algorithm that works correctly but slowly → Valid (Info severity)
+- Claimed "vulnerability" that's actually intended behavior → Invalid
+
 ## Core Principle: Context Is Everything
 
 Always ask: **"Can a **real** attacker actually exploit this in production to affect **real** users?"**
@@ -37,14 +44,6 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - Network would reject larger blocks
   - Real issue: assuming the block size is 1MB *before* that validation step has occurred at all.
 
-**Examples (Web Standards):**
-
-- **HTTP method properties**
-  - "Code assumes GET requests have no body"
-  - HTTP spec requires GET bodies be ignored
-  - All major servers/proxies enforce this
-  - Real issue: assuming POST can't have empty body
-
 **Examples (Database):**
 
 - **Primary key uniqueness**
@@ -61,6 +60,20 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - TCP protocol handles wrapping by design (RFC 793)
   - All TCP stacks implement proper sequence number comparison
   - Real issue: assuming application-level sequence numbers won't wrap
+
+**Examples (Command Injection):**
+
+- **exec() with only system-controlled paths**
+  - "Command injection via exec('/usr/bin/gcc ' + tempfile)"
+  - Tempfile is system-generated like `/tmp/` + `rand()` + `.c`
+  - No user input reaches the exec() call
+  - Real issue: exec() with actual user-controlled input
+
+- **Command with integer-only variables**
+  - "Injection via exec('sleep ' + (int)$seconds)"
+  - $seconds is cast to integer or validated as numeric
+  - Integer conversion prevents injection of shell metacharacters
+  - Real issue: using unvalidated string input in commands
 
 **How to validate:** 
 
@@ -105,9 +118,9 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
 
 ### 3. **Information Disclosure Severity Overstated**
 
-**Pattern:** Information that only aids reconnaissance marked as High/Critical severity.
+**Pattern:** Information that only aids reconnaissance or is already public marked as High/Critical severity.
 
-**Key Question:** *What can an attacker actually DO with this information?*
+**Key Question:** *What can an attacker actually DO with this information? Is it even sensitive?*
 
 **Real vulnerability would be:** Exposing passwords, API keys, PII, user-specific data, or information that directly enables attacks
 
@@ -133,6 +146,16 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - 10ms vs 100ms reveals cache hit/miss on public data
   - No user-specific information leaked
   - Real Issue: timing attack revealing keys or actual private information
+
+- **Exposing public catalog data** (marked Medium → should be N/A)
+  - Product prices, descriptions, inventory counts
+  - Same data on public website
+  - Real Issue: exposing customer purchase history
+
+- **Application metrics exposed** (marked Medium → should be Low)
+  - Request counts, response times, error rates
+  - No user-specific data
+  - Real Issue: metrics that can be used as a side-channel to reveal individual user activity
 
 ### 4. **Test/Debug Code Marked as Production Issues**
 
@@ -208,6 +231,12 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - Designed to be publicly accessible
   - Real Issue: missing auth on user account APIs
 
+- **CSRF on stateless public services** (marked High → should be N/A)
+  - "CSRF vulnerability in calculator/assembler service"
+  - Service is stateless, doesn't modify user data
+  - No user accounts or private data involved
+  - Real Issue: CSRF on actions that change user account state or access private data
+
 **Examples (Blockchain/Smart Contracts):**
 - **No admin functions** (marked High → should be By Design)
   - Immutable contract by design
@@ -226,14 +255,27 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - Server validates important actions
   - Real Issue: client authoritative for game economy
 
+**Examples (Cryptography):**
+- **Stream cipher with zero nonce** (marked High → should be By Design)
+  - "Stream cipher uses all-zero nonce, vulnerable to nonce reuse"
+  - Each message encrypted with a new random key per protocol design
+  - Key uniqueness intentionally prevents nonce reuse issues
+  - Real Issue: zero nonce with key reuse across messages
+
+- **Client-side web cryptography** (marked Critical → should be Medium at most)
+  - "JavaScript encryption can be manipulated if server is compromised"
+  - This is an inherent limitation of web-based cryptography, not a vulnerability
+  - All web crypto has this trust boundary issue - server serves the crypto code
+  - Real Issue: storing passwords/keys in JavaScript source code or using weak crypto algorithms
+
 ### 7. **Configuration-Dependent Issues**
 
-**Pattern:** Issues that only apply with non-default or explicitly insecure configurations.
+**Pattern:** Issues that only apply with explicitly insecure configurations.
 
-**Key Question:** *What specific configuration enables this vulnerability? Will insecure configurations really be used in practice?*
+**Key Question:** *What specific configuration enables this vulnerability? Will insecure configurations really be used in practice without the user knowing about the insecurity?*
 
 **Examples:**
-- **Debug mode information leakage** (marked High → should be Info)
+- **Debug mode information leakage** (marked High → should be Low)
   - Only with `DEBUG=true` or `--verbose` flag
   - Production uses `DEBUG=false` by default
   - Real Issue: sensitive data logged at default log levels
@@ -243,34 +285,12 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - Disabled by default
   - Real Issue: insecure protocols enabled by default
 
-- **Development features in production** (marked Critical → should be Low)
-  - Requires `ENABLE_DEV_FEATURES=true`
-  - Admin must explicitly enable, documentation warns against it
-  - Real Critical: dev features auto-enabled in production
+- **Insecure flags that communicate their own security** (marked Critical → should be N/A)
+  - A command line argument like `--dangerously-skip-permissions` which allows arbitrary code execution.
+  - The flag or feature itself communicates its danger to the user.
+  - Real Issue: The flag is only called `--skip-permissions`, not indicating to the user that it is dangerous.
 
-### 8. **Misunderstanding Data Sensitivity**
-
-**Pattern:** Treating public or non-sensitive data as confidential.
-
-**Key Question:** *Is this data actually sensitive? What's the real harm?*
-
-**Examples:**
-- **Exposing public catalog data** (marked Medium → should be N/A)
-  - Product prices, descriptions, inventory counts
-  - Same data on public website
-  - Real Medium: exposing customer purchase history
-
-- **Application metrics exposed** (marked Medium → should be Low)
-  - Request counts, response times, error rates
-  - No user-specific data
-  - Real Medium: metrics that can be used as a side-channel to reveal individual user activity in privacy-sensitive applications
-
-- **Cache headers on static assets** (marked Low → should be N/A)
-  - CDN cache hit/miss for public CSS/JS files
-  - No security implications
-  - Real issue: cache poisoning attacks are possible
-
-### 9. **Requires System to Already Be Compromised**
+### 8. **Requires System to Already Be Compromised**
 
 **Pattern:** Issues that require the attacker to already have compromised the system, gained physical access, or achieved a level of control that makes the "vulnerability" moot.
 
@@ -306,6 +326,29 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - There would be a vulnerability if an attacker knew a discrete log relation between two or more group elements
   - Those group elements are outputs of a group hash or some other process that guarantees no known dlog relations.
   - Real Issue: A vulnerability that arises from a discrete log relation, and the attacker has an efficient method to find such a relation
+
+### 9. **Obviously Broken Functionality**
+
+**Pattern:** Claiming vulnerabilities that, if they existed, would make the application completely non-functional in obvious ways that would have been discovered immediately during development or testing.
+
+**Key Question:** *If this vulnerability existed, wouldn't the app be obviously broken and unusable?*
+
+**Examples:**
+- **Missing database credentials**
+  - "Application has no database connection string configured"
+  - If true, app wouldn't start or every request would fail
+  - Developers/users would notice immediately
+  - Real issue: hardcoded credentials in source code
+
+- **Payment processing always fails**
+  - "Payment gateway API key is invalid/missing"
+  - E-commerce site would have zero successful orders
+  - Business would notice immediately (no revenue)
+  - Real issue: payment validation can be bypassed
+
+**How to validate:**
+- Ask: "Has anyone successfully used this feature?"
+- If yes, and so the vulnerability would have obviously been discovered by now, the claimed vulnerability likely doesn't exist
 
 ### 10. **False Assumptions About Deployment**
 
@@ -353,6 +396,7 @@ For each potential issue, ask in order:
 
 | What Attacker Achieves | Maximum Severity |
 |------------------------|------------------|
+| Real bug but no security impact (logic errors, performance) | Info |
 | Reads public/non-sensitive data | Info |
 | Learns system internals (recon only) | Low |
 | Causes DoS with significant effort | Medium |
@@ -375,7 +419,7 @@ Before marking as vulnerability:
 - [ ] Attacker can realistically reach this code / exploit this vulnerability
 - [ ] Impact and difficulty of exploitation justifies the severity level
 - [ ] Not a test/debug/example file
-- [ ] Attack is not blocked by other code in the target or ther infrastructure (such as blockchain consensus rules)
+- [ ] Attack is not blocked by other code in the target or other infrastructure (such as blockchain consensus rules)
 - [ ] Not an intentional design decision
 - [ ] It's not the case that if this flaw existed, the app's functionality would already be obviously super broken
 

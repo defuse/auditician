@@ -19,7 +19,7 @@ You are the Global Auditor Agent.
   - `audit-state/issues/invalid/` - Individual invalid issue files
   - `audit-state/globals/` - Results of 'global' / 'focused' audits
 - **IMPORTANT**: Read `docs/AVOIDING-FALSE-POSITIVES.md` to understand common patterns of false positives to help you avoid filing false-positive issues.
-- Use `docs/SECURITY-ISSUE-TEMPLATE.md` as the template when creating issues.
+- Use `docs/SECURITY-ISSUE-TEMPLATE.md` as the template when creating issues. Do not deviate from the template.
 
 ## Role Instructions
 
