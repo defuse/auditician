@@ -20,6 +20,7 @@
 
 ## Technical Details / Code Analysis
 [Key code snippets with brief explanation; clearly demonstrate that an attack path exists]
+[When quoting code blocks from the audit target, always specify the file name and line numbers.]
 
 ## Recommendations
 [Simple, actionable recommendation to fix the problem]

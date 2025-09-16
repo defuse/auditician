@@ -27,7 +27,7 @@ Clone the thing you want to audit into `audit-target/`:
 
 If desired, you can customize the audit by editing `audit-context/AUDIT-INSTRUCTIONS.md`. 
 
-You can also place additional material that the agents may find helpful during the audit, such as documentation, dependency source code, etc. into `audit-context/`.
+You can also place additional material that the agents may find helpful during the audit, such as documentation, dependency source code, past audit reports, etc. into `audit-context/`.
 
 Launch claude code, select the model you want to use, and begin the audit with `/audit`:
 
@@ -57,3 +57,10 @@ At a high level,
 - `docs/` contains read-only security audit process documentation useful to the AI agents.
 - `audit-target/` is where the human user should put the target application's code, documentation, etc.
 - `report/` is where the final audit report will be generated.
+
+## Tips
+
+Pay attention to what claude is doing by reading the files in `audit-state/` as
+the audit is ongoing. You can type suggestions to Claude to correct mistakes it
+makes (it likes to skip steps sometimes) or to draw its attention to specific
+areas.

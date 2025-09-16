@@ -12,9 +12,12 @@ This file tracks the progress of the security audit to ensure all phases are com
 - [ ] Surveying completed.
 - [ ] Brainstorming completed
 - [ ] First pass of threat modeling completed.
-- [ ] Local auditing completed  
-- [ ] Global auditing completed
-- [ ] Issue validation completed
+- [ ] Ensure File Audit Progress table below is fully populated.
+- [ ] Local auditing completed
+- [ ] Re-read this entire file (`PROGRESS.md`) to catch any notes added by subagents.
+- [ ] Global auditing completed (only check when all global audits are marked complete below)
+- [ ] Re-read this entire file (`PROGRESS.md`) to catch any notes added by subagents.
+- [ ] Issue validation completed (only check when issues/plausible directory is empty)
 - [ ] Final pass of threat modeling completed
 - [ ] Report generation completed
 - [ ] Quality control agent has been run

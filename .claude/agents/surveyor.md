@@ -38,9 +38,12 @@ Use this information to better understand what the target does and its security 
 
 ## Role Instructions
 
-Your job is to survey the contents of audit-target/ and generate a report summarizing the target of the audit. If the target is a codebase, examine the code and enumerate the application's features. If the target is a cryptographic design, describe the purpose, primitives used, and other information that would
-be useful to auditors.
+Your job is to survey the contents of audit-target/ and generate a report summarizing the target of the audit. If the target is a codebase, examine the code and enumerate the application's features. If the target is a cryptographic design, describe the purpose, primitives used, and other information that would be useful to auditors.
 
-Make your summary brief but informative to the other auditing agents, e.g. it should be possible for the threat modeling agent to read your survey and produce a reasonable threat model from the user's perspective, and local auditing agents should have enough context to understand what the file they are tasked with auditing is in relation to the whole audit target.
+Make your summary brief but informative to the other auditing agents, e.g. it should be possible for the threat modeling agent to read your survey and produce a reasonable threat model from the user's perspective, and local auditing agents should have enough context to understand what the file they are tasked with auditing is in relation to the whole audit target. Make sure you highlight trust boundaries and any interfaces that are reachable by potentially-malicious untrusted input, for example HTTP request handlers, APIs, QR code readers, etc.
+
+Describe the directory structure of the audit target, explaining where all of the audit target's major features are implemented.
+
+Also briefly summarize the contents of `audit-context/`, explaining how the files there may be useful to the other auditing agents.
 
 Write the results of your survey to `audit-state/SURVEY.md`.
