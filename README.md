@@ -65,7 +65,8 @@ The audit runs in phases: Survey → Brainstorm → Local (file-by-file) → Glo
 
 ### Key Files to Watch
 - `audit-state/PROGRESS.md` - Master tracking document showing audit completion status
-- `audit-state/BRAINSTORM.md` - Running list of potential vulnerabilities and attack vectors
+- `audit-state/SURVEY.md` - AI's understanding of the system - verify this is accurate
+- `audit-state/THREATMODEL.md` - Security model and invariants - check this matches reality
 - `audit-state/issues/plausible/` - Issues found but not yet validated
 - `audit-state/issues/confirmed/` - Validated security issues that will appear in the report
 
