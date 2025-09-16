@@ -123,6 +123,16 @@ The Coordinator Agent orchestrates the full process:
 
 # Implementation Details
 
+## Audit Context and Instructions
+
+The `audit-context/` directory provides a space for audit-specific guidance and supplementary materials:
+
+- `audit-context/AUDIT-INSTRUCTIONS.md` - Optional file where users can specify audit priorities, known issues, scope exclusions, and specific concerns. If not customized, defaults to requesting a comprehensive audit of all files.
+
+- `audit-context/` - Additional context files such as documentation, example clients, or specifications that help understand the audit target but are not themselves targets of the audit.
+
+This directory is READ-ONLY for agents and should contain information that helps agents perform a more focused and effective audit.
+
 ## Directory Structure
 
 All READ ONLY documentation that's useful for AI auditing agents are in `docs/`:

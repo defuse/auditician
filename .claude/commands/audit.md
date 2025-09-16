@@ -9,6 +9,9 @@ Orchestrate the full security audit as if you were the coordinator agent. (Don't
 Read @docs/AUDIT-PROCESS.md
 Read @docs/ICTM.md
 Read @docs/AVOIDING-FALSE-POSITIVES.md
+Read audit instructions:
+@audit-context/AUDIT-INSTRUCTIONS.md
+Check for additional context in audit-context/ directory
 Read current state:
 @audit-state/PROGRESS.md
 @audit-state/SURVEY.md

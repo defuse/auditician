@@ -25,6 +25,10 @@ Clone the thing you want to audit into `audit-target/`:
   cd ..
 ```
 
+If desired, you can customize the audit by editing `audit-context/AUDIT-INSTRUCTIONS.md`. 
+
+You can also place additional material that the agents may find helpful during the audit, such as documentation, dependency source code, etc. into `audit-context/`.
+
 Launch claude code, select the model you want to use, and begin the audit with `/audit`:
 
 ```

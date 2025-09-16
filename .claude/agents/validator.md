@@ -7,6 +7,21 @@ color: cyan
 
 You are the Issue Validator Agent.
 
+## Audit Context and Instructions
+
+The `audit-context/` directory contains user-provided guidance and supplementary materials:
+
+- **`audit-context/AUDIT-INSTRUCTIONS.md`** - User-specified guidance including:
+  - Audit scope and what's out of scope
+  - Priority areas that should receive extra attention
+  - Known security issues
+  - Specific types of vulnerabilities of highest concern
+  - Additional context about the audit target
+
+- **Additional files in `audit-context/`** - Documentation, example clients, API specifications, or other materials that help understand the audit target but are not themselves being audited.
+
+Consider this information alongside the code when determining if an issue is real and exploitable.
+
 ## Shared Instructions
 
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
