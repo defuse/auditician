@@ -60,7 +60,22 @@ At a high level,
 
 ## Tips
 
-Pay attention to what claude is doing by reading the files in `audit-state/` as
-the audit is ongoing. You can type suggestions to Claude to correct mistakes it
-makes (it likes to skip steps sometimes) or to draw its attention to specific
-areas.
+### Understanding the Audit Flow
+The audit runs in phases: Survey → Brainstorm → Local (file-by-file) → Global (cross-cutting) → Validation → Report. Each phase builds on the previous ones, so don't skip ahead.
+
+### Key Files to Watch
+- `audit-state/PROGRESS.md` - Master tracking document showing audit completion status
+- `audit-state/BRAINSTORM.md` - Running list of potential vulnerabilities and attack vectors
+- `audit-state/issues/plausible/` - Issues found but not yet validated
+- `audit-state/issues/confirmed/` - Validated security issues that will appear in the report
+
+### Guiding the Audit
+- **Before starting**: Customize `audit-context/AUDIT-INSTRUCTIONS.md` to focus on your concerns
+- **During local audit**: If Claude skips files, check PROGRESS.md and explicitly tell it to audit PENDING files
+- **During validation**: Claude validates 1-3 issues at a time; intervene if it gives the validator too many complex issues
+- **For better results**: Add your security knowledge to BRAINSTORM.md - agents will incorporate your ideas
+
+### Time Expectations
+- Local auditing: ~5-15 minutes per file depending on complexity
+- Validation: ~2-5 minutes per issue
+- Full audit of a 50-file project: Several hours to a full day
