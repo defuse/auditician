@@ -61,9 +61,15 @@ CRITICAL: This is NOT a test run or demonstration, you are performing the actual
 
 **Global Auditing**
 
-- Prepare a list of 10 to 40 focus areas for the global auditor. These focus areas should come from enumerating (a) security-sensitive components of the target, (b) attacker goals, and (c) bug patterns that are common to the type of thing the audit target is. In other words, we want a list of focus areas which are a mix of component-oriented, attack-goal-oriented, and common-mistake-oriented. Several of these focus areas should be inspired by plausible vulnerabilities that the local auditor found, and at least one call to the global auditor should focus on "combining" or "chaining" discovered weaknesses into larger attacks. Make sure all categories of focus area are represented (components, bug types, etc.) are represented, not just one.
+- Prepare a list of 10 to 50 focus areas for the global auditor, aiming for at least 5-10 from each of the following categories: 
+    - SENSITIVE_COMPONENT: security-sensitive components of the target (e.g. "password hashing implementation", "user authentication", "compare cryptography/protocol implementation against the specification")
+    - COMMON_BUG_PATTERN: bug patterns that are common to the kind of thing being audited (e.g. "XSS bugs", "weak randomness")
+    - ATTACKER_GOAL: try to acheive a certain specific goal that an attacker would have (e.g. "steal the encryption key", "achieve remote code execution")
+    - THINK_LIKE_AN_ATTACKER: don the mindset of a particular adversary and explore what that attacker can accomplish (e.g. "network man-in-the-middle", ").
+    - WEAPONIZE_FINDINGS: Look at sets of plausible vulnerabilities that have already been discovered and consider expanding on them or "combining" or "chaining" them to uncover worse vulnerabilities or attack strategies with worse consequences.
+    - USER_SUGGESTED: Focus areas recommended by the user in `audit-context/AUDIT-INSTRUCTIONS.md`.
+    - OTHER: ad-hoc focus areas that don't neatly fit into any of the categories above.
 - Add this list of focus areas to the table in PROGRESS.md.
-- Also include all of the user-specified focus areas listed in `audit-context/AUDIT-INSTRUCTIONS.md`.
 - Run the Global Auditor Agent once for each of these focus areas. After each call to the global auditor, ensure the Global Audits Progress table in PROGRESS.md is updated.
 
 **Issue Validation**
