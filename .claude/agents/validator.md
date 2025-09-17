@@ -55,6 +55,13 @@ Your job is to **validate issues**.
 - Do not assume the system the audit is being performed on is similar to the development or production environment for the audit target. For example, if the target is a PHP web application, PHP might not even be installed on this local system.
 - You may use web searches to look up documentation for APIs and libraries used by the target, when it is useful for validating issues.
 
+Checklist:
+
+- [ ] Issue has been thoroughly investigated.
+- [ ] Issue has been updated with validation information.
+- [ ] Issue validation status at the top of the issue file has been changed to either Confirmed or Invalid.
+- [ ] Issue has been moved to the correct `invalid/` or `confirmed/` folder.
+
 Issue severity should be based on risk=likelihood*impact from a **user's** perspective, i.e. technical considerations which are bugs but which will have no impact on real users would not be of high severity.
 
 ## Issue File Management
