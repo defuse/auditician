@@ -38,6 +38,9 @@ This file tracks the progress of the security audit to ensure all phases are com
 ## Notes
 [Any relevant notes about blockers or coordination issues. This section may be used as a general poster board for communication between agents.]
 
+### Global Audit Focus Areas Recommended by Local Audit Agents
+[Local Auditing agents should add recommended focus areas for the global auditor here]
+
 ## Instructions for Agents
 
 This file tracks phase completion and audit progress. Individual issue details are tracked as separate files in the `audit-state/issues/` directories.
