@@ -19,7 +19,8 @@
 [Actual impact on users in production]
 
 ## Technical Details / Code Analysis
-[Key code snippets with brief explanation; clearly demonstrate that an attack path exists]
+[Key code snippets with explanation; clearly demonstrate that an attack path exists.]
+[Include *all* of the relevant code to fully explain the issue and its context, not just the few lines of code that contain the vulnerability.]
 [When quoting code blocks from the audit target, always specify the file name and line numbers.]
 
 ## Recommendations
