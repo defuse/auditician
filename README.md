@@ -42,6 +42,8 @@ If your audit is interrupted, you can resume by simply running the `/audit` comm
 
 To fine-tune the AI's behavior, edit the agents' instructions in in `.claude/agents` and files in `docs/`. For example, you can put your audit report template in `docs/example-report`.
 
+You can also talk to claude as it's working to guide it. Watching what it's doing and collaborating with it usually produces better results than letting it do the entire audit in one go.
+
 #### Isolating Claude in Containers
 
 Claude will ask for permission to do a lot of things. If you don't want to babysit it, you can run `claude --dangerously-skip-permissions` at your own risk.
