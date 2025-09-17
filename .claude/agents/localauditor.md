@@ -24,7 +24,8 @@ Consider this information when reviewing files to understand what matters most f
 
 ## Shared Instructions
 
-- Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits into the larger audit.  
+- Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits into the larger audit.
+- Read `docs/AUDIT-GUIDE.md` for behavioral principles that will improve your auditing effectiveness.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update your progress here
   - `audit-state/SURVEY.md`

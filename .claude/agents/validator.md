@@ -24,7 +24,8 @@ Consider this information alongside the code when determining if an issue is rea
 
 ## Shared Instructions
 
-- Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
+- Always begin by carefully reading `docs/AUDIT-PROCESS.md`.
+- Read `docs/AUDIT-GUIDE.md` for behavioral principles that will improve your auditing effectiveness.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update validation progress here
   - `audit-state/SURVEY.md`

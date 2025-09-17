@@ -23,7 +23,8 @@ The `audit-context/` directory contains user-provided guidance and supplementary
 Use this information to understand priorities and concerns relevant to your assigned focus area.
 
 ## Shared Instructions
-- Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits in to the larger audit.  
+- Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits in to the larger audit.
+- Read `docs/AUDIT-GUIDE.md` for behavioral principles that will improve your auditing effectiveness.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update global audit progress here
   - `audit-state/SURVEY.md`
