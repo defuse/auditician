@@ -423,4 +423,6 @@ Before marking as vulnerability:
 - [ ] Not an intentional design decision
 - [ ] It's not the case that if this flaw existed, the app's functionality would already be obviously super broken
 
+Note that real vulnerabilities should still be marked as valid even if they are outside the scope of the audit.
+
 **Remember:** Focus on **exploitable vulnerabilities that cause real harm**, not theoretical musings.
