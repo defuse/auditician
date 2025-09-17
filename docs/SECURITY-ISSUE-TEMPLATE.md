@@ -1,8 +1,8 @@
 # [Brief, Descriptive Issue Title]
 
-**Severity**: [Critical/High/Medium/Low/Info]
-**Status**: [Plausible/Confirmed/Invalid]
-**Location**: [Files/components/system areas affected]
+**Severity**: [Critical/High/Medium/Low/Info]  
+**Validation Status**: [Plausible/Confirmed/Invalid]  
+**Location**: [Files/components/system areas affected]  
 **Found by agent:** [Local/Global with focus area of...]
 
 ## Description
