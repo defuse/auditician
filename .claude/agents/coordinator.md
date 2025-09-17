@@ -54,14 +54,16 @@ CRITICAL: This is NOT a test run or demonstration, you are performing the actual
 
 **Local Auditing**
 
+- Make absolutely sure that, among the complete file list, the files containing the code mentioned in the "Priority Areas" and "Code Areas That Should Get Extra Attention" in `audit-context/AUDIT-INSTRUCTIONS.md` are included and emphasized in the list.
 - Run the Local Auditor Agent on every file, updating progress after each file completion.
 - DO NOT attempt to speed up the process by asking the local auditor to review multiple files at a time. The local auditor agent may need to make full use of its context just to analyze that one file, so do not overwhelm it.
 - Before moving on, check that ALL FILES have been marked as complete by the local auditor. DO NOT PROCEED UNTIL **ALL** FILES HAVE BEEN AUDITED! This is not a test or demonstration run, this is the real audit! DO NOT proceed until all files have been audited and marked as complete in PROGRESS.md. If there are any files listed in PROGRESS.md that are not marked as complete, give them one by one to the local auditor.
 
 **Global Auditing**
 
-- Prepare a list of 10 to 30 focus areas for the global auditor. These focus areas should come from enumerating (a) security-sensitive components of the target, (b) attacker goals, and (c) bug patterns that are common to the type of thing the audit target is. In other words, we want a list of focus areas which are a mix of component-oriented, attack-goal-oriented, and common-mistake-oriented. Several of these focus areas should be inspired by plausible vulnerabilities that the local auditor found, and at least one call to the global auditor should focus on "combining" or "chaining" discovered weaknesses into larger attacks. Make sure all categories of focus area are represented (components, bug types, etc.) are represented, not just one.
+- Prepare a list of 10 to 40 focus areas for the global auditor. These focus areas should come from enumerating (a) security-sensitive components of the target, (b) attacker goals, and (c) bug patterns that are common to the type of thing the audit target is. In other words, we want a list of focus areas which are a mix of component-oriented, attack-goal-oriented, and common-mistake-oriented. Several of these focus areas should be inspired by plausible vulnerabilities that the local auditor found, and at least one call to the global auditor should focus on "combining" or "chaining" discovered weaknesses into larger attacks. Make sure all categories of focus area are represented (components, bug types, etc.) are represented, not just one.
 - Add this list of focus areas to the table in PROGRESS.md.
+- Also include all of the user-specified focus areas listed in `audit-context/AUDIT-INSTRUCTIONS.md`.
 - Run the Global Auditor Agent once for each of these focus areas. After each call to the global auditor, ensure the Global Audits Progress table in PROGRESS.md is updated.
 
 **Issue Validation**
