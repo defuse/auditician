@@ -2,7 +2,7 @@
 
 This repo contains a set of Claude Code agent definitions and English-language security audit process descriptions which together can be used to automatically perform security audits.
 
-### Security & Privacy Warning
+## Security & Privacy Warning
 
 Large Language Models are vulnerable to **prompt injection attacks**. Claude may misinterpret parts of the code being audited *as prompt instructions* rather than as code to be audited, so auditing untrusted code could lead to your system becoming compromised unless you carefully monitor Claude's behavior.
 
