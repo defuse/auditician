@@ -2,9 +2,11 @@
 
 This repo contains a set of Claude Code agent definitions and English-language security audit process descriptions which together can be used to automatically perform security audits.
 
-### Privacy Warning
+### Security & Privacy Warning
 
-Depending on your Anthropic account's settings, Anthropic may collect and store all of the data that passes through its system for use in AI training. This means that they will obtain any private source code you use this tool to audit and they will be informed of any security vulnerabilities that this tool discovers. 
+Large Language Models are vulnerable to prompt injection attacks. Claude may misinterpret parts of the code being audited *as prompt instructions* rather than as code to be audited, so auditing untrusted code could lead to your system becoming compromised unless you carefully monitor Claude's behavior.
+
+Depending on your Anthropic account's settings, Anthropic may collect and store all of the data that passes through its system for use in AI training. This means that they will obtain any private source code you use this tool to audit and they will be informed of any security vulnerabilities that this tool discovers.
 
 **Before using this tool, refer to Anthropic's privacy policy to understand what data they collect and what options you have for reducing their use and retention of your data.**
 
