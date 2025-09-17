@@ -74,6 +74,8 @@ CRITICAL: This is NOT a test run or demonstration, you are performing the actual
 
 - Validate the plausible issues which are most likely to be real serious security flaws first before other issues which are more likely to be invalid or less severe.
 
+- After each validator run, tell the user which issues were marked as confirmed or invalid during that run.
+
 CRITICAL: You MUST NOT proceed to the next phase until ALL plausible issues have been moved to either confirmed/ or invalid/ directories. The plausible/ directory MUST be completely empty before continuing.
 
 Before moving to the next phase, you MUST:
