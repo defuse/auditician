@@ -62,11 +62,11 @@ CRITICAL: This is NOT a test run or demonstration, you are performing the actual
 **Global Auditing**
 
 - Prepare a list of 10 to 50 focus areas for the global auditor, aiming for at least 5-10 from each of the following categories: 
-    - SENSITIVE_COMPONENT: security-sensitive components of the target (e.g. "password hashing implementation", "user authentication", "compare cryptography/protocol implementation against the specification")
-    - COMMON_BUG_PATTERN: bug patterns that are common to the kind of thing being audited (e.g. "XSS bugs", "weak randomness")
-    - ATTACKER_GOAL: try to acheive a certain specific goal that an attacker would have (e.g. "steal the encryption key", "achieve remote code execution")
-    - THINK_LIKE_AN_ATTACKER: don the mindset of a particular adversary and explore what that attacker can accomplish (e.g. "network man-in-the-middle", ").
-    - WEAPONIZE_FINDINGS: Look at sets of plausible vulnerabilities that have already been discovered and consider expanding on them or "combining" or "chaining" them to uncover worse vulnerabilities or attack strategies with worse consequences.
+    - SENSITIVE_COMPONENT: security-sensitive components of the target (e.g. "password hashing implementation", "user authentication", "compare cryptography/protocol implementation against the specification", etc.)
+    - COMMON_BUG_PATTERN: bug patterns that are common to the kind of thing being audited (e.g. "XSS bugs", "weak randomness", "integer overflows", etc.)
+    - ATTACKER_GOAL: try to acheive a certain specific goal that an attacker would have (e.g. "steal the encryption key", "achieve remote code execution", etc.)
+    - THINK_LIKE_AN_ATTACKER: don the mindset of a particular adversary and explore what that attacker can accomplish (e.g. "network man-in-the-middle", "viewing key holder").
+    - EXPAND_ON_FINDINGS: Look at sets of plausible vulnerabilities that have already been discovered and consider expanding on them or "combining" or "chaining" them to uncover worse vulnerabilities or attack strategies with worse consequences.
     - USER_SUGGESTED: Focus areas recommended by the user in `audit-context/AUDIT-INSTRUCTIONS.md`.
     - OTHER: ad-hoc focus areas that don't neatly fit into any of the categories above.
 - Add this list of focus areas to the table in PROGRESS.md.

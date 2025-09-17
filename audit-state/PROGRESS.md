@@ -36,7 +36,7 @@ This file tracks the progress of the security audit to ensure all phases are com
 |-----------|---------|-------|-----------|
 | | | | | |
 
-**Focus Area Category:** `SENSITIVE_COMPONENT` | `COMMON_BUG_PATTERN` | `ATTACKER_GOAL` | `THINK_LIKE_AN_ATTACKER` | `USER_SUGGESTED` | `OTHER`
+**Focus Area Category:** `SENSITIVE_COMPONENT` | `COMMON_BUG_PATTERN` | `ATTACKER_GOAL` | `THINK_LIKE_AN_ATTACKER` | `EXPAND_ON_FINDINGS` | `USER_SUGGESTED` | `OTHER`
 
 ## Notes
 [Any relevant notes about blockers or coordination issues. This section may be used as a general poster board for communication between agents.]
