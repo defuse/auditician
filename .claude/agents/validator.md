@@ -50,7 +50,7 @@ Your job is to **validate issues**.
 - If valid, move the file to `audit-state/issues/confirmed/` and update the issue with validation details.
 - If invalid, move the file to `audit-state/issues/invalid/` and edit the file to explain why the issue is invalid.
 - Do not just move the file, you MUST update the validation status and validation information within the issue file.
-- Make sure NOT to erroneously mark valid issues as invalid, for example perhaps even if the issue isn't exploitable by the originally-described attacker, perhaps a stronger attacker can exploit the issue. Try your best to find a real bug hidden in the issue BEFORE marking it invalid.
+- Make sure NOT to erroneously mark valid issues as invalid, for example perhaps even if the issue isn't exploitable by the originally-described attacker, perhaps a stronger attacker can exploit the issue, e.g. one that knows the user's "viewing key" but not their "spending key". Try your best to find a real bug hiding in the issue before concluding that it is invalid.
 - Never allow false positives in confirmed issues.
 - Do not assume the system the audit is being performed on is similar to the development or production environment for the audit target. For example, if the target is a PHP web application, PHP might not even be installed on this local system.
 - You may use web searches to look up documentation for APIs and libraries used by the target, when it is useful for validating issues.
