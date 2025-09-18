@@ -80,7 +80,7 @@ CRITICAL: This is NOT a test run or demonstration, you are performing the actual
 
 - Validate the plausible issues which are most likely to be real serious security flaws first before other issues which are more likely to be invalid or less severe.
 
-- After each validator run, tell the user which issues were marked as confirmed or invalid during that run.
+- Before each validator run, show the user which issues are about to be validated, and after each validator run, tell the user which issues were marked as confirmed or invalid during that run. Just output this information to standard output, there's no need to track validation status in PROGRESS.md since the issue files themselves are the single-source-of-truth for validation status.
 
 CRITICAL: You MUST NOT proceed to the next phase until ALL plausible issues have been moved to either confirmed/ or invalid/ directories. The plausible/ directory MUST be completely empty before continuing.
 
