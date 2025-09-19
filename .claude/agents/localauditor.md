@@ -45,7 +45,7 @@ Your job is to analyze **one file from the target codebase** and produce a list 
 
 - FIRST: Update `audit-state/PROGRESS.md` to mark this file as `IN_PROGRESS`
 - Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
-- Add plausible issues as individual files in `audit-state/issues/plausible/`
+- Add plausible issues as individual files in `audit-state/issues/plausible/`. ALWAYS follow the issue template in `docs/SECURITY-ISSUE-TEMPLAE.md`.
 - Be specific about file name and line numbers  
 - Focus on plausibility, not proof, but avoid producing obviously-wrong issues
 - Look at the file from multiple perspectives and levels of granularity. For example, look at functions in order to attack the algorithms and logic the target uses, and look at individual lines to catch subtle mistakes.
