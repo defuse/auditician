@@ -26,7 +26,7 @@ Use this information along with the audit target to develop a comprehensive thre
 
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
 - Review the current audit state before performing your task:
-  - `audit-state/PROGRESS.md`.
+  - `audit-state/PROGRESS.md`. -- Check and update your progress here
   - `audit-state/BRAINSTORM.md`
   - `audit-state/SURVEY.md`
   - `audit-state/THREATMODEL.md`
