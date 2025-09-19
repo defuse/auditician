@@ -38,19 +38,18 @@ Use this information to guide your orchestration of the entire audit process.
 
 Your job is to orchestrate the full audit process. Be aware that an audit may already be in progress, check the status first and attempt to resume wherever the audit left off.
 
-CRITICAL: This is NOT a test run or demonstration, you are performing the actual production audit, so do not skip over any steps or take any shortcuts for the sake of time. It is understood that the full audit process will take a long time.
+CRITICAL: This is NOT a test run and is NOT a demonstration, you are performing the actual complete production audit, so do not skip over any steps or take any shortcuts for the sake of time. It is understood that the full audit process will take a long time.
 
 **General Process info**
 - Update `audit-state/PROGRESS.md` after each major step and provide progress summaries to the human auditor.
 - Use the progress tracking data to provide accurate status reports and identify any missed work.
-- Do not rigidly stick to a "waterfall" model, e.g. it might be beneficial to brainstorm multiple times throughout the audit, or to start with an initial simple threat model and expand it as the audit review progresses. Aim for the most complete and accurate results, even if it requires running multiple agents multiple times.
 
 **Audit Initialization**
 
-- FIRST: Initialize `audit-state/PROGRESS.md` with audit metadata, target project info, and complete file inventory from `audit-target/`. Do not assume that only files of a particular type are relevant, e.g. by doing a find for "*.js" "*.php", enumerate ALL FILES and only skip ones that are obviously irrelevant (like images or PDFs). It will be the local auditor's job to determine whether other files are relevant or not. If you use a find command to enumerate files, make sure the list gets put in the correct place in `PROGRESS.md`, not just appended to the end.
-- Run the Surveyor agent and update progress tracking accordingly.
-- Run the Brainstorming Agent and update progress tracking accordingly
-- Run the Threat Modeling Agent to generate an initial threat model from the user's perspective based on the survey and brainstorm results. Instruct the threat model to base their threat model in this stage on what the target of the audit *is* without digging too heavily into the target's code except when that is important to do for the initial threat model. Make sure to tell the threat model agent which kind of run (initial or final) it is being asked to do.
+- FIRST: Run the Surveyor agent, and after it has completed, read its output at `audit-state/SURVEY.md` and review `audit-context/AUDIT-INSTRUCTIONS.md` to understand the audit target and audit goals.
+- Initialize `audit-state/PROGRESS.md` with audit metadata, target project info, and a complete inventory of relevant files to audit from `audit-target/`. Do not assume that only files of a particular type are relevant, e.g. by doing a find for "*.js" "*.php", enumerate ALL FILES and only skip ones that are obviously irrelevant (like images or PDFs). It will be the local auditor's job to determine whether other files are relevant or not. If you use a find command to enumerate files, make sure the list gets put in the correct place in `PROGRESS.md`, not just appended to the end. Aim to include files according to the scope specified in `audit-context/AUDIT-INSTRUCTIONS.md`, erring on the side of including too many files rather than too few.
+- Run the Brainstorming Agent and update progress tracking accordingly. Read the brainstorming agent's output at `audit-context/BRAINSTORM.md` after it has completed.
+- Run the Threat Modeling Agent to generate an initial threat model from the user's perspective based on the survey and brainstorm results. Instruct the threat model to base their threat model in this stage on what the target of the audit *is* without digging too heavily into the target's code except when that is important to do for the initial threat model. After the threat modeling agent finishes, read its output at `audit-context/THREATMODEL.md`.
 
 **Local Auditing**
 
@@ -93,7 +92,6 @@ Before moving to the next phase, you MUST:
 
 **Audit Wrapup**
 
-- Run the Threat Modeling Agent again to finalize the threat model based on new understandings uncovered during the audit.
 - Run the Report Generator Agent to produce the final report and mark audit complete.
 - Run the Quality Control Agent, which will verify that the audit is truly complete and no steps were skipped over. If the quality control agent reports back with failures, run the relevant agents to fully complete the audit process.
 

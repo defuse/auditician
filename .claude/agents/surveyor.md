@@ -26,7 +26,6 @@ Use this information to better understand what the target does and its security 
 
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits into the larger audit.  
 - Review the current audit state before performing your task:
-  - `audit-state/PROGRESS.md` - Update brainstorming phase progress here
   - `audit-state/SURVEY.md`
   - `audit-state/BRAINSTORM.md`
   - `audit-state/THREATMODEL.md`
@@ -42,7 +41,7 @@ Your job is to survey the contents of audit-target/ and generate a report summar
 
 Make your summary brief but informative to the other auditing agents, e.g. it should be possible for the threat modeling agent to read your survey and produce a reasonable threat model from the user's perspective, and local auditing agents should have enough context to understand what the file they are tasked with auditing is in relation to the whole audit target. Make sure you highlight trust boundaries and any interfaces that are reachable by potentially-malicious untrusted input, for example HTTP request handlers, APIs, QR code readers, etc.
 
-Describe the directory structure of the audit target, explaining where all of the audit target's major features are implemented.
+Describe the directory structure of the audit target, explaining where all of the audit target's major features are implemented. For each feature of the audit target, answer questions like "which files contain its implementation?" and "which classes / data structure are relevant to that feature?".
 
 Also briefly summarize the contents of `audit-context/`, explaining how the files there may be useful to the other auditing agents.
 

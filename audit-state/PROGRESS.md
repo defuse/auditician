@@ -7,9 +7,9 @@ This file tracks the progress of the security audit to ensure all phases are com
 - **Audit Started**: [To be filled by Coordinator]
 - **Last Updated**: [To be updated by agents]
 
-## Phase Completion
-- [ ] PROGRESS.md initialization completed.
+## Phase Completion (Audit Coordinator's Checklist)
 - [ ] Surveying completed.
+- [ ] PROGRESS.md initialization completed.
 - [ ] Brainstorming completed
 - [ ] First pass of threat modeling completed.
 - [ ] Ensure File Audit Progress table below is fully populated and `audit-context/AUDIT-INSTRUCTIONS.md` has been considered.
