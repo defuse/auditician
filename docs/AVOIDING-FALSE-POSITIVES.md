@@ -327,6 +327,11 @@ Always ask: **"Can a **real** attacker actually exploit this in production to af
   - Those group elements are outputs of a group hash or some other process that guarantees no known dlog relations.
   - Real Issue: A vulnerability that arises from a discrete log relation, and the attacker has an efficient method to find such a relation
 
+- **Impractical Hash Collisions**
+  - There would be a vulnerability if an attacker could collide a 160-bit or 256-bit hash.
+  - It's not actually possible to find such a collision (2^80 time or 2^128 time; impractical) unless the hash function is insecure.
+  - Real Issue: A vulnerability arises if the attacker can find a 128-bit hash collision (2^64 time, practical) *or* if the hash function is actually insecure (i.e. there is an attack faster than the birthday attack).
+
 ### 9. **Obviously Broken Functionality**
 
 **Pattern:** Claiming vulnerabilities that, if they existed, would make the application completely non-functional in obvious ways that would have been discovered immediately during development or testing.
