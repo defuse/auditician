@@ -186,15 +186,47 @@ All confirmed security issues must be assigned one of the following severity lev
 
 **Critical**: A vulnerability that can definitely be exploited to impact many users with devastating consequences. These issues represent immediate and severe threats that require urgent remediation.
 
+Examples of Critical issues:
+
+- An easily-weaponizable or wormable zero-click remote code execution vulnerability.
+- ECDSA nonce re-use allows an attacker to steal the private keys.
+- It's easy to steal or destroy users' funds.
+
 **High**: A vulnerability that is likely to have a severe impact on many users. While not as immediately critical as Critical issues, these still pose significant security risks.
+
+Examples of High issues:
+
+- A remote code execution bug that requires some user interaction.
+- Memory corruption / integer overflow issues that are likely exploitable.
+- SQL injection vulnerability that allows complete database extraction.
+- A cross-site scripting attack that allows theft of authentication cookies.
+- CSRF that allows modifying sensitive user account settings (e.g. changing the password).
+- Weak randomness used to seed a cryptographic random number generator.
 
 **Medium**: A vulnerability of lesser impact or one that may only be exploitable in special circumstances. These issues may affect fewer users or have limited impact.
 
+Examples of Medium issues:
+
+- An XSS vulnerability, except defenses are in place that prevent session stealing.
+- A serious vulnerability that only exists if the user has configured the application in a specific, uncommon, way.
+- Memory corruption type bugs, but there's no clear way to exploit them.
+- Password hashing that isn't memory-hard.
+
 **Low**: A vulnerability whose exploitation would have very little impact on any user or which is unlikely to ever be exploited in practice. These are often theoretical or edge-case vulnerabilities.
+
+Examples of Low issues:
+
+- A side-channel attack that would require billions of timing samples to exploit.
+- A CSRF bug on a public form (i.e. no user account data is modified by making the request, the attacker could make the same request themselves)
 
 **Info**: A real bug in the code (logic errors, performance issues, off-by-one errors, etc.) that doesn't create a security vulnerability but should still be fixed. These are code quality issues rather than security issues.
 
-Severity should take into account (a) the likelihood that a real-world attacker can exploit the issue and (b) if exploitation does occur, the impact real world users will feel.
+Examples of Info issues:
+
+- A misnamed function or typo in a variable name.
+- Incorrect visibility of class members, e.g. a method is public that could be private.
+
+Severity should take into account (a) the likelihood that a real-world attacker can exploit the issue and (b) if exploitation does occur, the impact real world users will feel. Issues should only be marked as Critical or High when the vulnerability is easy to exploit and the consequences are devastating to many users.
 
 ### Severity Assignment Guidelines
 
