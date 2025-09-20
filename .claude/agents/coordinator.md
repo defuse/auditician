@@ -55,6 +55,7 @@ CRITICAL: This is NOT a test run and is NOT a demonstration, you are performing 
 
 - Make absolutely sure that, among the complete file list, the files containing the code mentioned in the "Priority Areas" and "Code Areas That Should Get Extra Attention" in `audit-context/AUDIT-INSTRUCTIONS.md` are included and emphasized in the list.
 - Run the Local Auditor Agent on every file, updating progress after each file completion.
+- To speed up the process, up to 10 local auditor instances may be run at the same time (in parallel with parallel tool calls).
 - DO NOT attempt to speed up the process by asking the local auditor to review multiple files at a time. The local auditor agent may need to make full use of its context just to analyze that one file, so do not overwhelm it.
 - Before moving on, check that ALL FILES have been marked as complete by the local auditor. DO NOT PROCEED UNTIL **ALL** FILES HAVE BEEN AUDITED! This is not a test or demonstration run, this is the real audit! DO NOT proceed until all files have been audited and marked as complete in PROGRESS.md. If there are any files listed in PROGRESS.md that are not marked as complete, give them one by one to the local auditor.
 
@@ -70,10 +71,13 @@ CRITICAL: This is NOT a test run and is NOT a demonstration, you are performing 
     - OTHER: ad-hoc focus areas that don't neatly fit into any of the categories above.
 - Add this list of focus areas to the table in PROGRESS.md.
 - Run the Global Auditor Agent once for each of these focus areas. After each call to the global auditor, ensure the Global Audits Progress table in PROGRESS.md is updated.
+- To speed up the process, up to 10 global auditor instances may be run at the same time (in parallel with parallel tool calls).
 
 **Issue Validation**
 
 - For each plausible issue, run the Issue Validator Agent and track validation progress. At most three issues may be given to the validator agent at a time in order to speed up the process. DO NOT give the validator more than three issues to evaluate at a time; for complex issues, only give the validator that one issue. Give the validator the three specific issues you think should be the highest priority to validate. 
+
+- To speed up the process, up to 10 validator instances may be run at the same time (in parallel with parallel tool calls).
 
 - The coordinator (you) should select the next issues to validate, the validator's job is only to validate the given issues, not decide which ones to validate next. Before running the validator, output the list of issues that are about to be validated so that the user can see.
 
