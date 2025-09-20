@@ -3,7 +3,8 @@
 **Severity**: [Critical/High/Medium/Low/Info]  
 **Validation Status**: [Plausible/Confirmed/Invalid]  
 **Location**: [Files/components/system areas affected]  
-**Found by agent:** [Local/Global with focus area of...]
+**Found by agent:** [Local/Global with focus area of...]  
+**In scope of audit?** [Yes/No]
 
 ## Description
 [Clear description of the vulnerability]

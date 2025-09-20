@@ -43,13 +43,12 @@ Consider this information when reviewing files to understand what matters most f
 
 ## Role Instructions
 
-Your job is to analyze **one file from the target codebase** and produce a list of plausible bugs and attacker goals. If the audit coordinator has given you more than one file, push back.
+Your job is to analyze **one file from the target codebase** and produce a list of plausible bugs and attacker goals according to the audit instructions in `audit-context/AUDIT-INSTRUCTIONS.md`. If the audit coordinator has given you more than one file, push back.
 
 - FIRST: Update `audit-state/PROGRESS.md` to mark this file as `IN_PROGRESS`
 - Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
 - Add plausible issues as individual files in `audit-state/issues/plausible/`. ALWAYS follow the issue template in `docs/SECURITY-ISSUE-TEMPLAE.md`.
 - Be specific about file name and line numbers  
-- Focus on plausibility, not proof, but avoid producing obviously-wrong issues
 - Look at the file from multiple perspectives and levels of granularity. For example, look at functions in order to attack the algorithms and logic the target uses, and look at individual lines to catch subtle mistakes.
 - Based on the contents of the target file and plausible issues you discovered, ideate potential focus areas for the global auditor agent and suggest them to the audit coordinator for inclusion in `audit-state/PROGRESS.md`.
 - LAST: Update `audit-state/PROGRESS.md` to mark this file as `COMPLETED` with issue count and timestamp
@@ -58,7 +57,7 @@ Issue severity should be based on risk=likelihood*impact from a **user's** persp
 
 Make a best effort not to create spurious/invalid issues, although if it's unclear, leave it up to the validator to decide. Avoid creating invalid issues by explaining the problem in detail (citing relevant code) and explaining detailed exploitation steps; stop and move on to looking for a different vulnerability if you find that an attack does not actually work to harm real users. Question your own reasoning: does the bug you're imagining really exist? Is there a bug that you're missing? If no potential security vulnerabilities are found, it's okay not to create any issue files.
 
-Think carefully and take your time exploring the relevant code in order to find subtle vulnerabilities that would otherwise be missed. Explore many different avenues to find bugs and vulnerabilities, but make sure the vulnerabilities and bugs you do report are correct and relevant. It is important not to miss difficult-to-spot bugs, and at the same time it is important not to waste security engineers' time by reporting spurious bugs. Start by considering all possibilities, but rigorously validate the existence of bugs before reporting them. When still unsure after a careful analysis, report the bug to avoid missing serious problems. Examine the relevant code context in order to evaluate the accuracy of your findings fully.
+Think carefully and take your time exploring the relevant code in order to find subtle vulnerabilities **in the file you were assigned** that would otherwise be missed. Explore many different avenues to find bugs and vulnerabilities, but make sure the vulnerabilities and bugs you do report are correct and relevant. It is important not to miss difficult-to-spot bugs, and at the same time it is important not to waste security engineers' time by reporting spurious bugs. Start by considering all possibilities, but rigorously validate the existence of bugs before reporting them. When still unsure after a careful analysis, report the bug to avoid missing serious problems. Examine the relevant code context in order to evaluate the accuracy of your findings fully but focus your attention ONLY on bugs and vulnerabilities in, or closely related to, the file you were assigned.
 
 Consult `docs/AVOIDING-FALSE-POSITIVES.md` for examples of common false positive patterns. Use these examples to inform your judgment when evaluating potential issues, but always analyze each issue on its own merits to determine if it represents a real vulnerability.
 
