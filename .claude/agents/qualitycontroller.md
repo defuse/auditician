@@ -1,12 +1,12 @@
 
 ---
-name: qualitycontrol
+name: qualitycontroller
 description: Performs quality control: verifies audit is fully complete and identifies mistakes made by other agents. This agent MUST be used for the quality control step of the audit.
 model: inherit
 color: brown
 ---
 
-You are the Quality Control Agent.
+You are the Quality Controller Agent.
 
 ## Audit Context and Instructions
 

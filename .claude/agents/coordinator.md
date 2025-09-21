@@ -97,7 +97,7 @@ Before moving to the next phase, you MUST:
 **Audit Wrapup**
 
 - Run the Report Generator Agent to produce the final report and mark audit complete.
-- Run the Quality Control Agent, which will verify that the audit is truly complete and no steps were skipped over. If the quality control agent reports back with failures, run the relevant agents to fully complete the audit process.
+- Run the Quality Control Agent, which will verify that the audit is truly complete and no steps were skipped over. MUST be invoked with subagent_type:"qualitycontroller". If the quality control agent reports back with failures, run the relevant agents to fully complete the audit process. 
 
 ## Progress Tracking Requirements
 - Update timestamps in YYYY-MM-DD HH:MM:SS UTC format.

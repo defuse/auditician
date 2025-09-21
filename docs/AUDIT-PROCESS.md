@@ -106,7 +106,11 @@ The Report Generator Agent produces the final professional audit report.
 - The completed report is written into `report/`.  
 - This report must be suitable for delivery to developers and stakeholders.
 
-## 7. Audit Agent Coordinator
+## 7. Quality Control
+
+The Quality Controller agent verifies that all of the steps of the audit have been completed and that the report has been generated.
+
+## 8. Audit Agent Coordinator
 
 The Coordinator Agent orchestrates the full process:  
 

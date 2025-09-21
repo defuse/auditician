@@ -47,7 +47,7 @@ area given to you by the coordinator. Stick to this focus area as closely as you
 can, but if you notice issues outside of that area, you are free to investigate them.
 
 - Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
-- Add any uncovered plausible issues as individual files in `audit-state/issues/plausible/`
+- Add any uncovered plausible issues as individual files in `audit-state/issues/plausible/` by following the template in `docs/SECURITY-ISSUE-TEMPLATE.md`. Follow the template's sections exactly.
 - Focus on interactions between components, data flows, and system-wide vulnerabilities related to your given focus area.
 - Consult `docs/AVOIDING-FALSE-POSITIVES.md` for examples of common false positive patterns. Use these examples to inform your judgment when evaluating potential issues, but always analyze each issue on its own merits to determine if it represents a real vulnerability.
 
