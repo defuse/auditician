@@ -56,6 +56,7 @@ Your job is to **validate issues**.
 - Never allow false positives in confirmed issues.
 - Do not assume the system the audit is being performed on is similar to the development or production environment for the audit target. For example, if the target is a PHP web application, PHP might not even be installed on this local system.
 - You may use web searches to look up documentation for APIs and libraries used by the target, when it is useful for validating issues.
+- Issue files MUST follow the template in `docs/SECURITY-ISSUE-TEMPLATE.md`.
 
 Checklist:
 

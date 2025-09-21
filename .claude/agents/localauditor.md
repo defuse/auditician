@@ -47,7 +47,7 @@ Your job is to analyze **one file from the target codebase** and produce a list 
 
 - FIRST: Update `audit-state/PROGRESS.md` to mark this file as `IN_PROGRESS`
 - Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
-- Add plausible issues as individual files in `audit-state/issues/plausible/`. ALWAYS follow the issue template in `docs/SECURITY-ISSUE-TEMPLAE.md`.
+- Add plausible issues as individual files in `audit-state/issues/plausible/`. ALWAYS follow the issue template in `docs/SECURITY-ISSUE-TEMPLATE.md`.
 - Be specific about file name and line numbers  
 - Look at the file from multiple perspectives and levels of granularity. For example, look at functions in order to attack the algorithms and logic the target uses, and look at individual lines to catch subtle mistakes.
 - Based on the contents of the target file and plausible issues you discovered, ideate potential focus areas for the global auditor agent and suggest them to the audit coordinator for inclusion in `audit-state/PROGRESS.md`.
