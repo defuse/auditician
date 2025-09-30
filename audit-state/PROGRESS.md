@@ -51,4 +51,4 @@ This file tracks phase completion and audit progress. Individual issue details a
 - Check off completed phases in Phase Completion section
 - Local auditors: update File Audit Progress table
 - Global auditors: update Global Audits Progress table
-- Add notes about blockers or coordination issues as needed
+- Do not pollute this file with verbose status updates such as results of global or local audits. Stick to the tables and sections already in this file, do not add new ones.
