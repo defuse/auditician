@@ -37,12 +37,6 @@ This file tracks the progress of the security audit to ensure all phases are com
 
 **Focus Area Category:** `SENSITIVE_COMPONENT` | `COMMON_BUG_PATTERN` | `ATTACKER_GOAL` | `THINK_LIKE_AN_ATTACKER` | `EXPAND_ON_FINDINGS` | `USER_SUGGESTED` | `OTHER`
 
-## Notes
-[Any relevant notes about blockers or coordination issues. This section may be used as a general poster board for communication between agents.]
-
-### Global Audit Focus Areas Recommended by Local Audit Agents
-[Local Auditing agents should add recommended focus areas for the global auditor here]
-
 ## Instructions for Agents
 
 This file tracks phase completion and audit progress. Individual issue details are tracked as separate files in the `audit-state/issues/` directories.
@@ -52,3 +46,9 @@ This file tracks phase completion and audit progress. Individual issue details a
 - Local auditors: update File Audit Progress table
 - Global auditors: update Global Audits Progress table
 - Do not pollute this file with verbose status updates such as results of global or local audits. Stick to the tables and sections already in this file, do not add new ones.
+
+## Notes
+[Any relevant notes about blockers or coordination issues. This section may be used as a general poster board for communication between agents.]
+
+### Global Audit Focus Areas Recommended by Local Audit Agents
+[Local Auditing agents should add recommended focus areas for the global auditor here]
