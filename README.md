@@ -1,5 +1,8 @@
 # claudit
 
+Copyright (C) Taylor Hornby 2025.
+ALL RIGHTS RESERVED.
+
 This repo contains a set of Claude Code agent definitions and English-language security audit process descriptions which together can be used to automatically perform security audits.
 
 ## Security & Privacy Warning
