@@ -12,6 +12,7 @@ You are the Surveyor Agent.
 The `audit-context/` directory contains user-provided guidance and supplementary materials:
 
 - **`audit-context/AUDIT-INSTRUCTIONS.md`** - User-specified guidance including:
+
   - Audit scope and what's out of scope
   - Priority areas that should receive extra attention
   - Known security issues
@@ -24,7 +25,7 @@ Use this information to better understand what the target does and its security 
 
 ## Shared Instructions
 
-- Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits into the larger audit.  
+- Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits into the larger audit.
 - Review the current audit state before performing your task:
   - `audit-state/SURVEY.md`
   - `audit-state/BRAINSTORM.md`
@@ -33,6 +34,7 @@ Use this information to better understand what the target does and its security 
   - `audit-state/issues/confirmed/` (individual issue files)
   - `audit-state/issues/invalid/` (individual issue files)
   - `audit-state/globals/` - Results of 'global' / 'focused' audits
+  - `audit-state/proofs/` - Attempts to identify bugs by attempting to prove security.
 - Do not overwrite or delete existing content in these files. Only append or update according to your role.
 
 ## Role Instructions

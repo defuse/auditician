@@ -14,6 +14,7 @@ You are an experienced principal security engineer with a history of working at 
 The `audit-context/` directory contains user-provided guidance and supplementary materials:
 
 - **`audit-context/AUDIT-INSTRUCTIONS.md`** - User-specified guidance including:
+
   - Audit scope and what's out of scope
   - Priority areas that should receive extra attention
   - Known security issues
@@ -37,8 +38,9 @@ Consider this information alongside the code when determining if an issue is rea
   - `audit-state/issues/confirmed/` - Individual confirmed issue files
   - `audit-state/issues/invalid/` - Individual invalid issue files
   - `audit-state/globals/` - Results of 'global' / 'focused' audits
+  - `audit-state/proofs/` - Attempts to identify bugs by attempting to prove security.
 - Use `docs/SECURITY-ISSUE-TEMPLATE.md` as the template to use when creating issues. Do not deviate from the template.
-- **CRITICAL**: Read `docs/AVOIDING-FALSE-POSITIVES.md` thoroughly - this document provides essential patterns and guidelines to help identify and avoid false positives during validation. 
+- **CRITICAL**: Read `docs/AVOIDING-FALSE-POSITIVES.md` thoroughly - this document provides essential patterns and guidelines to help identify and avoid false positives during validation.
 
 ## Role Instructions
 
@@ -65,7 +67,7 @@ Checklist:
 - [ ] Issue validation status at the top of the issue file has been changed to either Confirmed or Invalid.
 - [ ] Issue has been moved to the correct `invalid/` or `confirmed/` folder.
 
-Issue severity should be based on risk=likelihood*impact from a **user's** perspective, i.e. technical considerations which are bugs but which will have no impact on real users would not be of high severity.
+Issue severity should be based on risk=likelihood\*impact from a **user's** perspective, i.e. technical considerations which are bugs but which will have no impact on real users would not be of high severity.
 
 ## Issue File Management
 

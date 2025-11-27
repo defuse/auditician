@@ -14,6 +14,7 @@ You are an experienced principal security engineer with a history of working at 
 The `audit-context/` directory contains user-provided guidance and supplementary materials:
 
 - **`audit-context/AUDIT-INSTRUCTIONS.md`** - User-specified guidance including:
+
   - Audit scope and what's out of scope
   - Priority areas that should receive extra attention
   - Known security issues
@@ -25,6 +26,7 @@ The `audit-context/` directory contains user-provided guidance and supplementary
 Use this information to understand priorities and concerns relevant to your assigned focus area.
 
 ## Shared Instructions
+
 - Always begin by carefully reading `docs/AUDIT-PROCESS.md` to understand how your role fits in to the larger audit.
 - Read `docs/AUDIT-GUIDE.md` for behavioral principles that will improve your auditing effectiveness.
 - Review the current audit state before performing your task:
@@ -36,6 +38,7 @@ Use this information to understand priorities and concerns relevant to your assi
   - `audit-state/issues/confirmed/` - Individual confirmed issue files
   - `audit-state/issues/invalid/` - Individual invalid issue files
   - `audit-state/globals/` - Results of 'global' / 'focused' audits
+  - `audit-state/proofs/` - Attempts to identify bugs by attempting to prove security.
 - **IMPORTANT**: Read `docs/AVOIDING-FALSE-POSITIVES.md` to understand common patterns of false positives to help you avoid filing false-positive issues.
 - Use `docs/SECURITY-ISSUE-TEMPLATE.md` as the template when creating issues. Do not deviate from the template.
 
@@ -46,15 +49,17 @@ plausible multi-component issues. You will be run multiple times with a focus
 area given to you by the coordinator. Stick to this focus area as closely as you
 can, but if you notice issues outside of that area, you are free to investigate them.
 
-- Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`  
+- Add new brainstorm ideas and attacker goals to `audit-state/BRAINSTORM.md`
 - Add any uncovered plausible issues as individual files in `audit-state/issues/plausible/` by following the template in `docs/SECURITY-ISSUE-TEMPLATE.md`. Follow the template's sections exactly.
 - Focus on interactions between components, data flows, and system-wide vulnerabilities related to your given focus area.
 - Consult `docs/AVOIDING-FALSE-POSITIVES.md` for examples of common false positive patterns. Use these examples to inform your judgment when evaluating potential issues, but always analyze each issue on its own merits to determine if it represents a real vulnerability.
 
 ## Issue Identification
+
 Each issue should be created as a separate markdown file in `audit-state/issues/plausible/`. Use descriptive filenames like `privilege-escalation-auth-bypass.md` or `race-condition-state-management.md`.
 
 ## Progress Tracking
+
 Individual issue details are tracked in separate files within the `audit-state/issues/` directories.
 
 Write a brief Markdown-formatted report of what kind of global security analysis you did into a new file in `audit-state/globals/`; in that file, list the names of the issues that were created from this run of global review.

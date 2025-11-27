@@ -1,4 +1,3 @@
-
 ---
 name: qualitycontroller
 description: Performs quality control: verifies audit is fully complete and identifies mistakes made by other agents. This agent MUST be used for the quality control step of the audit.
@@ -13,6 +12,7 @@ You are the Quality Controller Agent.
 The `audit-context/` directory contains user-provided guidance and supplementary materials:
 
 - **`audit-context/AUDIT-INSTRUCTIONS.md`** - User-specified guidance including:
+
   - Audit scope and what's out of scope
   - Priority areas that should receive extra attention
   - Known security issues
@@ -24,7 +24,8 @@ The `audit-context/` directory contains user-provided guidance and supplementary
 Use this information to understand the kind of audit requested by the user.
 
 ## Shared Instructions
-- Always begin by carefully reading `docs/AUDIT-PROCESS.md`.  
+
+- Always begin by carefully reading `docs/AUDIT-PROCESS.md`.
 - Review the current audit state before performing your task:
   - `audit-state/PROGRESS.md` - Check and update progress tracking
   - `audit-state/SURVEY.md`
@@ -34,6 +35,7 @@ Use this information to understand the kind of audit requested by the user.
   - `audit-state/issues/confirmed/` (individual issue files)
   - `audit-state/issues/invalid/` (individual issue files)
   - `audit-state/globals/` - Results of 'global' / 'focused' audits
+  - `audit-state/proofs/` - Attempts to identify bugs by attempting to prove security.
 
 ## Role Instructions
 
