@@ -84,6 +84,21 @@ _Data Integrity:_
 - Tied to real user expectations (not implementation details)
 - Stated as invariants that must ALWAYS hold
 
+**Property Specificity:**
+
+Avoid vague properties. Use precise, falsifiable statements:
+
+- BAD: "Signing is correct"
+- GOOD: "The sighash commits to all outputs, so no output can be modified after signing"
+
+- BAD: "Addresses are validated"
+- GOOD: "Address checksum is verified AND address network byte matches transaction network"
+
+- BAD: "Authentication is secure"
+- GOOD: "A user cannot obtain a valid session token without providing a password that hashes to the stored hash"
+
+The more specific the property, the more useful the proof attempt.
+
 ### Step 2: Define the Adversary Model
 
 Explicitly state:
@@ -151,12 +166,29 @@ The gap description is the vulnerability. The counterexample is the exploit.
 
 ### Step 6: Construct Concrete Attacks
 
-For each proof failure, build a **specific, reproducible attack**:
+For each proof failure, you MUST build a **specific, reproducible attack**. This is not optional - a proof failure without a concrete attack is incomplete.
 
-- Concrete malicious inputs (actual values, not "malicious data")
-- Step-by-step execution trace through the code
-- Expected secure behavior vs actual insecure behavior
-- Impact: what does the attacker gain?
+**Required elements:**
+
+1. **Concrete malicious inputs** - actual values, not "malicious data"
+   - BAD: "Attacker provides a malicious address"
+   - GOOD: "Attacker sets `bip32_derivation[attacker_pubkey] = (victim_fingerprint, m/84'/0'/0'/0/0)`"
+
+2. **Step-by-step execution trace** - walk through the code showing exactly what happens
+   - Line X: function receives input
+   - Line Y: validation check passes because...
+   - Line Z: malicious value is used, causing...
+
+3. **Expected vs actual behavior**
+   - EXPECTED: Device rejects transaction because address doesn't match derived key
+   - ACTUAL: Device displays "Change" and signs, sending funds to attacker
+
+4. **Impact quantification**
+   - What does attacker gain? (funds, access, information)
+   - What does victim lose?
+   - How reliable is the attack? (100% vs race condition vs probabilistic)
+
+If you cannot construct a concrete attack, the proof failure may be a false positive. Re-examine your assumptions.
 
 ### Common Proof Failure Patterns
 

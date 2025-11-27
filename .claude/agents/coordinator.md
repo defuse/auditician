@@ -77,6 +77,20 @@ CRITICAL: This is NOT a test run and is NOT a demonstration, you are performing 
 - Run the Global Auditor Agent once for each of these focus areas. After each call to the global auditor, ensure the Global Audits Progress table in PROGRESS.md is updated.
 - To speed up the process, up to 5 global auditor instances may be run at the same time (in parallel with parallel tool calls).
 
+**Security Prover Auditing (Optional but Recommended)**
+
+After global auditing, consider running the Security Prover Agent on critical components. This agent uses proof-driven bug finding: it attempts to prove security properties and identifies vulnerabilities where proofs fail.
+
+- Generate a list of 10-20 security properties for the most critical components. See `docs/EXAMPLE-SECURITY-PROPERTIES.md` for a comprehensive example of how to formulate effective security properties at appropriate scales.
+- Properties should be:
+  - **User-focused**: Describe what users expect, not implementation details
+  - **Falsifiable**: Can be proven or disproven with concrete evidence
+  - **Prioritized by impact**: Fund theft/critical issues first
+  - **Scaled appropriately**: Micro (~5 lines) for invariants, Medium (~200 lines) for cross-component flows, Large (~1000 lines) for protocol-level
+- Run the Security Prover Agent (subagent_type: "securityprover") for each property or related group of properties.
+- To speed up the process, up to 5 security prover instances may be run at the same time (in parallel with parallel tool calls).
+- Security proofs are written to `audit-state/proofs/` and any vulnerabilities found are filed to `audit-state/issues/plausible/`.
+
 **Issue Validation**
 
 - For each plausible issue, run the Issue Validator Agent and track validation progress. At most three issues may be given to the validator agent at a time in order to speed up the process. DO NOT give the validator more than three issues to evaluate at a time; for complex issues, only give the validator that one issue. Give the validator the three specific issues you think should be the highest priority to validate.
