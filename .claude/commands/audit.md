@@ -20,6 +20,7 @@ Read current state:
 @audit-state/issues/plausible/
 @audit-state/issues/confirmed/
 @audit-state/issues/invalid/
+@audit-state/proofs/
 @report/
 Understand audit target structure:
 @audit-target/
