@@ -1,34 +1,44 @@
 # Audit Instructions
 
+## Project Overview
+
+[Brief description of what this project is and what it does]
+
 ## Audit Scope
 
-Please perform a comprehensive security audit covering all files and components in the audit target directory.
+**In Scope**: All files and components in `audit-target/`.
+
+**Out of Scope**: [Test files, documentation, vendored dependencies, build scripts - anything that doesn't affect runtime security. Specify here, or leave blank if everything is in scope.]
 
 ## Priority Areas
 
-The audit should give equal attention to all components and files. No specific areas require special focus.
+[Components that are security-critical and warrant extra scrutiny. Examples: authentication, cryptography, input parsing, access control. Leave blank for equal attention to all areas.]
 
 ## Known Issues
 
-No security issues are currently known or have been previously identified.
+[Any CVEs, past audit findings, or acknowledged security limitations. If none known, say so.]
 
-## Out of Scope
+## Specifications
 
-All files and functionality within audit-target/ are in scope for this audit.
+[If the project implements protocols/standards (RFCs, EIPs, cryptographic standards, etc.), list them here with links. Auditors should verify correctness against these.]
 
-## Specific Concerns
+## Threat Model Context
 
-### Code Areas That Should Get Extra Attention
+- **Likely attackers**: [Who would attack this? Remote attackers, malicious users, nation states, etc.]
+- **Attacker goals**: [What would they want? Steal funds, exfiltrate data, RCE, privilege escalation, etc.]
+- **Trust boundaries**: [What inputs are untrusted? Network data, user input, local files, etc.]
 
-No specific concerns, look for all kinds of security issues that may be relevant to the audit target.
+## Code Areas That Should Get Extra Attention
 
-### Focus Areas for Global Audits
+[Specific file paths or code areas that warrant extra scrutiny. Leave blank if no specific areas.]
 
-No specific focus areas, generate a good set of focus areas for the audit target.
+## Extra Focus Areas for Global Audits
+
+[Additional focus areas for the global auditing phase, beyond what the coordinator generates. Leave blank to use coordinator defaults.]
 
 ## Additional Context
 
-Check `audit-context/` to see if there is additional context.
+[Any other information useful to auditors. Reference additional files in `audit-context/` if present.]
 
 ---
-*Note: Modify the sections above to customize the audit. The current defaults request a comprehensive audit of everything.*
+*This file guides the security audit. The /autocontext command can auto-generate this based on the audit target. Defaults request a comprehensive audit of everything.*
