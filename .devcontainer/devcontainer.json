@@ -52,6 +52,7 @@
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
   "workspaceFolder": "/workspace",
+  "postCreateCommand": "/usr/local/bin/setup-statusline.sh",
   "postStartCommand": "sudo /usr/local/bin/init-firewall.sh || true",
   "waitFor": "postStartCommand"
 }

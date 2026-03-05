@@ -23,14 +23,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   dnsutils \
   aggregate \
   jq \
+  python3 \
   nano \
   vim \
   make \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install TeX Live for LaTeX report generation
+# Install TeX Live for LaTeX audit report generation
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  texlive-full \
+  texlive-latex-base \
+  texlive-latex-recommended \
+  texlive-latex-extra \
+  texlive-fonts-recommended \
+  texlive-bibtex-extra \
+  texlive-pictures \
   latexmk \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -91,8 +97,10 @@ RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/
+# Copy statusline setup script
+COPY setup-statusline.sh /usr/local/bin/
 USER root
-RUN chmod +x /usr/local/bin/init-firewall.sh && \
+RUN chmod +x /usr/local/bin/init-firewall.sh /usr/local/bin/setup-statusline.sh && \
   echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
   chmod 0440 /etc/sudoers.d/node-firewall
 USER node
