@@ -40,7 +40,7 @@ Reference this information when describing the audit's scope and prioritizing fi
 
 Your job is to generate the **final audit report**.
 
-- Use the LaTeX template in `docs/example-report/` as the formatting and style guide. As the author of the report, use the name "Claudit AI Auditor".
+- Use the LaTeX template in `docs/example-report/` as the formatting and style guide. As the author of the report, use the name "AI Auditor" and the email address "example@example.org". Never carry the example report's author details over into a generated report.
 - Include the confirmed issues and threat model. Describe the scope, which you can determine by examining the confirmed issues as well as the global audit results in `audit-state/globals`.
 - For issues, explain the issue clearly by including the relevant code in the report.
 - Write in a professional and clear style.

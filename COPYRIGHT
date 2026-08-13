@@ -1,2 +1,138 @@
-ALL FILES Copyright (C) Taylor Hornby 2025.
-ALL RIGHTS RESERVED.
+auditician -- Claude Code agent definitions and security audit process
+documentation for performing automated security audits.
+
+Copyright (C) 2025-2026 Taylor Hornby
+Except for the third-party content identified at the end of this file.
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along
+with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+The complete text of the License is in the file LICENSE.  A plain-language
+explanation of what it means for this project, and information about commercial
+licensing, is in the file LICENSING.md.  LICENSING.md is commentary and is not
+part of the license terms; the terms are the License plus the additional
+permissions stated below.
+
+
+================================================================================
+SOURCE FORM
+================================================================================
+
+This work consists principally of prose rather than compiled code.  Under
+section 1 of the License, "the 'source code' for a work means the preferred form
+of the work for making modifications to it."  For this work that is the Markdown,
+LaTeX, JSON, Dockerfile, and shell files as distributed in this repository.  A
+service that runs these files to drive a language model is running this work in
+its source form, and the Corresponding Source of a modified version is the
+modified Markdown and other files themselves.
+
+
+================================================================================
+ADDITIONAL PERMISSIONS UNDER GNU AGPL VERSION 3 SECTION 7
+================================================================================
+
+The following additional permissions apply to this work.  As provided by section
+7 of the License, you may remove any of them from a copy you convey, and any
+recipient may do the same.
+
+1. OUTPUT OF THE WORK IS NOT A COVERED WORK.
+
+   The output produced by running this work -- including but not limited to
+   security audit reports, threat models, issue write-ups, survey documents, and
+   any other analysis of an audit target -- is not a covered work.  You may use,
+   distribute, sublicense, and sell that output under any terms you choose.
+   This permission applies regardless of whether such output would otherwise be
+   considered to incorporate material from this work.
+
+2. DOCUMENT TEMPLATES MAY BE USED UNDER ANY TERMS.
+
+   Permission is granted to use, modify, and distribute the following files,
+   and any document produced by filling them in or deriving from them, under
+   any terms you choose, without those files or documents becoming covered
+   works:
+
+       docs/example-report/          (all files, including the LaTeX template)
+       docs/example-threat-model/    (all files)
+       docs/SECURITY-ISSUE-TEMPLATE.md
+
+   These files are report and document scaffolding.  A report, threat model, or
+   issue write-up you produce using them is yours.
+
+   Note that docs/example-threat-model/Wallet-App-Threat-Model.md is third-party
+   MIT-licensed content, as described at the end of this file.  This permission
+   is granted for that file under the sublicensing right that the MIT License
+   confers, and does not purport to remove the MIT License's requirement that
+   its copyright and permission notice be retained in copies of that document.
+
+3. SECTION 13 DOES NOT APPLY TO SINGLE-ORGANIZATION DEPLOYMENTS.
+
+   Section 13 of the License (Remote Network Interaction) does not apply to a
+   deployment of a modified version in which every user interacting with that
+   version remotely is an employee or contractor of the single organization
+   operating the deployment, and no fee of any kind is charged for that access.
+
+   This permission ends, for a given deployment, as soon as that deployment is
+   made available to any person outside the operating organization, or any fee
+   is charged for access to it.  Running this work internally to audit your own
+   code therefore carries no obligation to publish anything; offering it to
+   customers as a service does.
+
+
+================================================================================
+COMMERCIAL LICENSING
+================================================================================
+
+Taylor Hornby is the copyright holder of this work, apart from the third-party
+content identified below, and is not bound by the License when licensing it to
+others.  Separate commercial terms, permitting use in a proprietary product or
+service without the obligations of the GNU AGPL, are available on request.  See
+LICENSING.md for details.
+
+
+================================================================================
+TRADEMARKS
+================================================================================
+
+As permitted by section 7(e) of the License, no rights are granted under
+trademark law to use any trade name, trademark, or service mark associated with
+this work, including the name "auditician" and any logo used to identify it.  The
+License grants copyright permissions only.  You remain free to state truthfully
+that your version is derived from this work; section 7(e) does not restrict that.
+
+"Claude", "Claude Code", and "Anthropic" are trademarks of Anthropic, PBC.  They
+appear in this work only to describe, truthfully, the software that this work is
+designed to be used with.  No claim is made to those marks.
+
+This project is an independent work.  It is not affiliated with, sponsored by,
+endorsed by, or produced by Anthropic, PBC.
+
+
+================================================================================
+THIRD-PARTY CONTENT
+================================================================================
+
+The following file is not covered by the copyright notice above and is not
+licensed under the GNU AGPL.  It is included under its own terms:
+
+  docs/example-threat-model/Wallet-App-Threat-Model.md
+      Reproduced from the Zcash documentation project.
+      Copyright (c) 2016-2019 The Zcash Developers.
+      Licensed under the MIT License.
+      Full notice: docs/example-threat-model/LICENSE.MIT
+      Upstream: https://github.com/zodl-inc/zcash-docs
+
+The MIT License is compatible with the GNU AGPL and expressly permits including
+this document in this work.  Its only condition is that its copyright notice and
+permission notice be retained, which LICENSE.MIT does.  If you redistribute
+auditician, keep that file.

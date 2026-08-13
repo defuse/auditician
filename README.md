@@ -1,9 +1,12 @@
-# claudit
+# auditician
 
-Copyright (C) Taylor Hornby 2025.
-ALL RIGHTS RESERVED.
+**Automated security auditing for Claude Code.**
 
 This repo contains a set of Claude Code agent definitions and English-language security audit process descriptions which together can be used to automatically perform security audits.
+
+*auditician is an independent project and is not affiliated with, sponsored by, or endorsed by Anthropic, PBC. "Claude" and "Claude Code" are trademarks of Anthropic, PBC.*
+
+Copyright (C) 2025-2026 Taylor Hornby. Free software under the [GNU AGPL v3 or later](LICENSE), with additional permissions — the audit reports you produce with it are entirely yours. See [LICENSING.md](LICENSING.md).
 
 ## Security & Privacy Warning
 
@@ -16,7 +19,7 @@ Depending on your Anthropic account's settings, Anthropic may collect and store 
 Make a fresh clone of this repo for each audit:
 
 ```
-  git clone git@github.com:defuse/claudit.git example-app-audit
+  git clone git@github.com:defuse/auditician.git example-app-audit
   cd example-app-audit
 ```
 
@@ -85,3 +88,17 @@ The audit runs in phases: Survey → Brainstorm → Local (file-by-file) → Glo
 - Local auditing: ~5-15 minutes per file depending on complexity
 - Validation: ~2-5 minutes per issue
 - Full audit of a 50-file project: Several hours to a full day
+
+## License
+
+auditician is free software under the **GNU Affero General Public License, version 3 or later**. You may use it, modify it, and share it; if you modify it and offer it to others as a network service, you must offer them your modified version's source.
+
+Three additional permissions under AGPL section 7 make the practical boundaries clear:
+
+- **Your audit reports are yours.** Output produced by running auditician is not a covered work. Sell it, keep it confidential, license it however you like.
+- **The report templates are yours.** `docs/example-report/`, `docs/example-threat-model/`, and `docs/SECURITY-ISSUE-TEMPLATE.md` — and anything you produce from them — are usable under any terms.
+- **Internal use triggers nothing.** Section 13 doesn't apply when everyone using your deployment is inside your own organization and nobody is charged.
+
+Building auditician into a proprietary product or paid service without publishing your modifications requires a commercial license, which is available — see [LICENSING.md](LICENSING.md).
+
+Contributions are welcome under the terms in [CONTRIBUTING.md](CONTRIBUTING.md).
