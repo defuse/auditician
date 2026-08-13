@@ -1,6 +1,6 @@
 # Licensing
 
-claudit is free software under the **GNU Affero General Public License, version 3
+auditician is free software under the **GNU Affero General Public License, version 3
 or later**, with three additional permissions granted under AGPL section 7.
 
 - `LICENSE` — the complete license text.
@@ -13,14 +13,14 @@ disagree, `COPYRIGHT` and `LICENSE` control.
 
 | What you want to do | What you owe |
 | --- | --- |
-| Use claudit to audit your own code, or your clients' code | Nothing. |
-| Sell audit reports produced with claudit | Nothing. The reports are yours. |
+| Use auditician to audit your own code, or your clients' code | Nothing. |
+| Sell audit reports produced with auditician | Nothing. The reports are yours. |
 | Modify the agent prompts for your own use | Nothing, as long as you don't distribute or host the result. |
 | Share your modified version | Publish it under the AGPL. |
 | Run a modified version as an internal tool for your organization | Nothing, per additional permission 3. |
 | Run a modified version as a paid service for customers | Publish your modified prompts under the AGPL, or buy a commercial license. |
 
-The intent is simple: **claudit should be free for everyone to use and improve,
+The intent is simple: **auditician should be free for everyone to use and improve,
 and it should not become the hidden engine of somebody's closed product.**
 
 ## Why the AGPL
@@ -29,23 +29,23 @@ Ordinary copyleft licenses have a hole: you can take the software, improve it,
 run it on a server, sell access, and never share the improvements, because you
 never distributed a copy to anyone. For a tool like this — whose entire value is
 carefully tuned prompts driving a hosted model — that hole is the whole roof.
-The AGPL closes it. Section 13 requires anyone who modifies claudit and offers it
+The AGPL closes it. Section 13 requires anyone who modifies auditician and offers it
 to users over a network to offer those users the source of their modified
 version.
 
 That obligation lands unusually squarely here. For most software, the
 "Corresponding Source" is less commercially valuable than the running service.
-For claudit, the source *is* the product: the agent definitions in
+For auditician, the source *is* the product: the agent definitions in
 `.claude/agents/` and the process documents in `docs/`. There is no compiled
 artifact hiding the interesting part.
 
 ## How the license applies to prose
 
-claudit is not conventional code. Almost all of it is English-language
+auditician is not conventional code. Almost all of it is English-language
 instructions in Markdown. That doesn't affect whether it's copyrightable — these
 are substantial original documents — but it does mean some AGPL vocabulary needs
 reading in context. The copyright holder's stated interpretation, recorded here
-so it is unambiguous to anyone considering a claudit-based product:
+so it is unambiguous to anyone considering an auditician-based product:
 
 1. **The source form is the Markdown.** AGPL section 1 defines source as "the
    preferred form of the work for making modifications." There is no build step;
@@ -65,7 +65,7 @@ so it is unambiguous to anyone considering a claudit-based product:
 Being straight about the limits, because they're real:
 
 - **Unmodified hosting is allowed.** Section 13 triggers on modification. Anyone
-  may run claudit exactly as published and charge for it. In practice this is a
+  may run auditician exactly as published and charge for it. In practice this is a
   narrow gap, since a serious product would tune the prompts heavily — but it is
   a gap, and it is intentional in the AGPL's design.
 
@@ -77,7 +77,7 @@ Being straight about the limits, because they're real:
   how copyright works for everyone, including this project.
 
 - **Your audit reports are not covered.** Additional permission 1 makes this
-  explicit rather than leaving it to argument. Nothing claudit produces is
+  explicit rather than leaving it to argument. Nothing auditician produces is
   encumbered.
 
 - **The report templates are not covered.** Additional permission 2 releases
@@ -89,7 +89,7 @@ Being straight about the limits, because they're real:
 - **Internal use triggers nothing.** Additional permission 3 waives section 13
   for deployments where every user is inside the operating organization and
   nobody is charged. Many companies have blanket policies against AGPL software;
-  this permission exists so that a security team can adopt claudit internally
+  this permission exists so that a security team can adopt auditician internally
   without a legal review turning into a project.
 
 ## Third-party content
@@ -102,18 +102,33 @@ MIT License, Copyright (c) 2016-2019 The Zcash Developers. It is included as a
 worked example of an Invariant-Centric Threat Model so the agents have a
 concrete format to follow. The full MIT notice is in
 [`docs/example-threat-model/LICENSE.MIT`](docs/example-threat-model/LICENSE.MIT);
-keep that file if you redistribute claudit.
+keep that file if you redistribute auditician.
 
 MIT is compatible with the AGPL — it permits sublicensing, so a permissively
 licensed document can be included in a copyleft work. The only condition is
 retaining its notice.
+
+## Trademarks
+
+The AGPL is a copyright license. It grants no trademark rights, and as permitted
+by AGPL section 7(e), none are granted here — not to the name "auditician", nor to
+any logo. If you distribute a modified version, say truthfully that it is derived
+from auditician, but don't call it auditician. Section 7(e) doesn't restrict accurate
+description of provenance.
+
+**auditician is an independent project. It is not affiliated with, sponsored by,
+endorsed by, or produced by Anthropic, PBC.** "Claude", "Claude Code", and
+"Anthropic" are trademarks of Anthropic, PBC, and appear in this documentation
+only to describe truthfully what this tool is designed to work with — a
+[nominative use](https://en.wikipedia.org/wiki/Nominative_use), which is why the
+name of this project deliberately contains no mark of theirs.
 
 ## Commercial licensing
 
 The AGPL is offered to the public. It does not bind the copyright holder, who is
 free to offer the same work under different terms.
 
-If you want to build claudit into a proprietary product or a paid service
+If you want to build auditician into a proprietary product or a paid service
 without publishing your modifications, a commercial license is available.
 Contact **taylor@defuse.ca**.
 

@@ -1,4 +1,4 @@
-claudit -- Claude Code agent definitions and security audit process
+auditician -- Claude Code agent definitions and security audit process
 documentation for performing automated security audits.
 
 Copyright (C) 2025-2026 Taylor Hornby
@@ -101,6 +101,24 @@ LICENSING.md for details.
 
 
 ================================================================================
+TRADEMARKS
+================================================================================
+
+As permitted by section 7(e) of the License, no rights are granted under
+trademark law to use any trade name, trademark, or service mark associated with
+this work, including the name "auditician" and any logo used to identify it.  The
+License grants copyright permissions only.  You remain free to state truthfully
+that your version is derived from this work; section 7(e) does not restrict that.
+
+"Claude", "Claude Code", and "Anthropic" are trademarks of Anthropic, PBC.  They
+appear in this work only to describe, truthfully, the software that this work is
+designed to be used with.  No claim is made to those marks.
+
+This project is an independent work.  It is not affiliated with, sponsored by,
+endorsed by, or produced by Anthropic, PBC.
+
+
+================================================================================
 THIRD-PARTY CONTENT
 ================================================================================
 
@@ -117,4 +135,4 @@ licensed under the GNU AGPL.  It is included under its own terms:
 The MIT License is compatible with the GNU AGPL and expressly permits including
 this document in this work.  Its only condition is that its copyright notice and
 permission notice be retained, which LICENSE.MIT does.  If you redistribute
-claudit, keep that file.
+auditician, keep that file.

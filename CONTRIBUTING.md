@@ -1,4 +1,4 @@
-# Contributing to claudit
+# Contributing to auditician
 
 Contributions are welcome — improved agent prompts, sharper process
 documentation, fixes for cases where the agents go wrong.
@@ -9,7 +9,7 @@ positive and the prompt change that fixed it, not a general rewrite.
 
 ## Contributor License Agreement
 
-claudit is released under the GNU AGPL v3 or later (see [LICENSING.md](LICENSING.md)),
+auditician is released under the GNU AGPL v3 or later (see [LICENSING.md](LICENSING.md)),
 and commercial licenses are also offered to organizations that want to use it in
 a proprietary product. That second option only remains possible if the project
 can license *all* of its content under those terms — including yours.
@@ -28,7 +28,7 @@ By signing off on a commit, you certify that:
    your contribution to anyone.
 
 3. **You license it to the public under the AGPL.** You grant every recipient of
-   claudit a license to your contribution under the GNU Affero General Public
+   auditician a license to your contribution under the GNU Affero General Public
    License version 3 or later, together with the additional permissions stated
    in [COPYRIGHT](COPYRIGHT).
 
