@@ -1,6 +1,18 @@
 Wallet App Threat Model
 ========================
 
+> **Third-party content.** This document is reproduced from the Zcash
+> documentation project and is licensed under the MIT License, Copyright (c)
+> 2016-2019 The Zcash Developers. It is *not* covered by the GNU AGPL that
+> applies to the rest of claudit. See [LICENSE.MIT](LICENSE.MIT) in this
+> directory for the full notice.
+>
+> Source: <https://zcash.readthedocs.io/en/latest/rtd_pages/wallet_threat_model.html>
+>
+> It is included here only as a worked example of an Invariant-Centric Threat
+> Model for the agents to learn the format from. It describes the Electric Coin
+> Company's Zcash wallet apps, not claudit.
+
 This threat model is intended for curious technical users of the ECC wallet apps
 as well as developers making use of the SDK in their own apps. The threat model
 applies to the internal ECC reference wallet, and should apply to any Zcash
