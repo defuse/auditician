@@ -42,6 +42,7 @@ claude
 ...
 > /model # Sonnet for faster/cheaper audits, Opus for better results
 > /effort # xhigh is recommended
+> /autocontext # if you're too lazy to write AUDIT-INSTRUCTIONS.md yourself
 > /audit
 ```
 
