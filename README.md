@@ -40,7 +40,8 @@ Launch claude code, select the model you want to use, and begin the audit with `
 ```
 claude
 ...
-> /model # Sonnet 4 is recommended for performance
+> /model # Sonnet for faster/cheaper audits, Opus for better results
+> /effort # xhigh is recommended
 > /audit
 ```
 
