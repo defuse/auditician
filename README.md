@@ -6,7 +6,7 @@ This repo contains a set of Claude Code agent definitions and English-language s
 
 *auditician is an independent project and is not affiliated with, sponsored by, or endorsed by Anthropic, PBC. "Claude" and "Claude Code" are trademarks of Anthropic, PBC.*
 
-Copyright (C) 2025-2026 Taylor Hornby. Free software under the [GNU AGPL v3 or later](LICENSE), with additional permissions — the audit reports you produce with it are entirely yours. See [LICENSING.md](LICENSING.md).
+Copyright (C) 2025-2026 Taylor Hornby. Free software under the [GNU AGPL v3 or later](https://github.com/defuse/auditician/blob/main/LICENSE), with additional permissions — the audit reports you produce with it are entirely yours. See [LICENSING.md](https://github.com/defuse/auditician/blob/main/LICENSING.md).
 
 ## Security & Privacy Warning
 
@@ -54,7 +54,7 @@ You can also talk to claude as it's working to guide it. Watching what it's doin
 
 Claude will ask for permission to do a lot of things. If you don't want to babysit it, you can run `claude --dangerously-skip-permissions` at your own risk.
 
-You can use Docker to somewhat sandbox Claude by installing the [Dev Containers](marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) VSCode extension; after installation, VSCode should see the `.devcontainer` folder included in this repo and offer to relaunch so that your terminal runs inside a container. See the [Anthropic docs](https://docs.anthropic.com/en/docs/claude-code/devcontainer) for more information.
+You can use Docker to somewhat sandbox Claude by installing the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) VSCode extension; after installation, VSCode should see the `.devcontainer` folder included in this repo and offer to relaunch so that your terminal runs inside a container. See the [Anthropic docs](https://docs.anthropic.com/en/docs/claude-code/devcontainer) for more information.
 
 ## Directory Layout
 
@@ -99,6 +99,6 @@ Three additional permissions under AGPL section 7 make the practical boundaries 
 - **The report templates are yours.** `docs/example-report/`, `docs/example-threat-model/`, and `docs/SECURITY-ISSUE-TEMPLATE.md` — and anything you produce from them — are usable under any terms.
 - **Internal use triggers nothing.** Section 13 doesn't apply when everyone using your deployment is inside your own organization and nobody is charged.
 
-Building auditician into a proprietary product or paid service without publishing your modifications requires a commercial license, which is available — see [LICENSING.md](LICENSING.md).
+Building auditician into a proprietary product or paid service without publishing your modifications requires a commercial license, which is available — see [LICENSING.md](https://github.com/defuse/auditician/blob/main/LICENSING.md).
 
-Contributions are welcome under the terms in [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions are welcome under the terms in [CONTRIBUTING.md](https://github.com/defuse/auditician/blob/main/CONTRIBUTING.md).
