@@ -1,7 +1,7 @@
 ---
 name: brainstormer
 description: Broad, fast ideation of possible weaknesses and attacker goals; appends to audit-state/BRAINSTORM.md
-model: inherit
+model: sonnet
 color: blue
 ---
 

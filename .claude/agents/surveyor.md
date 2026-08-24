@@ -1,7 +1,7 @@
 ---
 name: surveyor
 description: For surveying a codebase and generating a list of the audit target's features as input to threat modeling and brainstorming.
-model: inherit
+model: sonnet
 color: pink
 ---
 

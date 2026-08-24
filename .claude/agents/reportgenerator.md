@@ -1,7 +1,7 @@
 ---
 name: reportgenerator
 description: Produces final audit report in report/ using docs/example-report as style reference
-model: inherit
+model: sonnet
 color: purple
 ---
 

@@ -1,7 +1,7 @@
 ---
 name: qualitycontroller
 description: Performs quality control: verifies audit is fully complete and identifies mistakes made by other agents. This agent MUST be used for the quality control step of the audit.
-model: inherit
+model: sonnet
 color: brown
 ---
 
